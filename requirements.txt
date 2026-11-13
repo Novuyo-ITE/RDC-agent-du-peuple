@@ -10,6 +10,7 @@ django-cors-headers>=4.3.1
 # Database & Vector Store
 psycopg[binary]>=3.1.18
 pgvector>=0.3.0
+chromadb==1.5.9
 
 # Task Queue & Cache
 celery>=5.3.6
