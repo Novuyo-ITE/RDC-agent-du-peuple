@@ -1,0 +1,14 @@
+.chat-markdown{white-space:normal!important;overflow-wrap:anywhere;line-height:1.8}
+.chat-markdown p{white-space:normal;margin:.65em 0}
+.chat-markdown>:first-child{margin-top:0}.chat-markdown>:last-child{margin-bottom:0}
+.chat-markdown :is(h1,h2,h3,h4,h5,h6){font-weight:700;line-height:1.4;margin:1.1em 0 .5em}
+.chat-markdown h1{font-size:1.35em}.chat-markdown h2{font-size:1.2em}.chat-markdown h3{font-size:1.08em}
+.chat-markdown :is(ul,ol){padding-left:1.7em;margin:.65em 0;list-style-position:outside}
+.chat-markdown ul{list-style-type:disc}.chat-markdown ol{list-style-type:decimal}
+.chat-markdown ul ul{list-style-type:circle}.chat-markdown li{margin:.3em 0}.chat-markdown li>p{margin:.25em 0}
+.chat-markdown blockquote{border-left:3px solid #FCD116;padding-left:1em;margin:1em 0}
+.chat-markdown pre{white-space:pre;overflow-x:auto;padding:1em;border-radius:8px;background:#64748b15;tab-size:4;margin:1em 0}
+.chat-markdown code{font-family:Consolas,monospace;font-size:.9em}.chat-markdown :not(pre)>code{background:#64748b18;padding:.1em .3em;border-radius:4px}
+.chat-markdown a{text-decoration:underline;text-underline-offset:3px;color:inherit}
+.chat-markdown table{display:block;overflow-x:auto;border-collapse:collapse;margin:1em 0}.chat-markdown :is(th,td){border:1px solid #94a3b855;padding:.5em .75em;text-align:left}.chat-markdown th{font-weight:700}
+.chat-markdown hr{margin:1em 0;border-top:1px solid #94a3b855}

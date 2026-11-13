@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Actualités & Communiqués Officiels de la RDC{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/news-edition.css' %}?v=2"><link rel="stylesheet" href="{% static 'css/news-cards.css' %}"><link rel="stylesheet" href="{% static 'css/news-featured.css' %}?v=1"><link rel="stylesheet" href="{% static 'css/services.css' %}?v=news-guide-2">{% endblock %}
+{% block content %}
+<style>
+    @keyframes news-spin { to { transform: rotate(360deg); } }
+    .news-spinner { animation: news-spin .8s linear infinite; }
+    @keyframes news-progress { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
+    .news-progress-track { height:3px; overflow:hidden; border-radius:999px; background:rgba(0,127,255,.12); }
+    .news-progress-fill { width:35%; height:100%; background:#007fff; animation:news-progress 1.4s ease-in-out infinite; }
+    .news-favicon { width:16px; height:16px; object-fit:contain; flex-shrink:0; }
+    .news-rubriques { scrollbar-width:thin; scrollbar-color:transparent transparent; }
+    .news-rubriques:hover { scrollbar-color:rgba(148,163,184,.5) transparent; }
+    @supports selector(::-webkit-scrollbar) {
+        .news-rubriques, .news-rubriques:hover { scrollbar-width:auto; scrollbar-color:auto; }
+        .news-rubriques::-webkit-scrollbar { height:5px; background:transparent; }
+        .news-rubriques::-webkit-scrollbar-track,
+        .news-rubriques::-webkit-scrollbar-corner { background:transparent; border:0; box-shadow:none; }
+        .news-rubriques::-webkit-scrollbar-button { display:none; width:0; height:0; }
+        .news-rubriques::-webkit-scrollbar-thumb { background:transparent; border:0; border-radius:999px; }
+        .news-rubriques:hover::-webkit-scrollbar-thumb { background:rgba(148,163,184,.5); }
+    }
+    #news-article-modal .news-article-guide{position:static;height:100%;min-height:540px;padding:0}
+    @media(max-width:1023px){#news-article-modal .news-article-guide{height:600px}}
+    [hidden] { display:none !important; }
+</style>
+{% include "news_edition.html" %}
+<div id="news-article-modal" hidden class="svc-shell flex-1 min-h-0 overflow-y-auto p-4 md:p-6 bg-uggov-bgLight dark:bg-uggov-bgDark">
+ <div class="news-article-layout grid grid-cols-1 lg:grid-cols-2 gap-5 lg:h-full min-h-0">
+  <article class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden flex flex-col min-h-0">
+   <div class="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3"><div class="flex gap-2 text-xs text-drc-blue"><span id="modal-category"></span><span id="modal-region"></span></div><button onclick="closeNewsModal()" aria-label="Revenir aux actualités" class="p-2 text-slate-500"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+   <div class="p-6 overflow-y-auto custom-scrollbar space-y-4 flex-1">
+    <div id="modal-img-container" class="rounded-2xl overflow-hidden max-h-64 bg-slate-100 dark:bg-slate-800"><img id="modal-img" alt="" class="w-full object-cover" onerror="this.parentElement.hidden=true"></div>
+    <div class="flex flex-wrap justify-between gap-2 text-xs text-slate-400"><span id="modal-date"></span><span class="inline-flex items-center gap-2 text-drc-blue"><img id="modal-source-favicon" alt="" width="16" height="16" class="news-favicon" referrerpolicy="no-referrer" hidden><span id="modal-source"></span></span></div>
+    <h2 id="modal-title" class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-white"></h2>
+    <div id="modal-content" class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap"></div>
+   </div>
+   <div class="p-4 border-t border-slate-100 dark:border-slate-800 flex justify-between gap-3"><a id="modal-source-link" target="_blank" rel="noopener noreferrer" class="text-xs text-drc-blue underline">Consulter la source originale</a><button onclick="closeNewsModal()" class="text-xs text-slate-500">Fermer</button></div>
+  </article>
+  <section aria-label="Discussion sur cet article" class="svc-panel svc-guide news-article-guide">
+   <div class="svc-guide-head"><span class="svc-icon"><i data-lucide="sparkles" class="w-5 h-5"></i></span><div><h2>Votre guide de l’actualité</h2><p><span class="svc-dot" style="display:inline-block;width:5px;height:5px;margin-right:4px"></span> IA · Contexte de cet article</p></div></div>
+   <div id="article-chat-messages" role="log" aria-live="polite" aria-busy="false" class="svc-guide-log custom-scrollbar"></div>
+   <form id="article-chat-form" class="svc-guide-form">
+    <div id="article-chat-progress" hidden role="progressbar" aria-label="Recherche et génération en cours" class="news-progress-track mb-3"><div class="news-progress-fill"></div></div>
+    {% csrf_token %}<div class="compact-chat"><label for="article-chat-input" class="sr-only">Votre question sur cet article</label>
+     <textarea id="article-chat-input" required maxlength="4000" rows="2" placeholder="Posez une question sur cet article…" class="compact-chat-input"></textarea>
+     <div class="compact-chat-bottom"><div class="compact-chat-options"></div><div class="compact-chat-actions">{% include 'compact_chat_mic.html' with target='article-chat-input' status='article-voice-status' %}<button id="article-chat-send" type="submit" class="compact-chat-button compact-chat-send" aria-label="Envoyer la question" title="Envoyer la question">{% include 'compact_chat_send_icons.html' %}</button></div></div>
+     <div id="article-voice-status" class="compact-chat-status" role="status" aria-live="polite"></div>
+     <div class="svc-status"><svg id="article-chat-spinner" hidden aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" class="news-spinner shrink-0 text-drc-blue"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="3" opacity="0.2"/><path d="M12 3a9 9 0 0 1 9 9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span id="article-chat-status" role="status"></span></div>
+    </div>
+   </form>
+  </section>
+ </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+{{ deep_link_article|json_script:'deep-link-article-data' }}
+<script src="{% static 'js/news-featured.js' %}?v=1"></script>
+<script>
+let selectedArticleId = null, articleHistory = [], articleRequest = null, articleBodyRequest = null, newsRefreshPending = false;
+let articleSessionId = null, articleHistoryLoading = false, articleHistoryRequest = null;
+let articleSuggestionsRequest = null, articleSuggestedQuestions = null;
+window.addEventListener('chat-session-deleted', event => {
+    if (event.detail.id !== articleSessionId || !selectedArticleId) return;
+    try {
+        sessionStorage.removeItem('article-chat-history:' + selectedArticleId);
+        sessionStorage.removeItem('article-chat-session:' + selectedArticleId);
+    } catch(error) { /* The in-memory conversation is cleared as well. */ }
+    articleSessionId = 'article_' + crypto.randomUUID().replaceAll('-','');
+    window.currentSessionId = articleSessionId; articleHistory = [];
+    document.getElementById('article-chat-messages').replaceChildren();
+    const url = new URL(location.href); url.searchParams.delete('session'); window.history.replaceState(null,'',url);
+});
+function setArticleChatBusy(busy) {
+    document.getElementById('article-chat-spinner').toggleAttribute('hidden', !busy);
+    document.getElementById('article-chat-progress').hidden = !busy;
+    document.getElementById('article-chat-messages').setAttribute('aria-busy', String(busy));
+    CompactChat.setBusy(document.getElementById('article-chat-send'), busy, busy && !!articleRequest);
+}
+document.getElementById('article-chat-send').addEventListener('click', event => {
+    if (articleRequest) { event.preventDefault(); articleRequest.abort(); }
+});
+function setSourceFavicon(image, sourceUrl) {
+    if (window.SourceBrand) { window.SourceBrand.load(image,sourceUrl); return; }
+    image.hidden = true;
+    image.onload = () => { image.hidden = false; };
+    try {
+        const url = new URL(sourceUrl);
+        if (!['http:', 'https:'].includes(url.protocol)) return;
+        let fallbackUsed = false;
+        image.onerror = () => {
+            if (!fallbackUsed) {
+                fallbackUsed = true;
+                image.src = 'https://www.google.com/s2/favicons?domain_url=' + encodeURIComponent(url.origin) + '&sz=32';
+            } else image.hidden = true;
+        };
+        image.src = url.origin + '/favicon.ico';
+    } catch (error) { /* Keep the source name when its favicon is unavailable. */ }
+}
+function loadSourceFavicons() {
+    document.querySelectorAll('[data-source-favicon]').forEach(image => setSourceFavicon(image, image.dataset.sourceFavicon));
+}
+async function refreshNewsPage(force = false) {
+    if (document.hidden || newsRefreshPending || selectedArticleId || (!force && (document.activeElement?.matches('input, select, textarea') || document.querySelector('.edition-lead')?.contains(document.activeElement)))) return;
+    newsRefreshPending = true;
+    const button = document.getElementById('news-update-button');
+    if (button) button.disabled = true;
+    try {
+        const response = await fetch(window.location.href, {cache:'no-store'});
+        if (!response.ok) throw new Error('News refresh unavailable');
+        const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const updated = page.getElementById('news-live-content'), current = document.getElementById('news-live-content');
+        if (updated && current) {
+            const featuredState = window.FeaturedNews?.capture();
+            const scrollTop = current.scrollTop;
+            current.replaceChildren(...updated.childNodes);
+            current.scrollTop = scrollTop;
+            window.FeaturedNews?.restore(featuredState);
+            loadSourceFavicons();
+            if (typeof applySiteTranslations === 'function') applySiteTranslations();
+            if (typeof refreshIcons === 'function') refreshIcons();
+            const status = document.getElementById('news-update-status');
+            if (status) status.textContent = 'Vérifié à ' + new Intl.DateTimeFormat('fr',{hour:'2-digit',minute:'2-digit'}).format(new Date());
+        }
+    } catch (error) {
+        const status = document.getElementById('news-update-status');
+        if (status) status.textContent = 'Actualisation indisponible. Réessayez.';
+    }
+    finally { newsRefreshPending = false; const current = document.getElementById('news-update-button'); if (current) current.disabled = false; }
+}
+setInterval(refreshNewsPage,30000);
+document.addEventListener('visibilitychange',()=>{ if (!document.hidden) refreshNewsPage(); });
+window.addEventListener('pageshow',event=>{ if(event.persisted) refreshNewsPage(); });
+document.addEventListener('DOMContentLoaded',()=>{
+    loadSourceFavicons(); if(typeof refreshIcons === 'function') refreshIcons();
+    const params = new URLSearchParams(location.search);
+    if (params.get('article')) openNewsModal(params.get('article'),params.get('session'));
+});
+async function openNewsModal(id, requestedSession = null) {
+    id = String(id);
+    const deepLink = JSON.parse(document.getElementById('deep-link-article-data')?.textContent || 'null');
+    const data = document.getElementById('news-data-'+id)?.dataset || (deepLink?.id === id ? deepLink : null);
+    if (!data) return;
+    if (articleRequest) articleRequest.abort();
+    if (articleBodyRequest) articleBodyRequest.abort();
+    if (articleHistoryRequest) articleHistoryRequest.abort();
+    if (articleSuggestionsRequest) articleSuggestionsRequest.abort();
+    articleSuggestionsRequest = null; articleSuggestedQuestions = null;
+    articleRequest = null; articleBodyRequest = null;
+    selectedArticleId = id; articleHistory = []; articleHistoryLoading = false;
+    let savedSession = null;
+    let pendingSession = null;
+    try { savedSession = sessionStorage.getItem('article-chat-session:' + id); pendingSession = sessionStorage.getItem('article-chat-session:' + id + ':importing'); } catch(error) { /* Use the URL or start a conversation. */ }
+    articleSessionId = requestedSession || savedSession || pendingSession || 'article_' + crypto.randomUUID().replaceAll('-','');
+    window.currentSessionId = articleSessionId;
+    window.currentChatContext = {kind: 'article', id};
+    document.getElementById('article-chat-messages').replaceChildren();
+    try {
+        const saved = JSON.parse(sessionStorage.getItem('article-chat-history:' + id) || '[]');
+        if (Array.isArray(saved)) articleHistory = saved.filter(turn => turn && ['user','assistant'].includes(turn.role) && typeof turn.content === 'string').slice(-100);
+    } catch(error) { /* Chat remains usable if browser storage is unavailable. */ }
+    articleHistory.forEach(turn => appendArticleMessage(turn.role,turn.content,turn.sources));
+    showArticleChatWelcome(data.title);
+    document.getElementById('article-chat-input').value = '';
+    document.getElementById('article-chat-status').textContent = '';
+    for (const key of ['title','category','region','date','source']) document.getElementById('modal-'+key).textContent = data[key];
+    document.getElementById('modal-source-link').href = data.url;
+    setSourceFavicon(document.getElementById('modal-source-favicon'),data.url);
+    document.getElementById('modal-content').textContent = data.full || data.summary || '';
+    document.getElementById('modal-img-container').hidden = !data.image;
+    document.getElementById('modal-img').src = data.image || '';
+    document.getElementById('modal-img').alt = data.title;
+    document.getElementById('news-live-content').hidden = true;
+    document.getElementById('news-article-modal').hidden = false;
+    loadArticleBody(id);
+    if(typeof refreshIcons === 'function') refreshIcons();
+    if (requestedSession || savedSession) {
+        const controller = new AbortController(); articleHistoryRequest = controller;
+        articleHistoryLoading = true; setArticleChatBusy(true);
+        try {
+            const response = await fetch('/api/rag/sessions/' + encodeURIComponent(articleSessionId) + '/', {signal:controller.signal});
+            if (!response.ok) throw new Error();
+            const result = await response.json();
+            if (selectedArticleId !== id) return;
+            if (result.session?.kind === 'article' && Number(result.session.article_id) === Number(id)) {
+                articleHistory = (result.messages || []).filter(turn => ['user','assistant'].includes(turn.role) && typeof turn.content === 'string').map(turn => ({role:turn.role,content:turn.content.slice(0,8000),sources:Array.isArray(turn.sources)?turn.sources:[]})).slice(-100);
+                document.getElementById('article-chat-messages').replaceChildren();
+                articleHistory.forEach(turn => appendArticleMessage(turn.role,turn.content,turn.sources));
+                showArticleChatWelcome();
+                if (!articleBodyRequest && !articleSuggestedQuestions) loadArticleSuggestions(id);
+                if (typeof markActiveSession === 'function') markActiveSession(articleSessionId);
+            } else if (requestedSession) {
+                document.getElementById('article-chat-status').textContent = 'Cette conversation est indisponible ou ne correspond pas à cet article.';
+            }
+        } catch(error) {
+            if (error.name !== 'AbortError') document.getElementById('article-chat-status').textContent = 'Historique serveur indisponible. Les messages de cet onglet restent accessibles.';
+        } finally {
+            if (articleHistoryRequest === controller) {
+                articleHistoryRequest = null; articleHistoryLoading = false;
+                if (!articleBodyRequest) setArticleChatBusy(false);
+            }
+        }
+    }
+}
+async function loadArticleBody(id) {
+    const controller = new AbortController(); articleBodyRequest = controller;
+    const status = document.getElementById('article-chat-status');
+    setArticleChatBusy(true); status.textContent = 'Chargement du texte depuis la source…';
+    try {
+        const response = await fetch('/api/rag/articles/'+id+'/body/', {signal:controller.signal});
+        if(!response.ok) throw new Error();
+        const data = await response.json();
+        if(selectedArticleId !== id) return;
+        document.getElementById('modal-content').textContent = data.content;
+        status.textContent = data.full_body_loaded ? '' : 'Source indisponible : texte enregistré affiché.';
+    } catch(error) {
+        if(error.name !== 'AbortError') status.textContent = 'Source indisponible : texte enregistré affiché.';
+    } finally {
+        if(articleBodyRequest === controller) {
+            articleBodyRequest = null;
+            if (!articleHistoryLoading) setArticleChatBusy(false);
+            if (selectedArticleId === id) loadArticleSuggestions(id);
+        }
+    }
+}
+function closeNewsModal() {
+    if(articleRequest) articleRequest.abort();
+    if(articleBodyRequest) articleBodyRequest.abort();
+    if(articleHistoryRequest) articleHistoryRequest.abort();
+    if(articleSuggestionsRequest) articleSuggestionsRequest.abort();
+    articleSuggestionsRequest = null; articleSuggestedQuestions = null;
+    articleHistoryRequest = null; articleHistoryLoading = false; window.currentSessionId = null;
+    articleRequest = null; articleBodyRequest = null; selectedArticleId = null;
+    setArticleChatBusy(false);
+    document.getElementById('news-article-modal').hidden = true;
+    document.getElementById('news-live-content').hidden = false;
+    const url = new URL(location.href); url.searchParams.delete('article'); url.searchParams.delete('session');
+    window.history.replaceState(null,'',url);
+    refreshNewsPage();
+}
+function renderArticleQuestions(questions) {
+    const prompts = document.querySelector('#article-chat-messages .svc-guide-prompts');
+    if (!prompts) return;
+    prompts.replaceChildren();
+    for (const question of questions) {
+        const button=document.createElement('button'); button.type='button'; button.textContent=question;
+        button.addEventListener('click',()=>{const input=document.getElementById('article-chat-input');input.value=question;input.focus();});
+        prompts.append(button);
+    }
+}
+async function loadArticleSuggestions(id) {
+    if (articleSuggestionsRequest || articleSuggestedQuestions || selectedArticleId !== id ||
+        !document.querySelector('#article-chat-messages .svc-guide-welcome')) return;
+    const controller = new AbortController(); articleSuggestionsRequest = controller;
+    try {
+        const response = await fetch('/api/rag/articles/'+id+'/questions/', {
+            method:'POST', signal:controller.signal,
+            headers:{'Content-Type':'application/json','X-CSRFToken':document.querySelector('#article-chat-form [name=csrfmiddlewaretoken]').value},
+            body:JSON.stringify({language:localStorage.getItem('preferred_language') || 'fr'})
+        });
+        if (!response.ok) throw new Error('Suggestions unavailable');
+        const data = await response.json();
+        if (selectedArticleId !== id || articleSuggestionsRequest !== controller) return;
+        if (Array.isArray(data.questions) && data.questions.length) {
+            articleSuggestedQuestions = data.questions.filter(question => typeof question === 'string').slice(0, 3);
+            if (articleSuggestedQuestions.length) renderArticleQuestions(articleSuggestedQuestions);
+        }
+    } catch (error) {
+        if (error.name !== 'AbortError') console.warn('Suggestions indisponibles:', error);
+    } finally {
+        if (articleSuggestionsRequest === controller) articleSuggestionsRequest = null;
+    }
+}
+function showArticleChatWelcome(articleTitle = document.getElementById('modal-title').textContent) {
+    const log = document.getElementById('article-chat-messages');
+    if (log.childElementCount) return;
+    const welcome = document.createElement('div'); welcome.className='svc-guide-welcome';
+    const title = document.createElement('strong'); title.textContent='Comprenons cette actualité.';
+    welcome.append(title, document.createTextNode('Je peux résumer l’article, expliquer son contexte et distinguer les faits rapportés des points à confirmer.'));
+    const prompts = document.createElement('div'); prompts.className='svc-guide-prompts';
+    welcome.append(prompts);log.append(welcome);
+    const subject = String(articleTitle || '').trim().slice(0, 120).replace(/[ ,;:.]+$/, '');
+    renderArticleQuestions(articleSuggestedQuestions || (subject ? [
+        `Que faut-il retenir de « ${subject} » ?`, `Quel est le contexte de « ${subject} » ?`,
+        `Quels points de « ${subject} » restent à vérifier ?`
+    ] : ['Quels sont les faits rapportés ?', 'Quel est le contexte ?', 'Quels points restent à vérifier ?']));
+}
+function appendArticleMessage(role,text,sources=[]) {
+    if (articleSuggestionsRequest) { articleSuggestionsRequest.abort(); articleSuggestionsRequest = null; }
+    document.querySelector('#article-chat-messages .svc-guide-welcome')?.remove();
+    const message = document.createElement('div');
+    message.className = 'svc-message ' + role;
+    const content = document.createElement('div');
+    content.textContent = text; message.append(content); message._chatCopyContent = content;
+    if(role==='assistant') ChatMarkdown.render(content,text);
+    if(role==='assistant' && sources.length && window.SourceBriefs) message.append(SourceBriefs.create(sources));
+    if(window.ChatCopy) ChatCopy.attach(message,text,role);
+    const log = document.getElementById('article-chat-messages'); log.appendChild(message); log.scrollTop = log.scrollHeight;
+    return message;
+}
+document.getElementById('article-chat-form').addEventListener('submit',async event=>{
+    event.preventDefault();
+    const input = document.getElementById('article-chat-input'), query = input.value.trim();
+    if(!query || !selectedArticleId || articleHistoryLoading || document.getElementById('article-chat-send').disabled) return;
+    const controller = new AbortController(); articleRequest = controller;
+    const articleId = selectedArticleId, message = appendArticleMessage('user',query);
+    let answerMessage = null, answer = '', completed = false, historySaved = null, sources = [];
+    input.value = ''; setArticleChatBusy(true);
+    const status = document.getElementById('article-chat-status'); status.textContent = 'Connexion à l’assistant…';
+    try {
+        if (window.chatHistoryMigration) await window.chatHistoryMigration;
+        const response = await fetch('/api/rag/articles/'+articleId+'/chat/', {
+            method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':document.querySelector('#article-chat-form [name=csrfmiddlewaretoken]').value},
+            body:JSON.stringify({query,session_id:articleSessionId,history:articleHistory.slice(-100),language:localStorage.getItem('preferred_language') || 'fr'}),signal:controller.signal
+        });
+        if(!response.ok) { const data = await response.json(); throw new Error(data.error || 'Impossible de répondre. Réessayez.'); }
+        const reader = response.body.getReader(), decoder = new TextDecoder();
+        let buffer = '', webAvailable = false, webSearchPerformed = false;
+        while(true) {
+            const {done,value} = await reader.read();
+            buffer += decoder.decode(value || new Uint8Array(),{stream:!done});
+            const frames = buffer.split('\n\n'); buffer = frames.pop();
+            for(const frame of frames) {
+                if(!frame.startsWith('data:')) continue;
+                const item = JSON.parse(frame.slice(5).trim());
+                if(item.type === 'status') status.textContent = item.message;
+                if(item.type === 'sources') { sources = item.sources || []; webAvailable = item.web_available; webSearchPerformed = item.web_search_performed; }
+                if(item.type === 'token') {
+                    if(!answerMessage) answerMessage = appendArticleMessage('assistant','');
+                    answer += item.token; ChatMarkdown.render(answerMessage._chatCopyContent,answer); if(window.ChatCopy) ChatCopy.setText(answerMessage,answer); status.textContent = 'Réponse en cours…';
+                    const log = document.getElementById('article-chat-messages'); log.scrollTop = log.scrollHeight;
+                }
+                if(item.type === 'error') throw new Error(item.message);
+                if(item.type === 'done') {
+                    completed = true;
+                    historySaved = item.history_saved;
+                    if (item.session_id) {
+                        articleSessionId = item.session_id; window.currentSessionId = item.session_id;
+                        try { sessionStorage.setItem('article-chat-session:' + articleId,item.session_id); } catch(error) { /* Keep the active session in memory. */ }
+                        const url = new URL(location.href); url.searchParams.set('article',articleId); url.searchParams.set('session',item.session_id);
+                        window.history.replaceState(null,'',url);
+                    }
+                }
+            }
+            if(done) break;
+        }
+        if(!completed) throw new Error('Connexion interrompue. Réessayez.');
+        if(answerMessage && sources.length && window.SourceBriefs) answerMessage.append(SourceBriefs.create(sources));
+        articleHistory.push({role:'user',content:query},{role:'assistant',content:answer.slice(0,8000),sources});
+        articleHistory = articleHistory.slice(-100);
+        try { sessionStorage.setItem('article-chat-history:' + articleId,JSON.stringify(articleHistory)); } catch(error) { /* Keep the in-memory conversation. */ }
+        if (typeof loadChromaSessions === 'function') loadChromaSessions();
+        status.textContent = webSearchPerformed && !webAvailable ? 'Recherche Internet indisponible ou sans résultat. Réponse fondée sur l’article.' : '';
+        if (historySaved === false) status.textContent += ' La sauvegarde dans l’historique commun a échoué ; les messages restent dans cet onglet.';
+    } catch(error) {
+        if(error.name !== 'AbortError') { if(!answer) message.remove(); input.value = query; status.textContent = error.message; }
+        else if(selectedArticleId === articleId) {
+            status.textContent = 'Génération arrêtée.';
+            if (!answer) input.value = query;
+            else {
+                articleHistory.push({role:'user',content:query},{role:'assistant',content:answer.slice(0,8000),sources});
+                articleHistory = articleHistory.slice(-100);
+                try { sessionStorage.setItem('article-chat-history:' + articleId,JSON.stringify(articleHistory)); } catch (_) {}
+            }
+        }
+    } finally {
+        if(articleRequest === controller) { articleRequest = null; setArticleChatBusy(false); }
+    }
+});
+window.addEventListener('keydown',event=>{ if(event.key==='Escape') closeNewsModal(); });
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+<section aria-label="Le fil des actualités" class="edition-timeline">
+ <div class="edition-section-line"><h2>Au fil de l’actualité</h2><span>{% if page_obj.number > 1 %}Les titres de cette page{% else %}Les 9 dernières actualités{% endif %}</span></div>
+ <div class="edition-news-grid">
+  {% for item in timeline_news %}
+  <article class="edition-news-card" data-article-id="{{ item.pk }}">
+   <button type="button" class="edition-card-photo" onclick="openNewsModal('{{ item.pk }}')" aria-label="Lire : {{ item.title }}">
+    {% if item.image_url %}<img src="{{ item.image_url }}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.hidden=true">{% endif %}
+    <span class="edition-card-region">{{ item.region }}</span>
+   </button>
+   <div class="edition-card-content"><p class="edition-category">{{ item.get_category_display }}</p><time datetime="{{ item.published_at|date:'c' }}">{{ item.published_at|date:'d M Y · H:i' }}</time><h3><button type="button" onclick="openNewsModal('{{ item.pk }}')">{{ item.title }}</button></h3><p class="edition-card-summary">{{ item.summary|truncatechars:170 }}</p></div>
+   <div class="edition-timeline-footer edition-card-footer">{% include "source_identity.html" with source_url=item.source_url source_name=item.source_name only %}<div><button type="button" onclick="openNewsModal('{{ item.pk }}')">Lire ↗</button><a href="{% url 'web_ui:community' %}?thread=news:{{ item.pk }}">En discuter</a></div></div>
+  </article>
+  {% empty %}<p class="edition-short">Aucune actualité pour cette sélection.</p>{% endfor %}
+ </div>
+ {% if page_obj.has_other_pages %}<nav class="edition-pagination" aria-label="Pages du journal">{% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&period={{ current_period }}&category={{ selected_category|urlencode }}&q={{ query|urlencode }}">← Précédente</a>{% endif %}<span>Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&period={{ current_period }}&category={{ selected_category|urlencode }}&q={{ query|urlencode }}">Continuer la lecture →</a>{% endif %}</nav>{% endif %}
+</section>

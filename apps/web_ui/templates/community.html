@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Communauté — RDC Agent du peuple{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/community.css' %}?v=3"><style>.community-post h2 button{text-align:left}.community-post h2 button:hover{color:var(--co-blue)}.dark .community-intro strong{color:#6bbdf5}.dark .community-shell{--co-blue:#65b9f4}.dark .community-primary{background:#0077c8}</style>{% endblock %}
+{% block content %}
+<div class="community-shell">
+ <main class="community-main" id="community-main">
+  <header class="community-header">
+   <div class="community-eyebrow"><span class="community-dot"></span> LE CONGO, EN CONVERSATION</div>
+   <div class="community-heading"><div><h1>La communauté.</h1><p>L’actualité nous rassemble. La discussion nous éclaire.</p></div><a href="{% url 'web_ui:directory' %}" class="community-directory">Portails officiels <span aria-hidden="true">↗</span></a></div>
+  </header>
+  <details class="community-compose" id="community-compose">
+   <summary><span class="community-avatar">VO</span><span>Une info, un lien, une question à partager ?</span><span class="community-compose-plus" aria-hidden="true">+</span></summary>
+   <form id="community-post-form">
+    {% csrf_token %}
+    <label>Votre nom d’affichage<input name="author" maxlength="80" placeholder="Citoyen" autocomplete="nickname"></label>
+    <label>Le sujet<input name="title" required maxlength="240" placeholder="De quoi souhaitez-vous parler ?"></label>
+    <label>Votre publication<textarea name="body" required maxlength="3000" rows="4" placeholder="Partagez une information ou ouvrez la discussion…"></textarea></label>
+    <label>Lien source <span class="community-muted">(facultatif)</span><input name="source_url" type="url" maxlength="1024" placeholder="https://x.com/… ou un article, une vidéo…"></label>
+    <div class="community-form-footer"><small>Votre nom et votre publication seront publics.</small><button class="community-primary" type="submit">Publier <span aria-hidden="true">↗</span></button></div>
+    <p class="community-form-status" id="post-status" role="status"></p>
+   </form>
+  </details>
+  <nav class="community-tabs" aria-label="Type de publication">
+   <button type="button" data-kind="all" aria-pressed="true">Pour vous</button><button type="button" data-kind="news" aria-pressed="false">Actualités</button><button type="button" data-kind="social" aria-pressed="false">Réseaux sociaux</button><button type="button" data-kind="ai" aria-pressed="false">Décryptages IA <span aria-hidden="true">✦</span></button><button type="button" data-kind="community" aria-pressed="false">Vos publications</button>
+  </nav>
+  <form id="community-search" class="community-search"><label class="sr-only" for="community-query">Rechercher dans la communauté</label><input id="community-query" name="q" type="search" placeholder="Chercher un sujet, une source…"><label class="sr-only" for="community-category">Rubrique</label><select id="community-category" name="category"><option value="">Tous les sujets</option>{% for key,label in categories %}<option value="{{ key }}">{{ label }}</option>{% endfor %}</select><button type="submit" aria-label="Rechercher">↗</button></form>
+  <div id="community-feed-status" class="community-feed-status" role="status"></div>
+  <div id="community-discovery-status" class="community-feed-status" role="status"></div>
+  <section id="community-feed" aria-label="Publications" aria-busy="true"><div class="community-skeleton"></div><div class="community-skeleton"></div></section>
+  <div class="community-feed-footer"><button type="button" id="community-more" hidden>Voir la suite <span aria-hidden="true">↓</span></button><button type="button" id="community-refresh">Actualiser le fil</button></div>
+ </main>
+ <aside class="community-aside" id="community-aside" aria-label="Discussion de la communauté">
+  <div id="community-aside-welcome" class="community-aside-welcome">
+   <div class="community-eyebrow">UNE INFO. PLUSIEURS REGARDS.</div><h2>Comprendre,<br>ensemble.</h2><p>Chaque publication est le début d’une conversation.</p>
+   <div class="community-orbit" aria-hidden="true"><span>VO</span><span>✦</span><span>RD</span></div>
+   <ol><li><span>01</span><div><strong>Remontez à la source</strong><p>Articles, communiqués, X, vidéos : le lien original reste visible.</p></div></li><li><span>02</span><div><strong>Faites entendre votre voix</strong><p>Aimez, commentez et échangez avec la communauté.</p></div></li><li><span>03</span><div><strong>Invitez l’IA</strong><p>Demandez une explication ou un résumé dans le fil de discussion.</p></div></li></ol>
+   <a href="{% url 'web_ui:news' %}" class="community-news-link">Ouvrir le journal <span aria-hidden="true">↗</span></a>
+   <p class="community-source-note">Tavily recherche les publications de comptes sélectionnés sur X et Instagram. Les extraits restent attribués à leur auteur ; un compte sélectionné ne garantit pas chaque information publiée. La date de découverte n’est pas la date de publication. Facebook et TikTok sont exclus.</p>
+   <details class="community-followed-sources"><summary>Comptes suivis sur X</summary>{% for handle,account in social_accounts.items %}<a href="https://x.com/{{ handle }}" target="_blank" rel="noopener noreferrer" class="source-identity"><img data-source-favicon="https://x.com/{{ handle }}" data-source-name="X" alt="" width="16" height="16" class="source-icon"><span>{{ account.name }} <small>@{{ handle }}</small></span></a>{% endfor %}</details>
+   <details class="community-followed-sources"><summary>Médias suivis sur Instagram</summary>{% for handle,account in instagram_accounts.items %}<a href="{{ account.reference }}" target="_blank" rel="noopener noreferrer" class="source-identity"><img data-source-favicon="https://www.instagram.com/" data-source-name="IG" alt="" width="16" height="16" class="source-icon"><span>{{ account.name }} <small>@{{ handle }}</small></span></a>{% endfor %}</details>
+  </div>
+  <section id="community-thread" class="community-thread" hidden>
+   <header class="community-thread-header"><div><span class="community-eyebrow">LA CONVERSATION</span><h2 id="thread-title"></h2></div><button type="button" id="thread-close" aria-label="Fermer la discussion">×</button></header>
+   <div class="community-thread-tools"><a id="thread-source" target="_blank" rel="noopener noreferrer" hidden>Voir la source ↗</a><button type="button" id="thread-refresh">Actualiser</button></div>
+   <a id="thread-read-article" class="community-read-original" hidden>Lire la publication complète ↗</a>
+   <div class="community-thread-log" id="thread-log" role="log" aria-live="polite"><button id="thread-older" type="button" hidden>Commentaires précédents</button><div id="thread-comments"></div></div>
+   <form id="community-comment-form" class="community-comment-form">
+    <div class="community-compose-modes" role="group" aria-label="Type de message"><button type="button" data-message-mode="comment" aria-pressed="true">Commenter</button><button type="button" data-message-mode="ai" aria-pressed="false">✦ Question à l’IA</button></div>
+    <div id="thread-reply" class="community-reply" hidden><span></span><button type="button" aria-label="Annuler la réponse">×</button></div>
+    <label class="sr-only" for="comment-author">Votre nom d’affichage</label><input id="comment-author" name="author" maxlength="80" placeholder="Votre nom (facultatif)" autocomplete="nickname">
+    <div class="compact-chat"><label id="comment-body-label" class="sr-only" for="comment-body">Votre commentaire public</label><textarea id="comment-body" class="compact-chat-input" name="body" rows="2" required maxlength="2000" aria-describedby="comment-mode-help" placeholder="Ajoutez votre regard à la conversation…"></textarea>
+    <p id="comment-mode-help" class="community-mode-help">Échangez avec la communauté. L’IA ne répond pas automatiquement.</p>
+    <div class="compact-chat-bottom"><div class="compact-chat-options"></div><div class="compact-chat-actions community-comment-actions">{% include 'compact_chat_mic.html' with target='comment-body' status='community-voice-status' %}<button id="comment-submit" type="submit" class="compact-chat-button compact-chat-send" aria-label="Publier le commentaire" title="Publier le commentaire" data-send-label="Publier le commentaire">{% include 'compact_chat_send_icons.html' %}</button></div></div><div id="community-voice-status" class="compact-chat-status" role="status" aria-live="polite"></div></div>
+    <p class="community-form-status" id="comment-status" role="status"></p><small>Discussion publique · Les réponses de l’IA sont identifiées.</small>
+   </form>
+  </section>
+ </aside>
+</div>
+{% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/community.js' %}?v=13"></script>{% endblock %}

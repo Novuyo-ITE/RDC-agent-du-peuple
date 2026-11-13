@@ -1,0 +1,420 @@
+{
+  "passeport-biometrique-ordinaire": {
+    "source_url": "https://diplomatie.gouv.cd/foire-aux-questions/",
+    "facts": {
+      "description": "Le passeport biométrique ordinaire permet au citoyen congolais de voyager. La demande associe une inscription en ligne, une vérification administrative et une capture biométrique en personne.",
+      "eligibility": "Citoyens congolais. La première demande, le renouvellement et la perte nécessitent des justificatifs différents ; les représentations à l’étranger peuvent demander des pièces complémentaires.",
+      "fees": "La FAQ ministérielle annonce 75 USD pour le passeport ordinaire. Confirmez les éventuels frais annexes et le montant de votre référence avant paiement.",
+      "processing_time": "Les indications diffèrent : la FAQ évoque environ une semaine après les formalités administratives ; la page Services indique 10 jours ouvrables à Kinshasa, 14 en province et 28 à l’étranger. Aucun de ces délais ne garantit une date de remise.",
+      "payment": "Utilisez la référence reçue après inscription : paiement en ligne ou auprès d’Equity BCDC selon les instructions ministérielles.",
+      "office": "Capture biométrique au centre indiqué après autorisation de l’ANR ; retrait au site de capture.",
+      "documents": [
+        "Formulaire de demande issu de la procédure officielle.",
+        "Ancien passeport ou copie de sa page biographique pour un renouvellement ; en cas de perte, déclaration de police et justificatif d’état civil selon le dossier.",
+        "Deux photos récentes au format 2 × 2 demandé par la page Services."
+      ],
+      "steps": [
+        "Obtenir ou retrouver son numéro d’identification fiscale (NIF).",
+        "S’inscrire sur passeport.gouv.cd et recevoir par courriel le QR code et la référence de paiement.",
+        "Régler les frais avec cette référence et conserver la preuve de paiement.",
+        "Effectuer la vérification auprès de l’ANR et obtenir son autorisation.",
+        "Se présenter à la capture DERMALOG avec l’autorisation, le QR code et les pièces demandées.",
+        "Retirer le passeport au site de capture selon les consignes reçues."
+      ]
+    },
+    "references": [
+      "https://diplomatie.gouv.cd/foire-aux-questions/",
+      "https://diplomatie.gouv.cd/services/"
+    ],
+    "form_resources": [
+      {
+        "title": "Inscription et formulaire de demande de passeport",
+        "url": "https://www.passeport.gouv.cd/",
+        "kind": "Portail de demande",
+        "instructions": "Commencez par le NIF, puis créez votre demande pour obtenir le QR code et la référence. Aucun formulaire PDF vierge actuel n’a été vérifié. Le portail peut limiter l’accès automatisé."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00",
+    "fact_sources": {
+      "documents": "https://diplomatie.gouv.cd/services/",
+      "processing_time": "https://diplomatie.gouv.cd/services/"
+    }
+  },
+  "visa-electronique-rdc-evisa": {
+    "source_url": "https://evisa.gouv.cd/",
+    "facts": {
+      "description": "Le portail eVisa permet de demander une autorisation de voyage, de payer les frais et de télécharger le document accepté. Le type de visa et la durée doivent correspondre au motif du séjour.",
+      "eligibility": "Voyageurs soumis au visa pour la RDC. Le portail distingue notamment le visa volant ordinaire et le visa spécifique aux entreprises ; leurs conditions et tarifs diffèrent.",
+      "fees": "Le portail affiche 50 USD de frais de dossier, puis 250 USD pour le visa volant ordinaire accepté, ou 800 USD pour le visa spécifique entreprises. Ce ne sont pas des tarifs universels pour tous les visas. La FAQ évoque aussi des frais VAP à l’arrivée : vérifiez les frais applicables à votre voyage avant paiement.",
+      "processing_time": "L’examen annoncé est de 72 heures. Le portail indique un séjour de 7 jours pour le visa volant ordinaire et 30 jours pour le visa spécifique ; la durée de séjour ne constitue pas un délai de traitement.",
+      "payment": "Payer d’abord les frais de dossier ; payer les frais de visa après acceptation. Suivre les moyens de paiement du portail.",
+      "office": "Demande en ligne sur evisa.gouv.cd ; conservez le PDF et les documents requis pour le voyage et le contrôle frontalier.",
+      "documents": [
+        "Passeport : numéro, dates de délivrance et d’expiration, autorité émettrice.",
+        "Photographie et copie du passeport selon les exigences de la demande.",
+        "Adresse et contact d’accueil, motif et dates du séjour ; invitation si le type de visa la demande."
+      ],
+      "steps": [
+        "Créer un compte avec une adresse courriel accessible.",
+        "Ouvrir une nouvelle demande, choisir le type de visa, compléter les rubriques et joindre les pièces demandées.",
+        "Payer les 50 USD de frais de dossier et suivre l’examen de la demande.",
+        "Après acceptation, payer le visa correspondant à votre catégorie.",
+        "Télécharger le PDF reçu par courriel et vérifier ses dates et conditions avant le départ."
+      ]
+    },
+    "references": [
+      "https://evisa.gouv.cd/",
+      "https://evisa.gouv.cd/helps/faqs",
+      "https://servicepublic.gouv.cd/service/10"
+    ],
+    "form_resources": [
+      {
+        "title": "Créer son compte eVisa",
+        "url": "https://evisa.gouv.cd/register",
+        "kind": "Formulaire public",
+        "instructions": "Préparez votre nom, prénom, courriel, pays et téléphone. Le mot de passe, le consentement et le contrôle de sécurité se complètent uniquement sur le site officiel."
+      },
+      {
+        "title": "Nouvelle demande de visa",
+        "url": "https://evisa.gouv.cd/home/new-request",
+        "kind": "Connexion nécessaire",
+        "instructions": "Connectez-vous au compte officiel pour remplir le formulaire complet et téléverser les pièces. Les rubriques changent selon le visa."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00",
+    "fact_sources": {
+      "documents": "https://servicepublic.gouv.cd/service/10"
+    },
+    "forms": [
+      {
+        "action": "https://evisa.gouv.cd/register",
+        "method": "post",
+        "requires_official_site": true,
+        "fields": [
+          {
+            "name": "name",
+            "label": "Nom",
+            "type": "text",
+            "required": true
+          },
+          {
+            "name": "firstname",
+            "label": "Prénom",
+            "type": "text",
+            "required": true
+          },
+          {
+            "name": "email",
+            "label": "Adresse courriel",
+            "type": "email",
+            "required": true
+          },
+          {
+            "name": "phone",
+            "label": "Téléphone",
+            "type": "tel",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "acte-de-naissance-etat-civil": {
+    "source_url": "https://servicepublic.gouv.cd/service/5129",
+    "facts": {
+      "description": "La déclaration de naissance fait enregistrer l’enfant dans les registres de l’état civil. Une première déclaration, une déclaration tardive et une copie d’un acte déjà enregistré sont des démarches distinctes.",
+      "eligibility": "Le parent, le tuteur ou une personne autorisée déclare la naissance à l’état civil compétent. Au-delà de 90 jours, le catalogue prévoit une procédure de jugement supplétif pour la déclaration tardive du mineur.",
+      "fees": "Le catalogue officiel indique la gratuité de l’enregistrement dans les 90 jours. Les copies ultérieures, les procédures tardives et les frais judiciaires éventuels ne doivent pas être confondus avec cette déclaration gratuite.",
+      "processing_time": "La fiche Déclaration de naissance annonce l’enregistrement immédiat lorsque le dossier est complet ; une procédure judiciaire tardive suit un autre calendrier.",
+      "payment": "Pour une déclaration dans les 90 jours, la source indique la gratuité. Pour une copie ou un dossier tardif, demander le tarif et une quittance au service compétent.",
+      "office": "Bureau d’état civil de la commune ou du territoire compétent ; pour une naissance tardive, demander d’abord l’orientation vers la juridiction compétente.",
+      "documents": [
+        "Attestation ou certificat de naissance délivré par la maternité ou le professionnel de santé, si disponible selon la situation publiée.",
+        "Pièce d’identité du déclarant et informations d’identité des parents.",
+        "Justificatif de mariage ou de filiation si applicable ; procuration si le déclarant agit pour les parents.",
+        "En cas de déclaration tardive : jugement supplétif et pièces demandées par la juridiction compétente."
+      ],
+      "steps": [
+        "Vérifier si la naissance a déjà été enregistrée et calculer le délai depuis la naissance.",
+        "Réunir l’attestation de naissance et les pièces du déclarant et des parents adaptées au cas.",
+        "Dans les 90 jours, se présenter au bureau d’état civil compétent pour déclarer la naissance.",
+        "Après 90 jours, faire préciser la procédure judiciaire de jugement supplétif avant l’enregistrement tardif.",
+        "Faire vérifier les noms, dates et filiations enregistrés, puis demander les modalités de remise de l’acte."
+      ]
+    },
+    "references": [
+      "https://servicepublic.gouv.cd/service/5129",
+      "https://servicepublic.gouv.cd/service/7638",
+      "https://servicepublic.gouv.cd/service/7851"
+    ],
+    "form_resources": [
+      {
+        "title": "Déclaration de naissance auprès de l’état civil",
+        "url": "https://servicepublic.gouv.cd/service/5129",
+        "kind": "Formulaire au guichet",
+        "instructions": "Le formulaire et l’enregistrement relèvent de l’officier d’état civil. Aucun PDF vierge public actuel n’a été vérifié. Préparez les informations de naissance et des parents avant le déplacement. Le catalogue peut demander une connexion."
+      },
+      {
+        "title": "Copie d’un acte déjà enregistré",
+        "url": "https://servicepublic.gouv.cd/service/7851",
+        "kind": "Démarche distincte",
+        "instructions": "Si l’acte existe déjà, utiliser la procédure de copie avec sa référence plutôt que recommencer une déclaration."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00",
+    "fact_sources": {
+      "fees": "https://servicepublic.gouv.cd/service/7638",
+      "eligibility": "https://servicepublic.gouv.cd/service/7638"
+    },
+    "notes": [
+      "Les fiches du catalogue consultées pendant la recherche sont actuellement soumises à connexion. Vérifiez auprès de votre état civil les conditions applicables à votre situation, notamment après 90 jours."
+    ]
+  },
+  "creation-entreprise-guce": {
+    "source_url": "https://anapi.cd/procedures",
+    "facts": {
+      "description": "Le Guichet unique de création d’entreprise centralise la formalisation d’un établissement individuel ou d’une société. Le dossier dépend de la forme juridique choisie.",
+      "eligibility": "Créateurs d’un établissement individuel ou d’une société en RDC. Les actes de société et les justificatifs de capital ne s’appliquent pas automatiquement à l’entrepreneur individuel.",
+      "fees": "Les publications ANAPI présentent des montants divergents : la page Procédures affiche 40 USD pour un établissement, 110 USD pour une société avec actes notariés et 70 USD sous seing privé ; certains guides affichent 30/80/70 USD. Confirmer le barème actuel auprès du GUCE avant tout paiement.",
+      "processing_time": "La page ANAPI annonce trois jours pour la création ; cela suppose un dossier recevable et ne garantit pas la remise à une date précise.",
+      "payment": "Faire confirmer la taxation correspondant à la forme juridique et conserver la preuve des frais administratifs demandée dans le dossier.",
+      "office": "GUCE : notamment 482 avenue de la Science, Gombe, Kinshasa. L’ANAPI mentionne aussi des guichets à Lubumbashi, Kisangani et Goma ; vérifier le bureau local avant déplacement.",
+      "documents": [
+        "Pour les deux profils : lettre de demande au directeur général du GUCE et justificatifs propres au dossier.",
+        "Société : statuts en quatre exemplaires avec version électronique et spécimen de signature du gérant.",
+        "Société : déclaration de souscription et de versement, preuve de libération du capital et paiement des frais administratifs.",
+        "Établissement individuel : identité, justificatif de propriété ou bail, extrait de casier judiciaire selon la page ANAPI.",
+        "Selon le cas : titre de séjour, contrat de mariage ou procuration."
+      ],
+      "steps": [
+        "Choisir entre établissement individuel et société et vérifier les pièces du profil retenu.",
+        "Retirer ou faire confirmer le formulaire unique actuel au GUCE et réunir les actes nécessaires.",
+        "Compléter le dossier, faire confirmer les frais actuels et régler selon les instructions du guichet.",
+        "Déposer le dossier complet au GUCE et conserver son récépissé.",
+        "Suivre la délivrance des documents de création : RCCM, identification nationale et NIF selon la procédure applicable."
+      ]
+    },
+    "references": [
+      "https://anapi.cd/procedures",
+      "https://economie.gouv.cd/rubrique_creation_entreprise",
+      "https://anapi.cd/wp-content/uploads/2025/04/anapi_parcours_de_l_investisseur_brochure_a4_compressed.pdf"
+    ],
+    "form_resources": [
+      {
+        "title": "Dossier et formulaire unique du GUCE",
+        "url": "https://anapi.cd/procedures",
+        "kind": "Formulaire à confirmer au GUCE",
+        "instructions": "La source ANAPI détaille les pièces par forme juridique. Demandez au GUCE la version actuelle du formulaire unique ; aucun formulaire en ligne accessible et prêt à déposer n’a été vérifié."
+      },
+      {
+        "title": "Portail institutionnel GUCE",
+        "url": "https://guichetunique.cd/",
+        "kind": "Accès non confirmé",
+        "instructions": "Le portail n’a pas pu être joint pendant la vérification. Utilisez les coordonnées officielles pour confirmer les modalités de dépôt."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00",
+    "fact_sources": {
+      "steps": "https://economie.gouv.cd/rubrique_creation_entreprise"
+    }
+  },
+  "enregistrement-arsp-sous-traitance": {
+    "source_url": "https://arsp.cd/enregistrement-et-demande-dagrement",
+    "facts": {
+      "description": "L’ARSP reçoit en ligne les demandes d’enregistrement pour exercer la sous-traitance dans le secteur privé. Le profil choisi détermine le dossier à fournir.",
+      "eligibility": "Pour la société, la page d’enregistrement mentionne plus de 51 % de capital congolais, un siège en RDC, une main-d’œuvre majoritairement congolaise et la formation locale. Vérifier les conditions du profil personne morale, personne physique ou entreprenant.",
+      "fees": "La page ARSP présente l’enregistrement comme gratuit et entièrement en ligne.",
+      "processing_time": "Aucun délai chiffré fiable n’a été identifié dans les pages consultées. Suivre le dossier avec son numéro et répondre aux demandes de complément.",
+      "payment": "La procédure d’enregistrement publiée est gratuite. Ne pas utiliser un montant provenant d’un ancien catalogue comme frais à payer.",
+      "office": "Demande en ligne ; suivi sur track.arsp.cd. Contact ARSP : 87 avenue de l’Équateur, Gombe, Kinshasa ; contact@arsp.cd ; +243 824 940 440.",
+      "documents": [
+        "Pour une personne morale : statuts notariés avec signatures et RCCM.",
+        "Pour une personne morale : identification nationale, NIF et numéro CNSS.",
+        "Pièce d’identité du gérant pour le dossier de personne morale.",
+        "Pour les autres profils, suivre la liste affichée dans le formulaire choisi ; les statuts de société ne sont pas exigibles par défaut à tous les profils."
+      ],
+      "steps": [
+        "Ouvrir la page officielle d’enregistrement et choisir le profil correspondant à l’activité.",
+        "Cliquer sur Démarrer mon enregistrement et compléter le formulaire en ligne.",
+        "Joindre les pièces du profil au format demandé ; la FAQ précise que les formulaires papier ne sont pas acceptés.",
+        "Vérifier et envoyer la demande sur le portail officiel ; conserver le numéro du dossier.",
+        "Consulter le suivi en ligne et fournir les compléments éventuels demandés par l’ARSP."
+      ]
+    },
+    "references": [
+      "https://arsp.cd/enregistrement-et-demande-dagrement",
+      "https://arsp.cd/faq",
+      "https://track.arsp.cd/"
+    ],
+    "form_resources": [
+      {
+        "title": "Démarrer mon enregistrement ARSP",
+        "url": "https://arsp.cd/enregistrement-et-demande-dagrement",
+        "kind": "Formulaire en ligne",
+        "instructions": "Choisissez le profil puis utilisez le bouton Démarrer mon enregistrement. Préparez les fichiers PDF. Le formulaire complet n’est pas exposé dans la page publique : ne remplissez pas un modèle papier à sa place."
+      },
+      {
+        "title": "Suivre une demande ARSP",
+        "url": "https://track.arsp.cd/",
+        "kind": "Suivi du dépôt",
+        "instructions": "Utilisez le numéro attribué lors de l’envoi officiel."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00"
+  },
+  "numero-identification-fiscale-dgi": {
+    "source_url": "https://e-nif.dgirdc.cd/",
+    "facts": {
+      "description": "Le portail e-NIF de la DGI permet d’engager une demande d’identification fiscale. Une recherche préalable permet de vérifier si un NIF existe déjà.",
+      "eligibility": "Personnes et entreprises concernées par l’identification fiscale. Les renseignements et pièces de la demande dépendent du profil fiscal sélectionné dans le portail.",
+      "fees": "Le ministère de l’Économie indique que l’attribution du NIF est gratuite dans les formalités de création d’entreprise. Vérifier toute autre prestation distincte auprès de la DGI.",
+      "processing_time": "Aucun délai chiffré n’a été confirmé dans les pages publiques consultées. Le premier écran n’est pas une confirmation d’attribution du numéro.",
+      "payment": "Ne pas payer un intermédiaire sur la base d’un tarif non publié. La gratuité de l’attribution du NIF est indiquée par la source ministérielle.",
+      "office": "Commencer sur e-nif.dgirdc.cd, référencé par le portail des applications DGI. Le portail propose également un guide vidéo.",
+      "documents": [
+        "Une adresse courriel accessible pour la validation initiale.",
+        "Les informations et justificatifs du profil seront demandés après validation sur le portail ; la liste complète n’est pas visible sur le premier écran public."
+      ],
+      "steps": [
+        "Rechercher un éventuel NIF existant pour éviter une demande en double.",
+        "Saisir son adresse courriel dans le portail officiel puis cliquer sur Validez.",
+        "Suivre la validation reçue par courriel ; ne communiquer le jeton que sur le portail DGI.",
+        "Compléter les rubriques et joindre les pièces demandées pour son profil dans l’espace officiel.",
+        "Envoyer selon les instructions du portail et conserver la référence ou le document reçu."
+      ]
+    },
+    "references": [
+      "https://e-nif.dgirdc.cd/",
+      "https://app.dgirdc.cd/",
+      "https://economie.gouv.cd/rubrique_creation_entreprise"
+    ],
+    "form_resources": [
+      {
+        "title": "Commencer une demande e-NIF",
+        "url": "https://e-nif.dgirdc.cd/",
+        "kind": "Validation par courriel",
+        "instructions": "Le formulaire public commence par votre courriel. La suite nécessite le jeton reçu ; ce jeton doit rester sur le portail officiel."
+      },
+      {
+        "title": "Rechercher un NIF existant",
+        "url": "https://e-nif.dgirdc.cd/recherche-nif",
+        "kind": "Recherche préalable",
+        "instructions": "Vérifiez votre identification avant de créer une nouvelle demande."
+      },
+      {
+        "title": "Guide officiel e-NIF",
+        "url": "https://e-nif.dgirdc.cd/public/guide.m4v",
+        "kind": "Guide vidéo",
+        "instructions": "Vidéo de prise en main proposée par la DGI ; il ne s’agit pas d’un formulaire PDF."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00",
+    "fact_sources": {
+      "fees": "https://economie.gouv.cd/rubrique_creation_entreprise",
+      "payment": "https://economie.gouv.cd/rubrique_creation_entreprise"
+    },
+    "forms": [
+      {
+        "action": "https://e-nif.dgirdc.cd/",
+        "method": "post",
+        "requires_official_site": true,
+        "fields": [
+          {
+            "name": "email",
+            "label": "Adresse courriel",
+            "type": "email",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "dedouanement-douane-dgda": {
+    "source_url": "https://douane.gouv.cd/les-procedures-douanieres/les-procedures-de-dedouanement-a-limportation-en-rdc%EF%BF%BC/",
+    "facts": {
+      "description": "Le dédouanement à l’importation comprend la déclaration des marchandises, le contrôle, la liquidation des droits et taxes et la mainlevée. La déclaration DAU est traitée dans SYDONIA par le déclarant habilité.",
+      "eligibility": "Propriétaire, destinataire ou commissionnaire en douane agréé selon les règles de représentation. Le déclarant doit disposer du NIF et déposer au bureau compétent où se trouvent les marchandises.",
+      "fees": "Les droits et taxes dépendent du classement tarifaire, de la valeur, de l’origine et du régime des marchandises. Aucun tarif forfaitaire universel ne peut remplacer la liquidation officielle.",
+      "processing_time": "La source prévoit trois jours francs pour le dépôt de la déclaration, hors dimanches et jours fériés. Il s’agit d’une échéance de déclaration, pas d’un délai garanti de dédouanement.",
+      "payment": "Après liquidation, payer le bulletin auprès de la banque désignée et conserver la quittance électronique ; la mainlevée intervient selon les contrôles et conditions de la DGDA.",
+      "office": "Bureau douanier compétent pour le lieu des marchandises ; recours à un commissionnaire agréé si nécessaire. Le DAU électronique relève de SYDONIA.",
+      "documents": [
+        "NIF du déclarant et informations sur le destinataire et le régime douanier.",
+        "Document de transport correspondant au mode d’acheminement : connaissement maritime, lettre de transport aérien ou document équivalent.",
+        "Facture commerciale et pièces justifiant la valeur et l’opération.",
+        "Documents d’origine, autorisations et autres justificatifs selon les marchandises et le régime ; faire confirmer la liste du cas précis."
+      ],
+      "steps": [
+        "Vérifier les formalités d’arrivée et la prise en charge des marchandises avec le transporteur.",
+        "Réunir le NIF, les documents de transport, de valeur et les autorisations applicables.",
+        "Faire établir puis déposer le DAU dans SYDONIA par le déclarant habilité au bureau compétent, dans le délai publié.",
+        "Répondre au contrôle documentaire ou à la vérification des marchandises selon la sélection douanière.",
+        "Obtenir la liquidation et régler les droits et taxes selon le bulletin officiel.",
+        "Obtenir le Bon à enlever et procéder à l’enlèvement autorisé."
+      ]
+    },
+    "references": [
+      "https://douane.gouv.cd/les-procedures-douanieres/les-procedures-de-dedouanement-a-limportation-en-rdc%EF%BF%BC/"
+    ],
+    "form_resources": [
+      {
+        "title": "DAU et dépôt dans SYDONIA",
+        "url": "https://douane.gouv.cd/les-procedures-douanieres/les-procedures-de-dedouanement-a-limportation-en-rdc%EF%BF%BC/",
+        "kind": "Plateforme professionnelle",
+        "instructions": "La DGDA décrit la déclaration électronique DAU dans SYDONIA. Faites préparer la déclaration par le déclarant habilité ; aucun formulaire public simplifié ni adresse de dépôt citoyen direct n’a été vérifié."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00"
+  },
+  "permis-de-conduire-biometrique": {
+    "source_url": "https://conadep.cd/procedure-obtention/",
+    "facts": {
+      "description": "La CONADEP publie une procédure en sept étapes : dossier, vérification, examens, taxation, paiement, capture biométrique puis retrait du permis.",
+      "eligibility": "Candidats au permis selon la catégorie demandée et les conditions réglementaires ; la procédure publiée demande un certificat de formation d’auto-école et une pièce d’identité.",
+      "fees": "La page Obtenir le formulaire indique 15 USD de frais d’examen auprès de Rawbank. Ce montant n’est pas le coût total du permis : les droits du permis sont taxés ensuite selon la catégorie par la DGRAD.",
+      "processing_time": "Le retrait est annoncé environ 48 heures après la capture biométrique, sur notification SMS ou courriel. Ce délai ne couvre ni la préparation, ni les examens, ni les étapes antérieures.",
+      "payment": "Retirer d’abord le formulaire selon les instructions Rawbank ; après réussite et taxation, payer les droits indiqués sur la note DGRAD auprès de la banque désignée.",
+      "office": "Centres CONADEP publiés sur la page de contact, notamment Ndolo, 536 avenue de l’Aérodrome, Barumbu. Confirmer le centre choisi ; contact : +243 853 084 444.",
+      "documents": [
+        "Formulaire officiel obtenu auprès de Rawbank selon la procédure publiée.",
+        "Certificat de formation délivré par une auto-école.",
+        "Pièce d’identité.",
+        "NIF si disponible : il est présenté comme facultatif dans la procédure CONADEP.",
+        "Pour le retrait : pièce d’identité et récépissé d’enregistrement remis après capture."
+      ],
+      "steps": [
+        "Payer les frais d’examen et obtenir le formulaire auprès d’une agence Rawbank indiquée par la CONADEP ; constituer puis déposer le dossier selon le canal proposé.",
+        "Faire vérifier le dossier par la CONADEP.",
+        "Passer la théorie (au moins 12 bonnes réponses sur 20) et la pratique (au moins 60 %) ; la procédure prévoit une reprise après sept jours en cas d’échec.",
+        "Obtenir la taxation et la note de perception DGRAD correspondant à la catégorie.",
+        "Payer les droits du permis auprès de la banque désignée et conserver la preuve.",
+        "Effectuer la capture : identité, photographie, empreintes et signature ; conserver le récépissé.",
+        "Attendre le SMS ou courriel et retirer le permis avec l’identité et le récépissé."
+      ]
+    },
+    "references": [
+      "https://conadep.cd/procedure-obtention/",
+      "https://conadep.cd/obtenir-formulaire/",
+      "https://conadep.cd/contacter-nous/"
+    ],
+    "form_resources": [
+      {
+        "title": "Obtenir le formulaire officiel auprès de Rawbank",
+        "url": "https://conadep.cd/obtenir-formulaire/",
+        "kind": "Formulaire à retirer en banque",
+        "instructions": "La CONADEP publie les agences Rawbank où obtenir le formulaire après paiement des frais d’examen. Aucun PDF vierge public actuel n’a été vérifié."
+      },
+      {
+        "title": "Choisir un centre CONADEP",
+        "url": "https://conadep.cd/contacter-nous/",
+        "kind": "Lieu de dépôt et capture",
+        "instructions": "Consultez les centres et contacts avant le déplacement ; le retrait intervient après notification."
+      }
+    ],
+    "reviewed_at": "2026-11-03T12:00:00+03:00",
+    "fact_sources": {
+      "fees": "https://conadep.cd/obtenir-formulaire/",
+      "office": "https://conadep.cd/contacter-nous/"
+    }
+  }
+}

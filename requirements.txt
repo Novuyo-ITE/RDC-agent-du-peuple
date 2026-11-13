@@ -1,0 +1,41 @@
+# DRC Government Digital Assistant (Native Local Stack + MCP + RAG)
+# Python Dependencies for NVIDIA RTX 4060 Ti Host Environment
+
+# Core Django & Channels
+django>=5.0,<5.2
+djangorestframework>=3.15.0
+channels[daphne]>=4.1.0
+django-cors-headers>=4.3.1
+
+# Database & Vector Store
+psycopg[binary]>=3.1.18
+pgvector>=0.3.0
+
+# Task Queue & Cache
+celery>=5.3.6
+redis>=5.0.3
+
+# LangChain, Ollama & Search Tools
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langchain-ollama>=0.2.0
+mcp>=1.0.0
+
+# Embeddings & NLP
+sentence-transformers>=3.0.0
+torch>=2.2.0
+
+# Web Scraping
+beautifulsoup4>=4.12.3
+feedparser>=6.0.11
+requests>=2.31.0
+python-dotenv>=1.0.1
+playwright>=1.43.0
+
+# Speech-to-Text & Audio
+faster-whisper>=1.0.2
+pydub>=0.25.1
+
+
+pypdf>=5.0,<7.0

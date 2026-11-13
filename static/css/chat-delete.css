@@ -1,0 +1,36 @@
+.chat-delete-dialog {
+    width: min(440px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    color: #0f172a;
+    background: #faf9f5;
+    box-shadow: 0 24px 80px #0f172a33;
+}
+.chat-delete-dialog::backdrop { background: #0f172a80; backdrop-filter: blur(4px); }
+.chat-delete-content { padding: 28px; }
+.chat-delete-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 20px; border-radius: 16px; color: #ce1126; background: #fee2e2; }
+.chat-delete-dialog h2 { margin: 0 0 10px; font-size: 20px; font-weight: 700; line-height: 1.35; }
+.chat-delete-dialog p { font-size: 13px; line-height: 1.65; color: #64748b; }
+.chat-delete-name { margin-top: 16px; padding: 12px 14px; border-radius: 12px; background: #f1f0ea; color: #334155 !important; font-weight: 600; overflow-wrap: anywhere; max-height: 120px; overflow-y: auto; }
+.chat-delete-error { margin-top: 14px; color: #ce1126 !important; }
+.chat-delete-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.chat-delete-actions button { min-height: 44px; padding: 10px 18px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.chat-delete-actions button:hover { background: #e2e8f0; }
+.chat-delete-actions button:focus-visible { outline: 3px solid #0077c8; outline-offset: 3px; }
+#chat-delete-confirm { background: #ce1126; border-color: #ce1126; color: white; }
+#chat-delete-confirm:hover { background: #af0f20; }
+.chat-delete-actions button:disabled { opacity: .6; cursor: wait; }
+.dark .chat-delete-dialog { background: #121b2b; border-color: #334155; color: #f8fafc; }
+.dark .chat-delete-dialog p { color: #94a3b8; }
+.dark .chat-delete-name { background: #1e293b; color: #e2e8f0 !important; }
+.dark .chat-delete-icon { background: #ce112626; color: #fda4af; }
+.dark #chat-delete-cancel { border-color: #475569; }
+.dark #chat-delete-cancel:hover { background: #334155; }
+.dark .chat-delete-error { color: #fda4af !important; }
+@media (max-width: 480px) {
+    .chat-delete-content { padding: 24px; }
+    .chat-delete-actions button { flex: 1; }
+}

@@ -1,0 +1,16 @@
+<section id="official-browser" class="svc-panel" hidden aria-label="Démarche officielle intégrée" style="margin-bottom:20px">
+ <div class="svc-section-head"><div><h2 class="svc-panel-title">Votre demande en ligne</h2><p id="official-browser-url" class="svc-helper" style="overflow-wrap:anywhere"></p></div><button id="official-browser-close" class="svc-btn secondary" type="button">Fermer la session</button></div>
+ <p class="svc-helper">Complétez les champs et utilisez les boutons du service ci-dessous. Ils agissent directement sur le portail de l’institution. Le guide reste à votre droite.</p>
+ <div id="official-browser-status" class="svc-status" role="status"></div>
+ <form id="official-browser-fields" class="svc-form-grid" autocomplete="off"></form>
+ <div class="svc-actions"><button id="official-browser-fill" class="svc-btn secondary" type="button">Reporter les champs saisis</button><button id="official-browser-draft" class="svc-btn secondary" type="button">Reprendre les valeurs de mon brouillon</button></div>
+ <div class="svc-actions"><button id="official-browser-assist" class="svc-btn secondary" type="button">L’IA m’aide à remplir ce formulaire</button></div>
+ <div id="official-browser-suggestions" class="svc-review" hidden></div><button id="official-browser-apply" class="svc-btn secondary" type="button" hidden>Reprendre les suggestions relues</button>
+ <div id="official-browser-buttons" class="svc-actions" aria-label="Boutons du portail officiel"></div>
+ <p class="svc-helper" style="margin-top:14px">La réponse du portail fait foi pour le dépôt et son numéro de suivi. Les mots de passe et pièces joints restent hors du chat IA. Fermer cette session efface sa connexion.</p>
+ <details style="margin-top:16px"><summary>Voir et utiliser la page du service</summary><p class="svc-helper">Vous pouvez aussi cliquer dans la page affichée, notamment pour les listes, liens et contrôles de sécurité.</p>
+  <img id="official-browser-image" alt="Page actuelle du portail officiel" style="width:100%;border:1px solid var(--svc-border);cursor:pointer" tabindex="0">
+  <div class="svc-actions"><button type="button" class="svc-btn secondary" data-browser-action="back">Retour</button><button type="button" class="svc-btn secondary" data-browser-scroll="up">Monter</button><button type="button" class="svc-btn secondary" data-browser-scroll="down">Descendre</button><button type="button" class="svc-btn secondary" data-browser-action="snapshot">Actualiser</button></div>
+  <div class="svc-actions"><input id="official-browser-text" type="password" class="svc-input" autocomplete="off" aria-label="Texte à saisir dans le champ sélectionné sur la page" placeholder="Texte pour le champ sélectionné"><button id="official-browser-type" class="svc-btn secondary" type="button">Saisir dans la page</button></div>
+ </details>
+</section>

@@ -1,0 +1,6 @@
+.chat-copy-button{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:5px 8px;border:1px solid transparent;border-radius:8px;background:transparent;color:#647789;font-size:11px;line-height:1.3;cursor:pointer}
+.chat-copy-button[hidden]{display:none!important}.chat-copy-button svg{width:15px;height:15px;flex-shrink:0}.chat-copy-button:hover{background:#e8f2f8;border-color:#d4e4ed;color:#0068ad}.chat-copy-button:focus-visible{outline:2px solid #0077c8;outline-offset:2px}
+.dark .chat-copy-button{color:#b3c7d7}.dark .chat-copy-button:hover{background:#263d50;border-color:#476174;color:#fcd116}.dark .chat-copy-button:focus-visible{outline-color:#fcd116}
+.community-comment .chat-copy-button{display:inline-flex;align-items:center;gap:5px;margin-left:10px;color:#647789}.dark .community-comment .chat-copy-button{color:#b3c7d7}
+.chat-copy-container>.chat-copy-button{opacity:0;pointer-events:none;transition:opacity .15s ease}.chat-copy-container:hover>.chat-copy-button,.chat-copy-container:focus-within>.chat-copy-button,.chat-copy-container.is-copy-active>.chat-copy-button{opacity:1;pointer-events:auto}
+@media(prefers-reduced-motion:reduce){.chat-copy-container>.chat-copy-button{transition:none}}

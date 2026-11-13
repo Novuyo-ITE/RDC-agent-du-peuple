@@ -1,0 +1,42 @@
+{% load static %}
+<div id="news-live-content" class="edition flex-1 overflow-y-auto custom-scrollbar">
+ <div class="edition-inner">
+  <header class="edition-masthead">
+   <div class="edition-kicker"><span class="edition-live-dot"></span> RDC · LE JOURNAL <span class="edition-date">{% now 'd F Y' %}</span></div>
+   <div class="edition-title-row"><div><h1>Le fil du Congo<span>.</span></h1><p>Les faits. Le contexte. Ce qui vous concerne.</p></div><a class="edition-community-link" href="{% url 'web_ui:community' %}">La communauté <span aria-hidden="true">↗</span></a></div>
+   <div class="edition-controls">
+    <nav aria-label="Période" class="edition-period"><a {% if current_period == 'all' %}aria-current="page"{% endif %} href="?period=all&category={{ selected_category|urlencode }}&q={{ query|urlencode }}">L’édition complète</a><a {% if current_period == 'today' %}aria-current="page"{% endif %} href="?period=today&category={{ selected_category|urlencode }}&q={{ query|urlencode }}">Aujourd’hui <span>{{ today_count }}</span></a><a {% if current_period == '7days' %}aria-current="page"{% endif %} href="?period=7days&category={{ selected_category|urlencode }}&q={{ query|urlencode }}">Cette semaine</a><a {% if current_period == '1month' %}aria-current="page"{% endif %} href="?period=1month&category={{ selected_category|urlencode }}&q={{ query|urlencode }}">Ce mois-ci</a></nav>
+    <form method="get" class="edition-search"><input type="hidden" name="period" value="{{ current_period }}"><input type="hidden" name="category" value="{{ selected_category }}"><label class="sr-only" for="edition-query">Rechercher une actualité</label><input id="edition-query" type="search" name="q" value="{{ query }}" placeholder="Un sujet, un lieu, une source…"><button aria-label="Rechercher" type="submit">↗</button></form>
+   </div>
+   <nav class="edition-topics" aria-label="Rubriques"><a href="?period={{ current_period }}&category=all&q={{ query|urlencode }}" {% if selected_category == 'all' %}aria-current="page"{% endif %}>Tout le journal</a>{% for key,label in categories %}<a href="?period={{ current_period }}&category={{ key }}&q={{ query|urlencode }}" {% if selected_category == key %}aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}</nav>
+  </header>
+  {% if news_list %}
+  <div class="edition-section-line"><h2>{% if page_obj.number > 1 %}Dans les archives{% elif query %}Votre recherche{% else %}À la une{% endif %}</h2><div class="edition-update"><span>{{ page_obj.paginator.count }} article{{ page_obj.paginator.count|pluralize }}{% if query %} · « {{ query }} »{% endif %}</span><button id="news-update-button" type="button" onclick="refreshNewsPage(true)">Actualiser ↻</button><span id="news-update-status" role="status" aria-live="polite"></span></div></div>
+  <section class="edition-lead-layout" aria-label="À la une et l’essentiel">
+   <article class="edition-lead">
+    {% for item in news_list|slice:':5' %}
+    <div class="edition-lead-slide" data-featured-id="{{ item.pk }}" {% if not forloop.first %}hidden{% endif %}>
+    <div class="edition-lead-image">{% if item.image_url %}<img src="{{ item.image_url }}" alt="" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} referrerpolicy="no-referrer" onerror="this.hidden=true">{% endif %}<div class="edition-image-wash"></div><span class="edition-photo-label">{{ item.region }}</span><div class="edition-photo-mark" aria-hidden="true">RD<span>C</span></div></div>
+    <div class="edition-lead-text"><p class="edition-category">{{ item.get_category_display }} <span>· {{ item.published_at|date:'d M, H:i' }}</span></p><h2><button type="button" onclick="openNewsModal('{{ item.pk }}')">{{ item.title }}</button></h2><p class="edition-lead-summary">{{ item.summary|truncatechars:260 }}</p><div class="edition-lead-footer"><span class="edition-source"><span>{% include "source_identity.html" with source_url=item.source_url source_name=item.source_name only %}</span></span><button type="button" class="edition-read" onclick="openNewsModal('{{ item.pk }}')">Lire & comprendre <span aria-hidden="true">↗</span></button></div></div>
+    </div>
+    {% endfor %}
+    {% if news_list|length > 1 %}
+    <div class="edition-featured-controls" role="group" aria-label="Actualités à la une">
+     <div class="edition-featured-navigation"><button type="button" data-featured-action="previous" aria-label="Actualité précédente">←</button><span data-featured-position aria-live="off">1 / {{ news_list|slice:':5'|length }}</span><button type="button" data-featured-action="next" aria-label="Actualité suivante">→</button></div>
+     <button type="button" class="edition-featured-pause" data-featured-action="toggle" aria-pressed="false">Mettre en pause</button>
+    </div>
+    {% endif %}
+   </article>
+   <aside class="edition-essential"><div class="edition-essential-title"><span class="edition-kicker">L’ESSENTIEL</span><span>EN BREF</span></div>
+    {% for item in news_list|slice:'1:4' %}<article class="edition-brief"><span class="edition-brief-number">0{{ forloop.counter }}</span><div><p class="edition-category">{{ item.get_category_display }}</p><h3><button type="button" onclick="openNewsModal('{{ item.pk }}')">{{ item.title }}</button></h3><p class="edition-brief-source">{% include "source_identity.html" with source_url=item.source_url source_name=item.source_name only %} · {{ item.published_at|date:'d M, H:i' }}</p></div></article>{% endfor %}
+    <div class="edition-ai-note"><span aria-hidden="true">✦</span><div><strong>L’info mérite une explication.</strong><p>Ouvrez un article et demandez à l’IA de vous éclairer, sources à l’appui.</p></div></div>
+   </aside>
+  </section>
+  <div class="edition-bottom-layout edition-card-layout">
+   {% include "news_card_grid.html" %}
+   <aside class="edition-margin"><div class="edition-margin-card"><span class="edition-kicker">ET VOUS, QU’EN PENSEZ-VOUS ?</span><h2>De l’actualité<br>au dialogue.</h2><p>Des faits à éclaircir ? Un point de vue à partager ? Retrouvez les discussions et les décryptages IA dans la communauté.</p><a href="{% url 'web_ui:community' %}">Rejoindre la conversation ↗</a></div><div class="edition-source-note"><span class="edition-kicker">GARDER LE LIEN AVEC LES FAITS</span><p>Le média, la date et le lien original accompagnent chaque article. Les réponses de l’IA citent leurs sources et peuvent être incomplètes.</p><a href="{% url 'web_ui:directory' %}">Consulter les portails officiels ↗</a></div></aside>
+  </div>
+  {% else %}<section class="edition-empty"><span class="edition-kicker">LE JOURNAL</span><h2>Aucun titre pour cette sélection.</h2><p>Essayez une autre période, un autre sujet ou quelques mots différents.</p><a href="?period=all">Revenir à l’édition complète ↗</a></section>{% endif %}
+  {% for item in news_list %}<div id="news-data-{{ item.id }}" hidden data-title="{{ item.title }}" data-category="{{ item.get_category_display }}" data-region="{{ item.region }}" data-date="{{ item.published_at|date:'d F Y à H:i' }}" data-source="{{ item.source_name }}" data-url="{{ item.source_url }}" data-image="{{ item.image_url|default:'' }}" data-full="{{ item.full_content|truncatechars:6000 }}" data-summary="{{ item.summary }}"></div>{% endfor %}
+ </div>
+</div>

@@ -1,0 +1,3 @@
+{% if form_resources %}<div class="svc-block"><h3>Formulaires et accès au dépôt</h3>
+{% for resource in form_resources %}<div class="svc-review" style="margin:12px 0"><small class="svc-eyebrow">{{ resource.kind }}</small><p>{{ resource.title }}</p><p class="svc-helper">{{ resource.instructions }}</p>{% if resource.kind == 'Guide vidéo' %}<a href="{{ resource.url }}" target="_blank" rel="noopener noreferrer">Voir le guide vidéo ↗</a>{% else %}<button class="svc-btn secondary" type="button" data-open-official-session="{{ resource.url }}">Ouvrir dans cet espace</button>{% endif %}</div>{% endfor %}
+</div>{% endif %}

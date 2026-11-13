@@ -1,0 +1,27 @@
+/* Shared article-photo sizing for every chat, including restored responses. */
+.chat-markdown{width:100%;min-width:0;max-width:none!important;box-sizing:border-box}
+:is(.chat-markdown,.svc-message,.community-comment) figure,
+.chat-source-photo,.community-news-photo{
+    display:block;width:100%!important;max-width:none!important;min-width:0;
+    margin-left:0!important;margin-right:0!important;box-sizing:border-box;
+}
+:is(.chat-markdown,.svc-message,.community-comment) a:has(>img:not(.source-icon):not(.news-favicon):not([data-source-favicon])),
+.chat-source-photo>a,.community-news-photo{
+    display:block;width:100%!important;max-width:none!important;box-sizing:border-box;
+}
+:is(.chat-markdown,.svc-message,.community-comment) img:not(.source-icon):not(.news-favicon):not([data-source-favicon]),
+.chat-source-photo>a>img,.community-news-photo>img{
+    display:block;width:100%!important;max-width:none!important;height:auto!important;
+    max-height:none!important;margin-left:0!important;margin-right:0!important;
+    object-fit:contain;box-sizing:border-box;
+}
+/* Source favicons keep their compact size alongside the source name. */
+:is(.chat-markdown,.svc-message,.community-comment) .source-icon{
+    width:16px!important;height:16px!important;max-width:16px!important;object-fit:contain;
+}
+/* Keep the text and its source photo interleaved while the text streams. */
+.chat-main-response{display:flex;flex-direction:column;align-items:stretch;min-width:0}
+.chat-main-response>.chat-answer-text,.chat-main-response>.chat-source-gallery{display:contents}
+.chat-main-response>.chat-answer-text>*{width:100%;box-sizing:border-box}
+.chat-main-response>.chat-source-gallery>.chat-source-photo{width:100%!important;max-width:none;align-self:stretch}
+.chat-main-response>.chat-answer-sources{order:2147483647;width:100%;max-width:100%;box-sizing:border-box}

@@ -1,0 +1,27 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+service_sources_cache/
+service_research/
+
+models/
+
+# Local state, generated artifacts, and training caches
+*.sqlite3
+*.sqlite3-*
+chroma_db/
+data/ngrok_url.txt
+output/
+tmp/
+unsloth_compiled_cache/
+*-preview.png
+staticfiles/
+media/
+.venv/
+venv/
+.aws/
+.codex/
+.agents/
+*.log

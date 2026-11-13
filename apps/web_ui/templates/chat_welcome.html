@@ -1,0 +1,24 @@
+<div id="welcome-card" class="chat-welcome">
+ <header class="chat-welcome-hero">
+  <h1>Quelle question avez-vous en tête ?</h1>
+  <div class="chat-welcome-subline">
+   <p><span class="sr-only">Exemples : obtenir un passeport biométrique, comprendre la situation à l’Est, demander un acte de naissance, créer une entreprise et suivre l’actualité en RDC.</span><span class="chat-hero-example" data-chat-hero-example data-color="blue" aria-hidden="true">Besoin d’un passeport biométrique ?</span></p>
+   {% include 'chat_welcome_hints.html' %}
+  </div>
+  <p>Comprendre une actualité, préparer une démarche ou trouver la bonne institution. Par quoi souhaitez-vous commencer ?</p>
+ </header>
+ <section class="chat-welcome-section" aria-labelledby="welcome-services-title">
+  <div class="chat-welcome-section-title"><h2 id="welcome-services-title">Vos démarches, plus claires</h2><a href="{% url 'web_ui:services' %}">Tous les services ↗</a></div>
+  <div class="chat-welcome-services">
+   {% for service in featured_services %}
+   <article class="chat-welcome-service"><span class="chat-welcome-icon" aria-hidden="true">{% if forloop.first %}<i data-lucide="file-text"></i>{% elif forloop.counter == 2 %}<i data-lucide="building-2"></i>{% elif forloop.counter == 3 %}<i data-lucide="landmark"></i>{% else %}<i data-lucide="file-badge"></i>{% endif %}</span><h3>{{ service.service_name }}</h3><p>{{ service.institution }}</p><a href="{% url 'web_ui:service_workspace' service.service_code %}">Voir les étapes et les documents <span aria-hidden="true">↗</span></a></article>
+   {% empty %}
+   <article class="chat-welcome-service"><span class="chat-welcome-icon"><i data-lucide="book-marked"></i></span><h3>Passeport biométrique</h3><p>Documents, renouvellement et procédure.</p><button type="button" data-welcome-prompt="Comment obtenir ou renouveler mon passeport biométrique en RDC ?">Par où commencer ? ↗</button></article>
+   <article class="chat-welcome-service"><span class="chat-welcome-icon"><i data-lucide="file-badge"></i></span><h3>Acte de naissance</h3><p>Comprendre la démarche d’état civil.</p><button type="button" data-welcome-prompt="Quelles sont les démarches pour un acte de naissance en RDC ?">Quels documents préparer ? ↗</button></article>
+   <article class="chat-welcome-service"><span class="chat-welcome-icon"><i data-lucide="building-2"></i></span><h3>Créer une entreprise</h3><p>S’orienter vers le Guichet Unique.</p><button type="button" data-welcome-prompt="Comment créer une entreprise au Guichet Unique en RDC ?">Quelles sont les étapes ? ↗</button></article>
+   <article class="chat-welcome-service"><span class="chat-welcome-icon"><i data-lucide="file-badge"></i></span><h3>Permis de conduire</h3><p>Découvrir les démarches à suivre.</p><button type="button" data-welcome-prompt="Comment obtenir un permis de conduire en RDC ?">Par où commencer ? ↗</button></article>
+   {% endfor %}
+  </div>
+ </section>
+ <p class="chat-welcome-footer">Ou posez simplement votre question ci-dessous. Vous pouvez aussi utiliser le microphone.</p>
+</div>

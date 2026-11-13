@@ -1,0 +1,74 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}{{ service.service_name }} · Services publics{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}?v=source-reader-2">
+<div class="svc-shell" id="service-workspace"><div class="svc-container">
+ <a href="{% url 'web_ui:services' %}" class="svc-back"><i data-lucide="arrow-left" class="w-4 h-4"></i>Tous les services</a>
+ <header class="svc-workspace-head"><div><div class="svc-eyebrow">{{ service.get_category_display }}</div><h1>{{ service.service_name }}</h1><p class="svc-helper">{{ service.institution }}</p></div><span class="svc-count">Données issues du portail officiel</span></header>
+ <div class="svc-workspace">
+  <div style="min-width:0">
+  {% include 'service_browser.html' %}
+  {% if is_search_source %}
+  <section class="svc-panel svc-source-reader" aria-labelledby="source-reader-title">
+   <h2 id="source-reader-title" class="svc-panel-title">Contenu de la source</h2>
+   <p id="source-reader-status" class="svc-helper" role="status">Lecture de la page ou du document officiel…</p>
+   <div class="svc-actions"><a class="svc-btn secondary" href="{{ service.official_portal_url }}" target="_blank" rel="noopener noreferrer">Consulter le document original ↗</a><button class="svc-btn" data-ask="Explique le contenu de cette source et les informations utiles qu’elle contient, en citant les passages lus.">Comprendre avec l’IA</button></div>
+   <div id="source-reader-content" class="svc-block"></div>
+  </section>
+  {% endif %}
+  <section class="svc-panel" aria-label="Démarche et formulaire" {% if is_search_source %}hidden{% endif %}>
+   <div class="svc-tabs" role="tablist" aria-label="Étapes de la démarche">
+    <button class="svc-tab" id="tab-understand" role="tab" aria-selected="true" aria-controls="step-understand" data-stage="understand"><b>1</b>Comprendre</button>
+    <button class="svc-tab" id="tab-prepare" role="tab" aria-selected="false" aria-controls="step-prepare" data-stage="prepare" tabindex="-1"><b>2</b>Préparer</button>
+    <button class="svc-tab" id="tab-apply" role="tab" aria-selected="false" aria-controls="step-apply" data-stage="apply" tabindex="-1"><b>3</b>Déposer</button>
+   </div>
+   <div id="step-understand" role="tabpanel" aria-labelledby="tab-understand">
+    <div id="official-service-status" class="svc-note" role="status">{% if initial_snapshot.available %}Dossier documenté à partir des sources officielles consultées le {{ source_checked_at|date:'d/m/Y' }}.{% else %}Lecture des consignes du portail officiel…{% endif %}</div>
+    <div id="official-service-steps" class="svc-block" {% if not facts.steps %}hidden{% endif %}><h3>Les étapes de votre démarche</h3><ol id="official-service-step-list" style="list-style:decimal;padding-left:20px">{% for fact in facts.steps %}<li>{% include 'service_fact.html' %}</li>{% endfor %}</ol><p class="svc-helper">Vérifiez sur la page source que cette procédure correspond à votre situation.</p></div>
+    <h2 class="svc-panel-title">L’essentiel, avant de commencer</h2><p id="live-service-description" class="svc-helper">{% include 'service_fact.html' with fact=facts.description %}</p>
+    <div class="svc-facts"><div class="svc-fact"><small>Frais publiés par l’institution</small><div id="live-service-fees" class="svc-helper">{% include 'service_fact.html' with fact=facts.fees %}</div></div><div class="svc-fact"><small>Délai publié par l’institution</small><div id="live-service-processing_time" class="svc-helper">{% include 'service_fact.html' with fact=facts.processing_time %}</div></div></div>
+    <div class="svc-block"><h3>À qui s’adresse ce service ?</h3><div id="live-service-eligibility" class="svc-helper">{% include 'service_fact.html' with fact=facts.eligibility %}</div></div>
+    <div class="svc-block"><h3>Documents à prévoir</h3><ul id="live-service-documents" style="list-style:disc;padding-left:18px">{% for fact in facts.documents %}<li>{% include 'service_fact.html' %}</li>{% empty %}<li class="svc-helper">Liste à confirmer sur la page officielle.</li>{% endfor %}</ul></div>
+    <div class="svc-note">Ces synthèses renvoient aux publications officielles consultées. Les différences de tarifs, les conditions particulières et les accès nécessitant une connexion sont signalés. Vérifiez la version en vigueur avant le dépôt.</div>
+    {% for note in initial_snapshot.notes %}<p class="svc-note">{{ note }}</p>{% endfor %}
+    <div class="svc-actions"><button class="svc-btn" data-go-stage="prepare">Préparer mon dossier <i data-lucide="arrow-right" class="w-4 h-4"></i></button><button class="svc-btn secondary" data-ask="Explique les conditions de ce service simplement et aide-moi à savoir si ma situation correspond.">Vérifier ma situation avec l’IA</button></div>
+   </div>
+   <div id="step-prepare" role="tabpanel" aria-labelledby="tab-prepare" hidden>
+    <h2 class="svc-panel-title">Mon dossier de préparation</h2><p class="svc-helper">Rassemblez vos pièces et préparez les informations utiles. Ce brouillon ne remplace pas le formulaire officiel.</p>
+    <div class="svc-block"><h3>Mes pièces justificatives</h3><div class="svc-progress-label"><span id="documents-ready">0 pièce prête</span><span id="documents-total">Lecture de la source en cours</span></div><div class="svc-progress" role="progressbar" aria-label="Pièces déclarées prêtes" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="documents-progress"><div id="documents-progress-fill" style="width:0%"></div></div>
+    <div id="live-document-checklist"><p class="svc-helper">Les pièces seront affichées si leur liste est retrouvée sur le site officiel.</p></div><p class="svc-helper">Vos coches indiquent les pièces que vous déclarez prêtes. Elles ne constituent pas une vérification administrative.</p></div>
+    {% include 'service_form_resources.html' %}
+    <form id="service-draft-form" class="svc-form-grid" autocomplete="off">
+     <div class="svc-field"><label class="svc-label" for="draft-name">Nom du demandeur · facultatif</label><input id="draft-name" name="applicant" class="svc-input" maxlength="150" data-field-label="Nom du demandeur"><button type="button" class="svc-field-help" data-help-field="Nom du demandeur">Demander au guide</button></div>
+     <div class="svc-field"><label class="svc-label" for="draft-city">Ville ou commune de dépôt envisagée</label><input id="draft-city" name="city" class="svc-input" maxlength="150" data-field-label="Ville ou commune de dépôt envisagée" list="service-cities"><datalist id="service-cities">{% for location in service.physical_locations %}<option value="{{ location.city }}">{% endfor %}</datalist><button type="button" class="svc-field-help" data-help-field="Ville ou commune de dépôt envisagée">Quel bureau choisir ?</button></div>
+     <div class="svc-field wide"><label class="svc-label" for="draft-purpose">Objet de ma demande</label><textarea id="draft-purpose" name="purpose" rows="3" class="svc-input" maxlength="2000" data-field-label="Objet de la demande" placeholder="Expliquez brièvement ce que vous souhaitez obtenir."></textarea><button type="button" class="svc-field-help" data-help-field="Objet de la demande">Comment formuler ma demande ?</button></div>
+     <div class="svc-field wide"><label class="svc-label" for="draft-notes">Mes questions et points à confirmer</label><textarea id="draft-notes" name="notes" rows="2" class="svc-input" maxlength="2000" data-field-label="Points à confirmer"></textarea></div>
+    </form>
+    <section id="official-form-section" class="svc-block" hidden><h3>Préparer les champs du formulaire source</h3><p class="svc-helper">Champs lus sur le portail officiel. Ce sont des valeurs de préparation : elles ne sont pas encore envoyées au site.</p><form id="official-form-draft" class="svc-form-grid" autocomplete="off"></form><div class="svc-actions"><button class="svc-btn secondary" id="official-form-help" type="button">Le guide m’aide à remplir</button></div><p class="svc-helper">Ce bouton partage votre brouillon avec le modèle local pour proposer des valeurs à relire.</p><div id="official-form-suggestion-status" class="svc-status" role="status"></div><div id="official-form-suggestions" class="svc-review" hidden></div><button id="official-form-apply-suggestions" class="svc-btn" type="button" hidden>Appliquer les suggestions relues</button></section>
+    <p id="draft-save-status" class="svc-draft-status" role="status">Brouillon conservé dans cet onglet uniquement. Les champs ne sont pas envoyés automatiquement au guide IA.</p>
+    {% if service.official_portal_url %}<div class="svc-actions"><button class="svc-btn" type="button" data-open-official-session="{{ service.official_portal_url }}">Accéder au service dans cette page</button></div>{% endif %}
+    <div class="svc-actions"><button class="svc-btn" data-go-stage="apply">Voir les étapes de dépôt</button><button class="svc-btn secondary" id="clear-service-draft">Effacer mon brouillon</button></div>
+   </div>
+   <div id="step-apply" role="tabpanel" aria-labelledby="tab-apply" hidden>
+    <h2 class="svc-panel-title">Passer à l’étape officielle</h2><p class="svc-helper">Relisez votre préparation, puis poursuivez auprès du service compétent.</p>
+    {% include 'service_form_resources.html' %}
+    <div id="service-print"><h3 class="svc-block" style="font-weight:750">Récapitulatif de préparation</h3><div id="service-review" class="svc-review"></div></div>
+    <div class="svc-actions"><button id="download-service-draft" class="svc-btn secondary"><i data-lucide="download" class="w-4 h-4"></i>Télécharger mon dossier</button><button id="print-service-draft" class="svc-btn secondary"><i data-lucide="printer" class="w-4 h-4"></i>Imprimer</button></div>
+    <div class="svc-block"><h3>Déposer ma demande</h3>{% if service.official_portal_url %}<button class="svc-btn" type="button" data-open-official-session="{{ service.official_portal_url }}">Ouvrir la session du service ici</button><p class="svc-helper">Le formulaire du portail s’ouvre dans cet espace. Relisez les champs puis utilisez son bouton de dépôt ; l’institution affiche la suite et la confirmation.</p>{% else %}<p>Le répertoire ne fournit pas de portail en ligne. Utilisez les coordonnées du service ci-dessous.</p>{% endif %}</div>
+    <div class="svc-block"><h3>Lieu de dépôt publié</h3><div id="live-service-office" class="svc-helper">{% include 'service_fact.html' with fact=facts.office %}</div></div>
+    <div class="svc-block"><h3>Instructions de paiement publiées</h3><div id="live-service-payment" class="svc-helper">{% include 'service_fact.html' with fact=facts.payment %}</div></div>
+    <div class="svc-note">Seule la confirmation affichée par l’institution dans votre session établit la réception de la demande. Certaines étapes exigent un déplacement ou un paiement selon la procédure publiée.</div>
+   </div>
+  </section>
+  </div>
+  <aside class="svc-panel svc-guide" aria-label="Guide IA du service">
+   <div class="svc-guide-head"><span class="svc-icon"><i data-lucide="sparkles" class="w-5 h-5"></i></span><div><h2>{% if is_search_source %}Comprendre cette source{% else %}Votre guide de démarche{% endif %}</h2><p><span class="svc-dot" style="display:inline-block;width:5px;height:5px;margin-right:4px"></span> IA · {% if is_search_source %}Contexte de la source{% else %}Contexte de ce service{% endif %}</p></div></div>
+   <div id="service-guide-messages" class="svc-guide-log" role="log" aria-live="polite" aria-busy="false">{% if is_search_source %}<div class="svc-guide-welcome"><strong>Explorons cette source.</strong>Je peux expliquer les passages lus et vous aider à repérer les informations utiles dans cette page ou ce document.<div class="svc-guide-prompts"><button data-ask="Quel est le sujet de cette source ? Résume uniquement les passages lus.">Résumer la source</button><button data-ask="Quels sont les points importants de ce document ? Cite les pages ou passages correspondants.">Repérer les points importants</button></div></div>{% else %}<div class="svc-guide-welcome"><strong>Avançons ensemble.</strong>Je peux expliquer les conditions, vous aider à préparer vos pièces ou clarifier un champ. Votre dossier reste à gauche, notre discussion à droite.<div class="svc-guide-prompts"><button data-ask="Résume ce service en trois étapes simples.">Par quoi commencer ?</button><button data-ask="Explique chaque pièce demandée et comment la préparer, sans inventer ce que le répertoire ne précise pas.">Aide-moi avec les documents</button><button data-ask="Quels sont les frais, les moyens de paiement et le lieu de dépôt indiqués ?">Où déposer et comment payer ?</button></div></div>{% endif %}</div>
+   <form id="service-guide-form" class="svc-guide-form">{% csrf_token %}<div class="compact-chat"><label for="service-guide-query" class="sr-only">Votre question au guide</label><textarea id="service-guide-query" class="compact-chat-input" rows="2" maxlength="4000" required placeholder="{% if is_search_source %}Posez une question sur cette source…{% else %}Posez une question sur cette démarche…{% endif %}"></textarea><div class="compact-chat-bottom"><div class="compact-chat-options"><label class="svc-web-toggle"><input id="service-guide-web" type="checkbox" checked>Recherche Internet si nécessaire</label></div><div class="compact-chat-actions">{% include 'compact_chat_mic.html' with target='service-guide-query' status='service-voice-status' %}<button id="service-guide-send" type="submit" class="compact-chat-button compact-chat-send" aria-label="Envoyer la question" title="Envoyer la question">{% include 'compact_chat_send_icons.html' %}</button></div></div><div id="service-voice-status" class="compact-chat-status" role="status" aria-live="polite"></div></div><div class="svc-status" role="status"><span id="service-guide-spinner" class="svc-spinner" hidden></span><span id="service-guide-status">{% if is_search_source %}Le guide utilise le contenu lu dans la source.{% else %}Le guide utilise la fiche du service.{% endif %}</span></div></form>
+  </aside>
+ </div>
+</div></div>
+{{ service_data|json_script:'service-workspace-data' }}
+{{ initial_snapshot|json_script:'service-initial-snapshot' }}
+{% endblock %}
+{% block extra_scripts %}<script src="{% static 'js/services.js' %}?v=source-briefs-5" defer></script><script src="{% static 'js/service-browser.js' %}" defer></script>{% endblock %}

@@ -1,0 +1,843 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}RDC Agent du peuple - Consultation Officielle{% endblock %}
+
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/chat-welcome.css' %}?v=41">{% endblock %}
+
+{% block content %}
+<div class="flex-1 flex overflow-hidden relative">
+
+    <!-- Central Assistant Conversation Area -->
+    <section class="flex-1 flex flex-col bg-uggov-bgLight dark:bg-uggov-bgDark overflow-hidden relative">
+        <div id="chat-hints-pinned" class="chat-hints-pinned" hidden aria-hidden="true">{% include 'chat_welcome_hints.html' %}</div>
+
+        <!-- Chat Conversation Messages Container -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-8 space-y-6">
+            
+            {% include 'chat_welcome.html' %}
+
+        </div>
+
+        <!-- LARGE QUERY BAR AREA (Mirroring the proposed design image) -->
+        <div class="p-4 md:px-8 md:py-6 bg-transparent">
+            <div class="chat-query-width mx-auto">
+                
+                <!-- Main Large Pill Container -->
+                <div class="chat-composer relative bg-[#F4F2EA] dark:bg-[#121B2B] border-2 border-slate-800/80 dark:border-slate-700 rounded-[28px] md:rounded-[32px] p-3.5 shadow-sm transition-all focus-within:border-drc-blue dark:focus-within:border-drc-blue focus-within:shadow-md">
+                    
+                    <!-- Textarea Input -->
+                    <textarea id="query-input" rows="2" placeholder="Posez clairement votre question..." data-i18n-placeholder="query_placeholder" class="w-full bg-transparent border-0 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-0 text-[15px] resize-none custom-scrollbar leading-relaxed px-2 pt-1" onkeydown="handleKeyPress(event)"></textarea>
+
+                    <!-- Bottom Right Action Controls Inside the Box -->
+                    <div class="flex items-center justify-between pt-1 px-1">
+                        <div></div>
+                        
+                        <div class="chat-composer-controls">
+                            <div id="recording-indicator" class="chat-recording-indicator" hidden aria-label="Durée de l’enregistrement"><span class="chat-recording-dot" aria-hidden="true"></span><span id="recording-timer">00:00</span></div>
+                            <div class="chat-composer-actions">
+                                <!-- Mic Button -->
+                                <button id="mic-btn" type="button" onclick="toggleVoiceRecording()" title="Entrée vocale" aria-label="Entrée vocale" aria-pressed="false" class="chat-composer-action">
+                                    <i data-lucide="mic" aria-hidden="true"></i>
+                                    <span class="chat-mic-spectrum" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+                                </button>
+
+                                <!-- Send Circular Button -->
+                                <button id="send-btn" type="button" onclick="handleSendAction()" title="Envoyer la question" aria-label="Envoyer la question" class="chat-composer-action chat-composer-send">
+                                    <span class="chat-send-icon"><i data-lucide="arrow-up" aria-hidden="true"></i></span>
+                                    <span class="chat-stop-icon" hidden><i data-lucide="pause" aria-hidden="true"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="voice-transcription-status" class="chat-voice-status" role="status" aria-live="polite"></span>
+                    <span id="chat-response-status" class="chat-response-status" role="status" aria-live="polite" hidden><span class="chat-response-status-label"></span><span class="chat-response-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></span>
+
+                </div>
+
+                <!-- Subtle Disclaimer Below Query Box -->
+                <p class="text-center text-[11px] text-slate-400 dark:text-slate-500 mt-2" data-i18n="query_disclaimer">
+                    RDC Agent du peuple peut faire des erreurs. Vérifiez les informations importantes auprès des institutions officielles.
+                </p>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Slide-over / Right Drawer for "Actualités & Communiqués" -->
+    <aside id="news-drawer" class="hidden fixed inset-y-0 right-0 w-80 lg:w-96 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 shadow-2xl z-40 flex flex-col transition-all">
+        <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="newspaper" class="w-5 h-5 text-drc-blue"></i>
+                <h3 class="font-bold text-sm text-slate-900 dark:text-white" data-i18n="news_title">Actualités & Communiqués</h3>
+            </div>
+            <button onclick="toggleNewsDrawer()" class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3">
+            {% if recent_news %}
+                {% for item in recent_news %}
+                <article class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                        <span class="font-semibold text-drc-blue">{{ item.institution }}</span>
+                        <span>{{ item.verified_at|date:"d/m/Y" }}</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-slate-900 dark:text-slate-100 line-clamp-2">
+                        <a href="{{ item.original_url|default:'#' }}" target="_blank" rel="noopener noreferrer" class="hover:text-drc-blue">{{ item.title }}</a>
+                    </h4>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-1">{{ item.raw_content }}</p>
+                    <div class="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between text-[10px]">
+                        <span class="text-drc-blue dark:text-blue-400 font-semibold flex items-center space-x-1">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                            <span>Vérifié</span>
+                        </span>
+                        {% if item.original_url %}
+                        <a href="{{ item.original_url }}" target="_blank" class="text-drc-blue hover:underline flex items-center space-x-0.5 font-medium">
+                            <span>Lire</span>
+                            <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            {% else %}
+                <div class="p-6 text-center text-xs text-slate-400">
+                    <i data-lucide="newspaper" class="w-6 h-6 mx-auto mb-2 text-slate-400"></i>
+                    <p data-i18n="news_empty">Actualités et communiqués officiels en cours d'actualisation.</p>
+                </div>
+            {% endif %}
+        </div>
+    </aside>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const welcomeTemplate = document.getElementById('welcome-card').cloneNode(true);
+    const welcomeScrollArea = document.getElementById('chat-messages');
+    const pinnedHints = document.getElementById('chat-hints-pinned');
+    function updatePinnedHints() {
+        const hints = welcomeScrollArea.querySelector('#welcome-card .chat-composer-hints');
+        if (!hints) { pinnedHints.hidden = true; return; }
+        const pinned = hints.getBoundingClientRect().top < welcomeScrollArea.getBoundingClientRect().top + 16;
+        hints.style.visibility = pinned ? 'hidden' : '';
+        pinnedHints.hidden = !pinned;
+    }
+    welcomeScrollArea.addEventListener('scroll', updatePinnedHints, {passive:true});
+    window.addEventListener('resize', updatePinnedHints);
+    new MutationObserver(updatePinnedHints).observe(welcomeScrollArea, {childList:true});
+    updatePinnedHints();
+    document.getElementById('chat-messages').addEventListener('click', event => {
+        const button = event.target.closest('[data-welcome-prompt]');
+        if (button) sendQuickPrompt(button.dataset.welcomePrompt);
+    });
+    // Session state
+    window.currentSessionId = 'sess_' + Date.now();
+    let chatBusy = false, historyLoading = false, activeChatRequest = null;
+    let mainHistory = [];
+    function rememberChatSession(sessionId) {
+        window.currentSessionId = sessionId;
+        const url = new URL(window.location.href);
+        url.searchParams.delete('new');
+        url.searchParams.set('session', sessionId);
+        window.history.replaceState(null, '', url);
+        try { sessionStorage.setItem('main-chat-session', sessionId); } catch(error) { /* The URL also preserves this conversation. */ }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        if (navigation?.type === 'reload') {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('session');
+            url.searchParams.delete('new');
+            window.history.replaceState(null, '', url);
+            return;
+        }
+        if (new URLSearchParams(window.location.search).get('new') === '1') {
+            startNewChat();
+            return;
+        }
+        const sessionId = new URLSearchParams(window.location.search).get('session');
+        if (sessionId) switchSession(sessionId);
+    });
+    let isRecording = false;
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let timerInterval = null;
+    let secondsElapsed = 0;
+    let currentLanguage = localStorage.getItem('preferred_language') || 'fr';
+    let voiceAudioContext = null, voiceAnalyser = null, voiceAudioSource = null, voiceSpectrumFrame = null;
+
+    function applyLanguageUI(langCode) {
+        const queryInput = document.getElementById('query-input');
+        if (!queryInput) return;
+
+        if (langCode === 'ln') {
+            queryInput.placeholder = "Tuna motuna na yo ya misala ya Leta polele...";
+        } else if (langCode === 'sw') {
+            queryInput.placeholder = "Uliza swali lako kuhusu taratibu za kiserikali...";
+        } else {
+            queryInput.placeholder = "Posez clairement votre question...";
+        }
+    }
+
+    // Apply language on startup and on change
+    applyLanguageUI(currentLanguage);
+
+    window.addEventListener('languageChanged', function(e) {
+        currentLanguage = e.detail.code;
+        applyLanguageUI(currentLanguage);
+    });
+
+    function startNewChat() {
+        if (chatBusy || historyLoading) return;
+        rememberChatSession('sess_' + crypto.randomUUID());
+        mainHistory = [];
+        const chatContainer = document.getElementById('chat-messages');
+        const welcomeCard = welcomeTemplate.cloneNode(true);
+        
+        chatContainer.innerHTML = '';
+        if (welcomeCard) {
+            chatContainer.appendChild(welcomeCard);
+        }
+        
+        refreshIcons();
+    }
+
+    async function switchSession(sessionId) {
+        if (chatBusy || historyLoading) return;
+        historyLoading = true;
+        rememberChatSession(sessionId);
+        mainHistory = [];
+        try { mainHistory = JSON.parse(sessionStorage.getItem('main-chat-history:' + sessionId) || '[]'); } catch {}
+        const chatContainer = document.getElementById('chat-messages');
+        chatContainer.innerHTML = `
+            <div class="chat-content-width mx-auto py-8 text-center text-xs text-slate-400 flex items-center justify-center space-x-2">
+                <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-drc-blue"></i>
+                <span>Chargement de l'historique depuis ChromaDB...</span>
+            </div>
+        `;
+        refreshIcons();
+
+        try {
+            const resp = await fetch(`/api/rag/sessions/${sessionId}/`);
+            if (!resp.ok) throw new Error('History unavailable');
+            const data = await resp.json();
+            if ((data.session?.kind === 'article' && data.session.url?.startsWith('/actualites/')) ||
+                (data.session?.kind === 'service' && data.session.url?.startsWith('/demarches/'))) {
+                window.location.href = data.session.url;
+                return;
+            }
+            chatContainer.innerHTML = '';
+
+            const serverMessages = data.messages || [];
+            const sameTurns = mainHistory.length === serverMessages.length && mainHistory.every((turn, index) =>
+                turn.role === serverMessages[index].role && turn.content === serverMessages[index].content);
+            const messages = mainHistory.length > serverMessages.length || sameTurns ? mainHistory : serverMessages;
+            mainHistory = messages.filter(turn => ['user','assistant'].includes(turn.role) && typeof turn.content === 'string')
+                .map(turn => ({role:turn.role,content:turn.content.slice(0,8000),sources:Array.isArray(turn.sources) ? turn.sources : []})).slice(-100);
+            if (messages.length === 0) {
+                chatContainer.innerHTML = `<div class="chat-content-width mx-auto py-6 text-center text-xs text-slate-400">Aucun message dans cette session.</div>`;
+                return;
+            }
+
+            messages.forEach(msg => {
+                if (msg.role === 'user') {
+                    appendUserMessage(msg.content);
+                } else {
+                    appendFinishedAssistantMessage(msg.content, msg.sources);
+                }
+            });
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        } catch (err) {
+            chatContainer.innerHTML = `<div class="chat-content-width mx-auto py-6 text-center text-xs text-red-500">Erreur lors du chargement de la session.</div>`;
+        } finally {
+            historyLoading = false;
+        }
+        refreshIcons();
+    }
+
+    function toggleNewsDrawer() {
+        const drawer = document.getElementById('news-drawer');
+        drawer.classList.toggle('hidden');
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submitQuery();
+        }
+    }
+
+    function sendQuickPrompt(promptText) {
+        const input = document.getElementById('query-input');
+        input.value = promptText;
+        submitQuery();
+    }
+
+    // ==============================================================
+    // TRUE WORD-BY-WORD STREAMING RESPONSE
+    // Don't wait for everything to generate; render token by token!
+    // ==============================================================
+    function renderMainAnswer(node, text, sources = []) {
+        if (!node) return;
+        if (node.parentElement && window.ChatCopy) ChatCopy.setText(node.parentElement, text);
+        node.classList.add('chat-main-response');
+        let answerText = node.querySelector('.chat-answer-text');
+        if (!answerText) {
+            answerText = document.createElement('div');
+            answerText.className = 'chat-answer-text';
+            node.prepend(answerText);
+        }
+        try {
+            if (!window.ChatMarkdown) throw new Error('Markdown renderer unavailable');
+            ChatMarkdown.render(answerText, text);
+            splitAnswerLists(answerText);
+        } catch (error) {
+            console.warn('Markdown fallback:', error);
+            answerText.textContent = text;
+            answerText.style.whiteSpace = 'pre-wrap';
+        }
+        integrateArticlePhotos(node, sources);
+    }
+
+    function setChatResponseStatus(label) {
+        const status = document.getElementById('chat-response-status');
+        status.hidden = !label;
+        const text = status.querySelector('.chat-response-status-label');
+        if (text.textContent !== label) text.textContent = label;
+    }
+
+    function setChatGenerating(active) {
+        const button = document.getElementById('send-btn');
+        button.classList.toggle('is-generating', active);
+        button.querySelector('.chat-send-icon').hidden = active;
+        button.querySelector('.chat-stop-icon').hidden = !active;
+        button.setAttribute('aria-label', active ? 'Arrêter la génération' : 'Envoyer la question');
+        button.title = active ? 'Arrêter la génération' : 'Envoyer la question';
+        setChatResponseStatus(active ? 'Réflexion en cours' : '');
+    }
+
+    function handleSendAction() {
+        if (activeChatRequest) {
+            activeChatRequest.stopped = true;
+            activeChatRequest.controller.abort();
+        } else {
+            submitQuery();
+        }
+    }
+
+    async function submitQuery() {
+        const input = document.getElementById('query-input');
+        const query = input.value.trim();
+        if (!query || chatBusy || historyLoading) return;
+        chatBusy = true;
+        const request = {controller: new AbortController(), stopped: false};
+        activeChatRequest = request;
+        setChatGenerating(true);
+        rememberChatSession(window.currentSessionId);
+
+        const chatContainer = document.getElementById('chat-messages');
+
+        document.getElementById('welcome-card')?.remove();
+
+        // Append User Message: NO BACKGROUND, NO USER ICON!
+        appendUserMessage(query);
+        input.value = '';
+
+        // Append Assistant Response Container with Typing Cursor
+        const responseId = 'msg-' + Date.now();
+        appendAssistantStreamContainer(responseId);
+
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        let accumulatedText = "";
+        let sourcesReceived = [];
+        let fallbackUsed = false;
+        const bubbleContent = document.getElementById(responseId);
+
+        const controller = request.controller;
+        let idleTimer;
+        const resetTimeout = () => { clearTimeout(idleTimer); idleTimer = setTimeout(() => controller.abort(), 90000); };
+        resetTimeout();
+        try {
+            // Stream token by token via Server-Sent Events / EventSource or fetch ReadableStream
+            const response = await fetch('/api/rag/stream/', {
+                method:'POST', signal:controller.signal, cache:'no-store',
+                headers:{'Content-Type':'application/json','X-CSRFToken':getCookie('csrftoken')},
+                body:JSON.stringify({query,language:currentLanguage,session_id:window.currentSessionId,
+                    history:mainHistory.map(turn=>({role:turn.role,content:turn.content.slice(0,8000)})).slice(-100)})
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let buffer = "";
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                resetTimeout();
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n\n");
+                buffer = lines.pop(); // keep last incomplete line
+
+                for (const line of lines) {
+                    if (line.startsWith("data: ")) {
+                        const jsonStr = line.replace(/^data:\s*/, "").trim();
+                        if (jsonStr === "[DONE]") continue;
+
+                        let event;
+                        try { event = JSON.parse(jsonStr); } catch { continue; }
+                            if (event.type === "error") throw new Error(event.message || 'Réponse indisponible.');
+                            if (event.type === "status") {
+                                const label = document.querySelector('#loader-' + responseId + ' span');
+                                if (label) label.textContent = event.message;
+                            } else if (event.type === "sources") {
+                                const label = document.querySelector('#loader-' + responseId + ' span');
+                                if (label) label.textContent = 'Rédaction de la réponse…';
+                                sourcesReceived = event.sources || [];
+                                fallbackUsed = event.fallback_used || false;
+                            } else if (event.type === "token") {
+                                setChatResponseStatus('Rédaction de la réponse');
+                                accumulatedText += event.token;
+                                document.getElementById('loader-' + responseId)?.remove();
+                                // Instant word-by-word markdown rendering
+                                if (bubbleContent) {
+                                    renderMainAnswer(bubbleContent,accumulatedText,sourcesReceived);
+                                }
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            } else if (event.type === "done") {
+                                if (event.sources) sourcesReceived = mergeDisplayedSources(bubbleContent, event.sources);
+                            }
+                    }
+                }
+            }
+
+            if (!accumulatedText.trim()) throw new Error('Le serveur a terminé sans réponse. Réessayez.');
+            mainHistory.push({role:'user',content:query},{role:'assistant',content:accumulatedText,sources:sourcesReceived});
+            mainHistory = mainHistory.slice(-100);
+            try { sessionStorage.setItem('main-chat-history:' + window.currentSessionId, JSON.stringify(mainHistory)); } catch {}
+            // Streaming finished: remove typing indicator and append distinct source cards
+            const loaderEl = document.getElementById('loader-' + responseId);
+            if (loaderEl) loaderEl.remove();
+
+            if (bubbleContent) {
+                renderMainAnswer(bubbleContent,accumulatedText,sourcesReceived);
+                if (sourcesReceived && sourcesReceived.length > 0) {
+                    const sourcesHtml = createDistinctSourcesWidget(sourcesReceived, fallbackUsed, accumulatedText);
+                    bubbleContent.insertAdjacentHTML('beforeend', sourcesHtml);
+                    if (window.SourceBrand) SourceBrand.hydrate(bubbleContent);
+                    integrateArticlePhotos(bubbleContent, sourcesReceived);
+                }
+            }
+
+            // Refresh ChromaDB sessions list in sidebar
+            if (typeof loadChromaSessions === 'function') {
+                loadChromaSessions();
+            }
+
+        } catch (err) {
+            if (!request.stopped) console.error("Stream failed:", err);
+            if (request.stopped && accumulatedText.trim()) {
+                mainHistory.push({role:'user',content:query},{role:'assistant',content:accumulatedText,sources:sourcesReceived});
+                mainHistory = mainHistory.slice(-100);
+                try { sessionStorage.setItem('main-chat-history:' + window.currentSessionId, JSON.stringify(mainHistory)); } catch {}
+            }
+            if (bubbleContent) {
+                const message = document.createElement('p');
+                message.className = request.stopped ? 'text-slate-500' : 'text-[#CE1126]';
+                message.textContent = request.stopped ? 'Génération arrêtée.' : (err.name === 'AbortError' ? 'Le serveur ne répond plus. Réessayez votre question.' : 'Erreur : ' + err.message);
+                bubbleContent.append(message);
+            }
+        } finally {
+            clearTimeout(idleTimer);
+            document.getElementById('loader-' + responseId)?.remove();
+            chatBusy = false;
+            activeChatRequest = null;
+            setChatGenerating(false);
+        }
+
+        refreshIcons();
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // USER MESSAGE: NO BACKGROUND, NO USER ICON (Clean typography)
+    function appendUserMessage(text) {
+        const chatContainer = document.getElementById('chat-messages');
+        const userHtml = `
+            <div class="chat-content-width mx-auto flex items-start justify-end py-2">
+                <div class="chat-user-message text-[15.5px] font-medium text-slate-900 dark:text-white max-w-2xl text-right leading-relaxed select-text">
+                    <p class="whitespace-pre-wrap">${escapeHtml(text)}</p>
+                </div>
+            </div>
+        `;
+        chatContainer.insertAdjacentHTML('beforeend', userHtml);
+        if (window.ChatCopy) ChatCopy.attach(chatContainer.lastElementChild?.querySelector('.chat-user-message'), text, 'user');
+    }
+
+    // ASSISTANT CONTAINER FOR LIVE STREAMING
+    function appendAssistantStreamContainer(id) {
+        const chatContainer = document.getElementById('chat-messages');
+        const assistantHtml = `
+            <div class="chat-content-width mx-auto flex items-start space-x-3.5">
+                <div class="flex-1 min-w-0 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 text-[15px] text-slate-800 dark:text-slate-200 shadow-xs leading-relaxed">
+                    <div id="loader-${id}" class="flex items-center space-x-2 text-slate-400 py-1 mb-2">
+                        <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-drc-blue"></i>
+                        <span class="text-xs">Consultation pas à pas des registres officiels...</span>
+                    </div>
+                    <div id="${id}" class="chat-main-response prose dark:prose-invert max-w-none text-[15px] space-y-2">
+                    </div>
+                </div>
+            </div>
+        `;
+        chatContainer.insertAdjacentHTML('beforeend', assistantHtml);
+        const response = chatContainer.lastElementChild?.querySelector('.chat-main-response');
+        if (response && window.ChatCopy) ChatCopy.attach(response.parentElement, '', 'assistant');
+        refreshIcons();
+    }
+
+    function appendFinishedAssistantMessage(content, sources) {
+        const chatContainer = document.getElementById('chat-messages');
+        let sourcesHtml = '';
+        if (sources && sources.length > 0) {
+            sourcesHtml = createDistinctSourcesWidget(sources, false, content);
+        }
+
+        const assistantHtml = `
+            <div class="chat-content-width mx-auto flex items-start space-x-3.5">
+                <div class="flex-1 min-w-0 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 text-[15px] text-slate-800 dark:text-slate-200 shadow-xs leading-relaxed">
+                    <div class="chat-main-response chat-saved-response prose dark:prose-invert max-w-none text-[15px] space-y-2"></div>
+                </div>
+            </div>
+        `;
+        chatContainer.insertAdjacentHTML('beforeend', assistantHtml);
+        const response = chatContainer.lastElementChild.querySelector('.chat-saved-response');
+        if (window.ChatCopy) ChatCopy.attach(response.parentElement, '', 'assistant');
+        renderMainAnswer(response, content, sources || []);
+        if (sourcesHtml) response.insertAdjacentHTML('beforeend', sourcesHtml);
+        if (window.SourceBrand) SourceBrand.hydrate(chatContainer.lastElementChild);
+        refreshIcons();
+    }
+
+    // ==============================================================
+    // DISTINCT PROFESSIONAL SOURCE CITATION CARDS
+    // Minimal SVG vector icons dynamically matched to source types
+    // ==============================================================
+    function splitAnswerLists(answerText) {
+        // Separate list entries into visual blocks while preserving list markers and numbering.
+        for (const list of [...answerText.children]) {
+            if (!['OL', 'UL'].includes(list.tagName)) continue;
+            const items = [...list.children].filter(item => item.tagName === 'LI');
+            if (items.length < 2) continue;
+            const start = Number(list.getAttribute('start')) || 1;
+            items.forEach((item, index) => {
+                const single = list.cloneNode(false);
+                if (list.tagName === 'OL') single.setAttribute('start', String(start + index));
+                single.append(item);
+                list.before(single);
+            });
+            list.remove();
+        }
+    }
+
+    function integrateArticlePhotos(root, sources) {
+        const cache = root.articlePhotoCache || (root.articlePhotoCache = new Map());
+        const failed = root.failedArticlePhotos || (root.failedArticlePhotos = new Set());
+        const displayedSources = root.displayedPhotoSources || (root.displayedPhotoSources = new Map());
+        const answerText = root.querySelector('.chat-answer-text');
+        if (!answerText) return;
+        let gallery = root.querySelector('.chat-source-gallery');
+        const normalize = value => { try { const u = new URL(value); if (!['http:', 'https:'].includes(u.protocol)) return null; u.hash=''; return u.href.replace(/\/$/, ''); } catch { return null; } };
+        const blocks = [...answerText.children];
+        blocks.forEach((block, index) => { block.style.order = String(index * 2); });
+        let count = displayedSources.size;
+        // Insert an image only after the specific paragraph citing its source.
+        for (const source of sources) {
+            const url = normalize(source.url), image = normalize(source.image_url);
+            if (!url || !image || failed.has(image)) continue;
+            const index = blocks.findIndex(block => [...block.querySelectorAll('a')].some(link => normalize(link.href) === url));
+            if (index < 0) continue;
+            if (cache.has(image)) {
+                cache.get(image).style.order = String(index * 2 + 1);
+                continue;
+            }
+            if (count >= 6) continue;
+            if (!gallery) {
+                gallery = document.createElement('div');
+                gallery.className = 'chat-source-gallery';
+                answerText.after(gallery);
+            }
+            const figure = document.createElement('figure'); figure.className='chat-source-photo';
+            const link = document.createElement('a'); link.href=source.url; link.target='_blank'; link.rel='noopener noreferrer';
+            link.setAttribute('aria-label', 'Lire : ' + (source.title || 'la publication source'));
+            const photo = document.createElement('img'); photo.src=source.image_url; photo.alt=source.title || 'Image de la publication'; photo.loading='eager'; photo.referrerPolicy='no-referrer';
+            photo.addEventListener('error', () => { failed.add(image); cache.delete(image); displayedSources.delete(image); figure.remove(); }); link.append(photo);
+            const caption = document.createElement('figcaption');
+            const identity = document.createElement('a'); identity.href=source.url; identity.target='_blank'; identity.rel='noopener noreferrer'; identity.className='source-identity';
+            const name = source.institution || new URL(source.url).hostname;
+            if (window.SourceBrand) identity.append(SourceBrand.createIcon(source.url,name));
+            identity.append(document.createTextNode(name + ' ↗'));
+            const title = document.createElement('span'); title.textContent=source.title || 'Image de la publication source';
+            const published = document.createElement('span');
+            const timestamp = source.published_at ? new Date(source.published_at) : null;
+            published.textContent=timestamp && !Number.isNaN(timestamp.getTime()) ? 'Publié le ' + new Intl.DateTimeFormat('fr',{day:'numeric',month:'long',year:'numeric'}).format(timestamp) : 'Date de publication non précisée';
+            caption.append(identity,title,published); figure.append(link,caption);
+            figure.style.order = String(index * 2 + 1);
+            cache.set(image,figure); displayedSources.set(image,source); gallery.append(figure);
+            count++;
+        }
+    }
+
+    function mergeDisplayedSources(root, finalSources) {
+        const merged = finalSources.map(source => ({...source}));
+        const byUrl = new Map(merged.map(source => [source.url, source]));
+        for (const source of root?.displayedPhotoSources?.values() || []) {
+            if (!source.url) continue;
+            const existing = byUrl.get(source.url);
+            if (existing) {
+                if (!existing.image_url) existing.image_url = source.image_url;
+            } else {
+                const reference = {...source, reference_only:true};
+                merged.push(reference);
+                byUrl.set(source.url, reference);
+            }
+        }
+        return merged;
+    }
+
+    function createDistinctSourcesWidget(sources, fallbackUsed, answer) {
+        const key = value => { try { const u = new URL(value); if (!['https:', 'http:'].includes(u.protocol)) return null; u.hash = ''; return u.href.replace(/\/$/, ''); } catch { return null; } };
+        const cited = new Set((answer.match(/https?:\/\/[^\s<>"\)\]]+/g) || []).map(url => key(url.replace(/[.,;:!?]+$/, ''))));
+        const seen = new Set();
+        sources = sources.filter(source => { const url = key(source.url); if (!url || (!cited.has(url) && !source.reference_only) || seen.has(url)) return false; seen.add(url); return true; });
+        if (!sources.length) return '';
+        const itemsHtml = sources.map(s => {
+            const inst = (s.institution || '').toLowerCase();
+            let iconName = 'landmark';
+            let categoryLabel = s.reference_only ? 'Article retrouvé · non cité dans le texte' : 'Source citée';
+            let badgeColor = 'bg-blue-50 text-drc-blue border-blue-200 dark:bg-blue-950/60 dark:border-blue-900';
+
+            if (inst.includes('journal') || inst.includes('loi') || inst.includes('décret')) {
+                iconName = 'scroll-text';
+                categoryLabel = 'Loi & Décret Officiel';
+                badgeColor = 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/60 dark:border-purple-900';
+            } else if (inst.includes('dgm') || inst.includes('guce') || inst.includes('service') || inst.includes('registre')) {
+                iconName = 'shield-check';
+                categoryLabel = 'Registre Administratif';
+                badgeColor = 'bg-blue-50 text-drc-blue border-blue-200 dark:bg-blue-950/60 dark:border-blue-900';
+            } else if (inst.includes('recherche') || inst.includes('okapi') || inst.includes('actualite')) {
+                iconName = 'globe';
+                categoryLabel = 'Média / source web';
+                badgeColor = 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/60 dark:border-amber-900';
+            }
+
+            const url = s.url;
+            if (s.reference_only) categoryLabel = 'Article retrouvé · non cité dans le texte';
+
+            return `
+                <div class="flex items-start justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:border-slate-300 dark:hover:border-slate-700 transition-colors">
+                    <div class="flex items-start space-x-2.5 min-w-0 flex-1">
+                        <div class="p-1.5 rounded-lg border ${badgeColor} shrink-0 mt-0.5">
+                            <img class="source-icon" alt="" width="16" height="16" data-source-favicon="${escapeHtml(url)}" data-source-name="${escapeHtml(s.institution || s.title || '')}">
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">${categoryLabel}</span>
+                                <span class="text-[10px] text-slate-400">${escapeHtml(s.published_at ? 'Publication : ' + s.published_at.slice(0,10) : 'Date de publication non précisée')}</span>
+                            </div>
+                            <h5 class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate mt-0.5">
+                                ${escapeHtml(s.title || s.institution)}
+                            </h5>
+                            <p class="source-brief-label">${escapeHtml(s.excerpt ? (s.excerpt_label || 'Extrait de la source') : 'Contenu de la page non disponible')}</p>
+                            ${s.excerpt ? `<p class="source-brief-excerpt text-xs text-slate-600 dark:text-slate-300">${escapeHtml(s.excerpt)}</p>` : ''}
+                        </div>
+                    </div>
+                    <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="ml-2 text-slate-400 hover:text-drc-blue transition-colors p-1" title="Consulter la source citée">
+                        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            `;
+        }).join('');
+
+        return `
+            <div class="chat-answer-sources mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/40 p-3.5 rounded-2xl border border-slate-200/60 dark:border-slate-800">
+                <div class="flex items-center justify-between mb-2.5">
+                    <div class="flex items-center space-x-1.5 text-xs font-bold text-slate-800 dark:text-slate-200">
+                        <i data-lucide="badge-check" class="w-4 h-4 text-drc-blue"></i>
+                        <span>Sources et articles de référence (${sources.length})</span>
+                    </div>
+                    <span class="text-[10px] font-semibold text-drc-blue bg-blue-100/70 dark:bg-blue-950/70 px-2 py-0.5 rounded-full border border-blue-300/60 dark:border-blue-800">
+                        Liens à consulter
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    ${itemsHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    // ==============================================================
+    // VOICE RECOGNITION
+    // ==============================================================
+    async function toggleVoiceRecording() {
+        if (!isRecording) {
+            startVoiceRecording();
+        } else {
+            stopVoiceRecording();
+        }
+    }
+
+    function stopVoiceSpectrum() {
+        if (voiceSpectrumFrame !== null) cancelAnimationFrame(voiceSpectrumFrame);
+        voiceSpectrumFrame = null;
+        if (voiceAudioSource) voiceAudioSource.disconnect();
+        voiceAudioSource = null; voiceAnalyser = null;
+        const context = voiceAudioContext; voiceAudioContext = null;
+        if (context) Promise.resolve(context.close()).catch(() => {});
+        document.getElementById('mic-btn').classList.remove('has-live-spectrum');
+    }
+
+    function startVoiceSpectrum(stream) {
+        stopVoiceSpectrum();
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        try {
+            voiceAudioContext = new AudioContextClass();
+            voiceAnalyser = voiceAudioContext.createAnalyser();
+            voiceAnalyser.fftSize = 256;
+            voiceAnalyser.smoothingTimeConstant = .7;
+            voiceAudioSource = voiceAudioContext.createMediaStreamSource(stream);
+            voiceAudioSource.connect(voiceAnalyser);
+            const frequencies = new Uint8Array(voiceAnalyser.frequencyBinCount);
+            const bars = [...document.querySelectorAll('#mic-btn .chat-mic-spectrum span')];
+            const maxBin = Math.min(frequencies.length, Math.max(6, Math.ceil(3000 * voiceAnalyser.fftSize / voiceAudioContext.sampleRate)));
+            document.getElementById('mic-btn').classList.add('has-live-spectrum');
+            const draw = () => {
+                if (!isRecording || !voiceAnalyser) return;
+                voiceAnalyser.getByteFrequencyData(frequencies);
+                bars.forEach((bar, i) => {
+                    const start = 1 + Math.floor(i * (maxBin - 1) / bars.length);
+                    const end = 1 + Math.floor((i + 1) * (maxBin - 1) / bars.length);
+                    let peak = 0;
+                    for (let bin = start; bin < end; bin++) peak = Math.max(peak, frequencies[bin]);
+                    bar.style.setProperty('--voice-level', String(.18 + .82 * peak / 255));
+                });
+                voiceSpectrumFrame = requestAnimationFrame(draw);
+            };
+            draw();
+        } catch (error) {
+            console.warn('Audio visualization unavailable:', error);
+            stopVoiceSpectrum();
+        }
+    }
+
+    function setVoiceTranscribing(active) {
+        const button = document.getElementById('mic-btn');
+        button.classList.toggle('is-transcribing', active);
+        button.disabled = active;
+        button.setAttribute('aria-busy', String(active));
+        button.setAttribute('aria-label', active ? 'Transcription en cours' : 'Entrée vocale');
+        button.title = active ? 'Transcription en cours' : 'Entrée vocale';
+        document.getElementById('voice-transcription-status').textContent = active ? 'Transcription en cours…' : '';
+    }
+
+    async function startVoiceRecording() {
+        const queryInput = document.getElementById('query-input');
+        document.getElementById('voice-transcription-status').textContent = '';
+        // Record once and use the local transcription engine. Running browser
+        // speech recognition at the same time can compete for the microphone.
+        let recordingStream = null;
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            recordingStream = stream;
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = e => {
+                if (e.data.size > 0) audioChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+                queryInput.placeholder = 'Transcription en cours…';
+                setVoiceTranscribing(true);
+                let errorMessage = '';
+                try {
+                    const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+                    if (!audioBlob.size) throw new Error('Aucun son enregistré. Vérifiez votre microphone et réessayez.');
+                    const formData = new FormData();
+                    formData.append('audio', audioBlob, 'recording.webm');
+                    formData.append('language', currentLanguage);
+
+                    const resp = await fetch('/api/voice/transcribe/', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await resp.json();
+                    if (resp.ok && data.status === 'success' && data.text) {
+                        queryInput.value = data.text;
+                    } else {
+                        errorMessage = data.message || data.error || 'Aucune parole reconnue. Parlez plus près du microphone et réessayez.';
+                    }
+                } catch (e) {
+                    console.error('Transcription unavailable:', e);
+                    errorMessage = e.message?.startsWith('Aucun son') ? e.message : 'Transcription indisponible. Vérifiez la connexion au serveur et réessayez.';
+                } finally {
+                    setVoiceTranscribing(false);
+                    if (queryInput.placeholder === 'Transcription en cours…') applyLanguageUI(currentLanguage);
+                    if (errorMessage) document.getElementById('voice-transcription-status').textContent = errorMessage;
+                }
+            };
+
+            mediaRecorder.start();
+            isRecording = true;
+            startVoiceSpectrum(stream);
+            secondsElapsed = 0;
+            document.getElementById('recording-timer').textContent = '00:00';
+            document.getElementById('recording-indicator').hidden = false;
+            document.getElementById('mic-btn').classList.add('is-recording');
+            document.getElementById('mic-btn').setAttribute('aria-pressed', 'true');
+            document.getElementById('mic-btn').setAttribute('aria-label', 'Arrêter l’enregistrement');
+            document.getElementById('mic-btn').title = 'Arrêter l’enregistrement';
+
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+                const secs = String(secondsElapsed % 60).padStart(2, '0');
+                document.getElementById('recording-timer').textContent = `${mins}:${secs}`;
+            }, 1000);
+
+        } catch (err) {
+            alert("Accès au microphone requis : " + err.message);
+            isRecording = false;
+            if (recordingStream) recordingStream.getTracks().forEach(track => track.stop());
+            stopVoiceSpectrum();
+        }
+    }
+
+    function stopVoiceRecording() {
+        if (mediaRecorder && isRecording) {
+            mediaRecorder.stop();
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            isRecording = false;
+            stopVoiceSpectrum();
+            clearInterval(timerInterval);
+            document.getElementById('recording-indicator').hidden = true;
+            document.getElementById('mic-btn').classList.remove('is-recording');
+            document.getElementById('mic-btn').setAttribute('aria-pressed', 'false');
+            document.getElementById('mic-btn').setAttribute('aria-label', 'Entrée vocale');
+            document.getElementById('mic-btn').title = 'Entrée vocale';
+        }
+    }
+</script>
+<script src="{% static 'js/chat-hero-examples.js' %}?v=2" defer></script>
+{% endblock %}

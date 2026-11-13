@@ -1,0 +1,905 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RDC Agent du peuple - République Démocratique du Congo{% endblock %}</title>
+
+    <!-- Google Font: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="{% static 'js/tailwindcss.js' %}"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        drc: {
+                            blue: '#0077C8',
+                            yellow: '#FCD116',
+                            red: '#CE1126',
+                        },
+                        uggov: {
+                            sidebar: '#F4F2EA',
+                            sidebarDark: '#121B2B',
+                            accent: '#0077C8',
+                            activeItem: '#DDEAF7',
+                            activeItemDark: '#0D2040',
+                            border: '#E8E8E2',
+                            borderDark: '#1E293B',
+                            bgLight: '#FAF9F5',
+                            bgDark: '#101923',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons & Marked.js (Served locally from static/ with cache buster) -->
+    <script src="{% static 'js/lucide.min.js' %}?v=1.66"></script>
+    <script src="{% static 'js/marked.min.js' %}?v=15.0"></script>
+    <script src="{% static 'js/chat-markdown.js' %}?v=1"></script>
+    <script src="{% static 'js/source-briefs.js' %}?v=1"></script>
+    <link rel="stylesheet" href="{% static 'css/chat-markdown.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/source-briefs.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/chat-copy.css' %}?v=3">
+    <script src="{% static 'js/chat-copy.js' %}?v=3"></script>
+    <link rel="stylesheet" href="{% static 'css/compact-chat.css' %}?v=1">
+    <script src="{% static 'js/compact-chat.js' %}?v=1"></script>
+    <link rel="stylesheet" href="{% static 'css/chat-delete.css' %}?v=1">
+
+    <style>
+        :root { --app-dark-bg: #101923; }
+        svg.lucide {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            font-size: 15px;
+            letter-spacing: -0.01em;
+            line-height: 1.6;
+        }
+        * { scrollbar-color: transparent transparent !important; scrollbar-width: thin; }
+        *:hover { scrollbar-color: rgba(148, 163, 184, 0.5) transparent !important; }
+        ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-button,
+        ::-webkit-scrollbar-button:single-button,
+        ::-webkit-scrollbar-button:double-button {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent !important;
+        }
+        /* Chromium's standard scrollbar properties override its pseudo-elements.
+           Reset them so our track, thumb and button rules actually apply. */
+        @supports selector(::-webkit-scrollbar) {
+            *, *:hover { scrollbar-color: auto !important; scrollbar-width: auto !important; }
+        }
+        *::-webkit-scrollbar-thumb { background: transparent !important; border-radius: 9999px; }
+        *:hover::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.5) !important; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 0.3; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .recording-pulse {
+            animation: pulse-ring 1.8s infinite ease-in-out;
+        }
+        .typing-cursor::after {
+            content: '▋';
+            display: inline-block;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+            color: #0077C8;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .sidebar-service-button { min-height:46px; font-size:13px; font-weight:600; letter-spacing:.01em; box-shadow:0 2px 5px #0077c81a; transition:background-color .15s,box-shadow .15s; }
+        .sidebar-service-button:hover { background-color:#0066ad; box-shadow:0 3px 8px #0077c82b; }
+        .sidebar-service-button:focus-visible { outline:2px solid #0077c8; outline-offset:3px; }
+        .sidebar-service-button svg { color:#fff; stroke:currentColor; stroke-width:1.8; }
+        .sidebar-toggle-emblem { display:none; width:56px; height:56px; object-fit:contain; }
+        @media (min-width: 768px) {
+            #main-sidebar.sidebar-collapsed { width:76px; }
+            .sidebar-collapsed .sidebar-header { justify-content:center; padding:14px 4px; }
+            .sidebar-collapsed .sidebar-header > a { display:none; }
+            .sidebar-collapsed .sidebar-header button > svg { display:none; }
+            .sidebar-collapsed .sidebar-header .sidebar-toggle-emblem { display:block; }
+            .sidebar-collapsed .sidebar-primary { padding:14px 10px; }
+            .sidebar-collapsed .sidebar-primary a { padding:14px 0; }
+            .sidebar-collapsed .sidebar-primary span,
+            .sidebar-collapsed .sidebar-nav a > :first-child > span,
+            .sidebar-collapsed .sidebar-nav a > :last-child:not(:first-child) { display:none; }
+            .sidebar-collapsed .sidebar-nav { padding:0 10px; }
+            .sidebar-collapsed .sidebar-nav a { justify-content:center; padding:14px 0; }
+            .sidebar-collapsed .sidebar-nav a > :first-child { gap:0; }
+            #main-sidebar svg { flex-shrink:0; }
+            .sidebar-collapsed .sidebar-history { visibility:hidden; padding:0; }
+            .sidebar-collapsed .sidebar-footer { flex-direction:column; gap:10px; padding:12px 0; }
+            .sidebar-collapsed .sidebar-footer > .relative { display:none; }
+            .sidebar-collapsed .sidebar-footer > * { margin:0; }
+        }
+        @media (max-width: 767px) {
+            #main-sidebar { position:fixed; inset:0 auto 0 0; width: min(288px,85vw); height:100dvh; transform:translateX(-100%); }
+            #main-sidebar.mobile-open { transform:translateX(0); box-shadow:12px 0 40px #0003; }
+            .mobile-nav { position:relative; z-index:20; display:grid; grid-template-columns:40px minmax(0,1fr) 40px; align-items:center; gap:12px; margin:8px 12px 0; padding:8px 10px; border:1px solid rgba(255,255,255,.65); border-radius:20px; background:rgba(255,255,255,.48); box-shadow:0 8px 24px rgba(29,62,85,.1),inset 0 1px 0 rgba(255,255,255,.7); backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%); }
+            .dark .mobile-nav { background:rgba(24,42,59,.52); border-color:rgba(190,220,240,.2); box-shadow:0 8px 24px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12); }
+            .mobile-nav-action { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border:1px solid rgba(100,140,166,.25); border-radius:13px; background:rgba(255,255,255,.38); color:#176aa2; }
+            .dark .mobile-nav-action { background:rgba(37,66,88,.45); border-color:rgba(171,205,226,.22); color:#fcd116; }
+            .mobile-nav-action:focus-visible { outline:2px solid #0077c8; outline-offset:3px; }
+            .dark .mobile-nav-action:focus-visible { outline-color:#fcd116; }
+            .mobile-nav-logo { display:flex; justify-content:center; min-width:0; }
+            .mobile-nav-logo img { max-width:100%; height:28px; width:auto; object-fit:contain; }
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'css/source-brand.css' %}?v=3">
+    {% block extra_head %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/editorial-colors.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'css/chat-media.css' %}?v=4">
+</head>
+<body class="h-full flex flex-col antialiased bg-uggov-bgLight dark:bg-uggov-bgDark text-slate-800 dark:text-slate-100 transition-colors duration-200">
+    <div hidden>{% csrf_token %}</div>
+
+    <!-- 1. FULL-WIDTH TRI-COLOR BANNER (Blue, Red, Yellow) at the absolute top spanning 100% width above sidebar & main content -->
+    <div class="w-full flex h-1.5 shrink-0 z-50">
+        <div class="hidden md:block w-1/3 bg-[#0077C8]"></div>
+        <div class="hidden md:block w-1/3 bg-[#CE1126]"></div>
+        <div class="hidden md:block w-1/3 bg-[#FCD116]"></div>
+        <div class="w-1/3 bg-[#0077C8]"></div>
+        <div class="w-1/3 bg-[#CE1126]"></div>
+        <div class="w-1/3 bg-[#FCD116]"></div>
+    </div>
+
+    <div class="flex-1 flex overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside id="main-sidebar" class="w-64 md:w-72 bg-uggov-sidebar dark:bg-uggov-sidebarDark border-r border-uggov-border dark:border-uggov-borderDark flex flex-col shrink-0 transition-all duration-300 z-30 select-none">
+            
+            <!-- Sidebar Header: New Official Logo (RDC Agent du peuple) -->
+            <div class="sidebar-header p-3.5 flex items-center justify-between border-b border-uggov-border/60 dark:border-uggov-borderDark/60">
+                <a href="{% url 'web_ui:home' %}" class="flex items-center flex-1 min-w-0 group">
+                    <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-14 w-full object-contain object-left shrink-0 group-hover:scale-105 transition-transform">
+                </a>
+
+                <!-- Sidebar collapse button -->
+                <button onclick="toggleSidebar()" aria-expanded="true" aria-label="R?duire la barre lat?rale" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors" title="Masquer la barre latérale">
+                    <i data-lucide="panel-left-close" class="w-4 h-4"></i>
+                    <img src="{% static 'img/armoirie_rdc.png' %}" class="sidebar-toggle-emblem" alt="" aria-hidden="true">
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="sidebar-nav mt-5 px-3 space-y-1">
+                <a title="Chatbot" aria-label="Chatbot" href="{% url 'web_ui:chat' %}?new=1" {% if request.resolver_match.url_name == 'chat' %}onclick="event.preventDefault(); startNewChat()"{% endif %} class="flex items-center justify-between px-3.5 py-3 rounded-xl text-[13.5px] font-semibold bg-[#0077C8] text-white hover:bg-[#0065AA] transition-colors">
+                    <span class="flex items-center gap-3"><i data-lucide="message-square" class="w-4 h-4"></i><span>Chatbot</span></span>
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FCD116]" aria-hidden="true"></i>
+                </a>
+                <!-- Services -->
+                <a title="Services" aria-label="Services" href="{% url 'web_ui:services' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'services' or request.resolver_match.url_name == 'service_workspace' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+                        <span data-i18n="nav_services">Services</span>
+                    </div>
+                    {% if request.resolver_match.url_name == 'services' or request.resolver_match.url_name == 'service_workspace' %}
+                    <span class="w-2 h-2 rounded-full bg-drc-blue dark:bg-blue-400"></span>
+                    {% endif %}
+                </a>
+
+                <!-- News (Actualités Officielles) -->
+                <a title="News" aria-label="News" href="{% url 'web_ui:news' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <i data-lucide="newspaper" class="w-4 h-4 {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}text-drc-blue dark:text-blue-300{% else %}text-slate-500 dark:text-slate-400{% endif %}"></i>
+                        <span data-i18n="nav_news">News</span>
+                    </div>
+                    {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}
+                    <span class="w-2 h-2 rounded-full bg-drc-blue dark:bg-blue-400"></span>
+                    {% else %}
+                    <span class="text-[9.5px] px-1.5 py-0.5 rounded-md bg-emerald-100/80 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-400 font-bold uppercase tracking-wider">LIVE</span>
+                    {% endif %}
+                </a>
+
+                <!-- Community -->
+                <a title="Communauté" aria-label="Communauté" href="{% url 'web_ui:community' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'community' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <i data-lucide="users-round" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+                        <span data-i18n="nav_directory">Community</span>
+                    </div>
+                    {% if request.resolver_match.url_name == 'community' %}
+                    <span class="w-2 h-2 rounded-full bg-drc-blue dark:bg-blue-400"></span>
+                    {% endif %}
+                </a>
+
+
+            </div>
+
+            <div class="sidebar-history pt-4 px-3 flex-1 overflow-y-auto custom-scrollbar flex flex-col">
+                <div class="flex items-center justify-between px-3.5 mb-2"><span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Historique des chats</span><span id="sessions-count" class="text-[10px] text-slate-400"></span></div>
+                <div id="recent-consultations-list" class="space-y-1 flex-1"></div>
+            </div>
+
+            <!-- SIDEBAR FOOTER: Language selector, Light/Dark mode toggle, More options -->
+            <div class="sidebar-footer p-3 border-t border-uggov-border dark:border-uggov-borderDark flex items-center justify-between space-x-2 bg-uggov-sidebar dark:bg-uggov-sidebarDark">
+                
+                <!-- Language Selector Pill -->
+                <div class="relative flex-1">
+                    <button id="lang-dropdown-btn" onclick="toggleLangMenu()" class="w-full flex items-center justify-between px-3 py-2 rounded-full border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-xs hover:border-slate-400 transition-colors">
+                        <span id="selected-lang-label">Français</span>
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-1.5 text-slate-400"></i>
+                    </button>
+
+                    <!-- Language Popover Menu -->
+                    <div id="lang-menu" class="hidden absolute bottom-full mb-2 left-0 w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl p-1.5 z-50">
+                        <button onclick="selectLanguage('fr', 'Français')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <span>Français</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">Officiel</span>
+                        </button>
+                        <button onclick="selectLanguage('sw', 'Kiswahili')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <span>Kiswahili</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">RDC</span>
+                        </button>
+                        <button onclick="selectLanguage('ln', 'Lingála')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
+                            <span>Lingála</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">National</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Light / Dark Mode Toggle Button -->
+                <button id="theme-toggle-btn" onclick="toggleTheme()" title="Basculer Mode Clair / Sombre" class="p-2.5 rounded-full border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-slate-400 shadow-xs transition-colors shrink-0">
+                    <i id="theme-icon" data-lucide="sun-medium" class="w-4 h-4 text-amber-500 dark:text-amber-300"></i>
+                </button>
+
+                <!-- More Options Button (...) -->
+                <button onclick="toggleAboutModal()" title="Informations officielles" class="p-2.5 rounded-full border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-slate-400 shadow-xs transition-colors shrink-0">
+                    <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-600 dark:text-slate-300"></i>
+                </button>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN VIEWPORT -->
+        <div class="flex-1 min-w-0 flex flex-col overflow-hidden relative">
+            
+            <!-- Mobile Sidebar Opener Bar -->
+            <div class="mobile-nav md:hidden" aria-label="Navigation mobile">
+                <button id="mobile-sidebar-toggle" type="button" onclick="toggleSidebar()" aria-label="Ouvrir le menu" aria-controls="main-sidebar" aria-expanded="false" class="mobile-nav-action">
+                    <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
+                </button>
+                <div class="mobile-nav-logo">
+                    <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-7 w-auto">
+                </div>
+                <a href="{% url 'web_ui:chat' %}?new=1" {% if request.resolver_match.url_name == 'chat' %}onclick="event.preventDefault(); startNewChat()"{% endif %} class="mobile-nav-action" aria-label="Nouvelle conversation" title="Nouvelle conversation"><i data-lucide="plus" class="w-5 h-5" aria-hidden="true"></i></a>
+            </div>
+
+            <!-- Block Content -->
+            <main class="flex-1 flex flex-col overflow-hidden relative">
+                {% block content %}{% endblock %}
+            </main>
+
+        </div>
+
+    </div>
+
+    <!-- Small Official Security Pop-up Toast (Bottom Right) -->
+    <div id="security-popup" class="fixed bottom-24 right-6 max-w-sm bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 shadow-xl z-50 transition-all duration-300">
+        <div class="flex items-start space-x-3">
+            <div class="w-8 h-8 rounded-full bg-red-50 dark:bg-red-950/70 text-[#CE1126] flex items-center justify-center shrink-0 border border-red-200 dark:border-red-900">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                    <h4 class="text-xs font-bold text-slate-900 dark:text-white" data-i18n="security_title">Rappel de Sécurité Officiel</h4>
+                    <button onclick="dismissSecurityPopup()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded transition-colors" title="Fermer">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+                <p class="text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="security_desc">
+                    L'assistant ne demande jamais de mot de passe, de code PIN ou de transfert d'argent direct. Payez uniquement aux guichets bancaires officiels.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About / Disclaimer Modal -->
+    <div id="about-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-9 w-auto">
+                <button onclick="toggleAboutModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4" data-i18n="about_desc">
+                Plateforme numérique officielle d'orientation et d'information citoyenne. Les réponses fournies s'appuient strictement sur les démarches administratives, lois et communications des institutions publiques de la RDC.
+            </p>
+            <div class="border-t border-slate-100 dark:border-slate-800 pt-3 flex justify-end">
+                <button onclick="toggleAboutModal()" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold" data-i18n="btn_close">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==============================================================
+        // COMPLETE CLIENT-SIDE TRANSLATIONS (FR / SW / LN)
+        // ==============================================================
+        const TRANSLATIONS = {
+            fr: {
+                nav_new_chat: "NEW CHAT",
+                nav_chat: "Chat",
+                nav_services: "Services",
+                nav_directory: "Communauté",
+                nav_news: "News",
+                sidebar_recent: "RECENT CONSULTATIONS",
+                sidebar_no_consultations: "Aucune consultation récente.",
+                security_title: "Rappel de Sécurité Officiel",
+                security_desc: "L'assistant ne demande jamais de mot de passe, de code PIN ou de transfert d'argent direct. Payez uniquement aux guichets bancaires officiels.",
+                about_title: "Informations officielles",
+                about_desc: "Plateforme numérique officielle d'orientation et d'information citoyenne. Les réponses fournies s'appuient strictement sur les démarches administratives, lois et communications des institutions publiques de la RDC.",
+                btn_close: "Fermer",
+                welcome_tag: "Plateforme Numérique Officielle du Gouvernement de la RDC",
+                welcome_desc: "Posez vos questions sur les démarches administratives, les tarifs légaux, les lois et circulaires. Les réponses sont structurées pas à pas et ancrées aux sources officielles.",
+                chip_passport: "Passeport biométrique",
+                chip_birth: "Acte de naissance",
+                chip_guce: "Création d'entreprise (GUCE)",
+                chip_visa: "Portail officiel e-Visa",
+                greeting_title: "Mbote, Jambo, Bonjour !",
+                greeting_text: "Je suis l'assistant officiel pour vous guider pas à pas dans vos démarches citoyennes et administratives en République Démocratique du Congo.",
+                greeting_badge: "Registres officiels de la RDC",
+                query_placeholder: "Posez clairement votre question...",
+                query_disclaimer: "RDC Agent du peuple peut faire des erreurs. Vérifiez les informations importantes auprès des institutions officielles.",
+                recording_label: "Enregistrement audio en cours... Parlez clairement",
+                btn_stop: "Arrêter",
+                news_title: "Actualités & Communiqués",
+                news_empty: "Actualités et communiqués officiels en cours d'actualisation.",
+                dir_title: "Répertoire des 30 Portails Officiels de la RDC",
+                dir_desc: "Accès direct aux sites web vérifiés du gouvernement, ministères, régulateurs publics et services officiels de la République Démocratique du Congo.",
+                dir_verified: "Portails Vérifiés",
+                dir_search_placeholder: "Rechercher une institution, un ministère, un service...",
+                dir_official_badge: "Officiel",
+                services_title: "Répertoire Officiel des Démarches Administratives",
+                services_desc: "Consultez les tarifs officiels légaux, les pièces justificatives exigées et les bureaux compétents pour toutes les démarches citoyennes en RDC.",
+                services_delay: "Délai :",
+                services_days: "jours",
+                services_institution: "Institution :",
+                services_fees: "Frais Légaux :",
+                services_consult: "Consulter",
+                services_empty: "Aucune démarche enregistrée pour le moment.",
+                services_verified_on: "Vérifié le",
+                news_page_title: "Actualités & Communiqués Officiels de la RDC",
+                news_page_desc: "Points de presse du Gouvernement, situation sécuritaire à l'Est, arrêtés ministériels et dépêches vérifiées des institutions publiques.",
+                news_live_badge: "Flux Officiel Vérifié",
+                news_articles_count: "Articles",
+                filter_today: "Aujourd'hui",
+                filter_7days: "7 derniers jours",
+                filter_1month: "1 dernier mois",
+                filter_all: "Toutes",
+                news_search_placeholder: "Rechercher une actualité, une ville, une autorité...",
+                news_rubriques: "Rubriques :",
+                btn_read_more: "Lire",
+                modal_view_official: "Consulter la source officielle d'origine",
+                news_empty_title: "Aucune actualité trouvée",
+                news_empty_desc: "Aucun article ne correspond à votre filtre temporel ou à votre recherche pour le moment.",
+                news_view_all_btn: "Voir toutes les actualités"
+            },
+            sw: {
+                nav_new_chat: "MAZUNGUMZO MAPYA",
+                nav_chat: "Gumzo",
+                nav_services: "Huduma",
+                nav_directory: "Jamii & Tovuti",
+                nav_news: "Habari",
+                sidebar_recent: "MAZUNGUMZO YA HIVI KARIBUNI",
+                sidebar_no_consultations: "Hakuna mazungumzo ya hivi karibuni.",
+                security_title: "Kikumbusho Rasmi cha Usalama",
+                security_desc: "Msaidizi haombi kamwe nenosiri, nambari ya siri (PIN) au kutuma pesa moja kwa moja. Lipa tu kwenye madirisha rasmi ya benki.",
+                about_title: "Habari Rasmi za Serikali",
+                about_desc: "Jukwaa rasmi la kidijitali la mwongozo na habari kwa wananchi. Majibu yanatolewa kulingana na taratibu za kiserikali, sheria na matangazo ya taasisi za umma za RDC.",
+                btn_close: "Funga",
+                welcome_tag: "Jukwaa Rasmi la Kidijitali la Serikali ya Jamhuri ya Kidemokrasia ya Kongo",
+                welcome_desc: "Uliza maswali yako kuhusu taratibu za kiserikali, ada rasmi, sheria na nyaraka. Majibu yametolewa hatua kwa hatua na yamethibitishwa kutoka vyanzo rasmi.",
+                chip_passport: "Pasipoti ya kielektroniki",
+                chip_birth: "Cheti cha kuzaliwa",
+                chip_guce: "Kuanzisha biashara (GUCE)",
+                chip_visa: "Tovuti rasmi ya e-Visa",
+                greeting_title: "Jambo, Habari, Karibu !",
+                greeting_text: "Mimi ni msaidizi rasmi wa kukuongoza hatua kwa hatua katika taratibu zako za kiraia na kiserikali nchini Jamhuri ya Kidemokrasia ya Kongo.",
+                greeting_badge: "Daftari rasmi za serikali ya RDC",
+                query_placeholder: "Uliza swali lako kwa uwazi hapa...",
+                query_disclaimer: "RDC Agent du peuple anaweza kufanya makosa. Hakikisha habari muhimu na taasisi rasmi za serikali.",
+                recording_label: "Kurekodi sauti kunaendelea... Ongea waziwazi",
+                btn_stop: "Simamisha",
+                news_title: "Habari & Matangazo Rasmi",
+                news_empty: "Habari na matangazo rasmi yanasasishwa hivi sasa.",
+                dir_title: "Orodha ya Tovuti 30 Rasmi za Serikali ya RDC",
+                dir_desc: "Kuingia moja kwa moja kwenye tovuti zilizothibitishwa za serikali, wizara, mamlaka za udhibiti na huduma rasmi za Jamhuri ya Kidemokrasia ya Kongo.",
+                dir_verified: "Tovuti Zilizothibitishwa",
+                dir_search_placeholder: "Tafuta taasisi, wizara au huduma...",
+                dir_official_badge: "Rasmi",
+                services_title: "Orodha Rasmi ya Taratibu za Kiserikali",
+                services_desc: "Tazama ada rasmi za kisheria, nyaraka zinazohitajika na ofisi husika kwa taratibu zote za kiserikali nchini RDC.",
+                services_delay: "Muda :",
+                services_days: "siku",
+                services_institution: "Taasisi :",
+                services_fees: "Ada Rasmi :",
+                services_consult: "Tazama",
+                services_empty: "Hakuna utaratibu uliosajiliwa kwa sasa.",
+                services_verified_on: "Imethibitishwa tarehe",
+                news_page_title: "Habari & Matangazo Rasmi ya RDC",
+                news_page_desc: "Mikutano ya serikali na waandishi wa habari, hali ya usalama mashariki mwa nchi, amri za kiserikali na taarifa zilizothibitishwa za taasisi za umma.",
+                news_live_badge: "Mtiririko Rasmi Uliothibitishwa",
+                news_articles_count: "Makala",
+                filter_today: "Leo",
+                filter_7days: "Siku 7 zilizopita",
+                filter_1month: "Mwezi 1 uliopita",
+                filter_all: "Zote",
+                news_search_placeholder: "Tafuta habari, mji au mamlaka ya serikali...",
+                news_rubriques: "Mada :",
+                btn_read_more: "Soma",
+                modal_view_official: "Tazama chanzo rasmi asili",
+                news_empty_title: "Hakuna habari iliyopatikana",
+                news_empty_desc: "Hakuna makala inayolingana na muda au utafutaji wako kwa sasa.",
+                news_view_all_btn: "Tazama habari zote"
+            },
+            ln: {
+                nav_new_chat: "MASOLO YA SIKA",
+                nav_chat: "Masolo",
+                nav_services: "Misala",
+                nav_directory: "Lisanga & Bisika",
+                nav_news: "Sango",
+                sidebar_recent: "MASOLO YA SIKA",
+                sidebar_no_consultations: "Masolo moko te ya sika.",
+                security_title: "Koyebisa ya Bateli ya Leta",
+                security_desc: "Mosalisi akosenga yo ata moke te mot de passe, code PIN to kotinda mbongo ya mbala moko. Futa kaka na ba guichets ya ba banques ya Leta.",
+                about_title: "Basango ya Leta",
+                about_desc: "Esika ya numérique ya Leta mpo na kopesa basango mpe kotambwisa bana mboka. Biyano biuti kaka na mikanda ya solo, mibeko mpe masolo ya misala ya Leta ya RDC.",
+                btn_close: "Kanga",
+                welcome_tag: "Esika ya Numérique ya Leta ya République Démocratique du Congo",
+                welcome_desc: "Tuna mituna na yo nyonso mpo na misala ya Leta, mbongo ya kofuta na mibeko. Biyano epesami malembe na malembe mpe euti na mikanda ya solo ya Leta.",
+                chip_passport: "Passeport biométrique",
+                chip_birth: "Acte de naissance",
+                chip_guce: "Kokela entreprise (GUCE)",
+                chip_visa: "Portail ya e-Visa",
+                greeting_title: "Mbote na bino nyonso !",
+                greeting_text: "Nazali mosalisi ya Leta mpo na kotambwisa yo malembe na malembe na misala mpe mikanda nyonso ya Leta na République Démocratique du Congo.",
+                greeting_badge: "Buku ya misala ya Leta ya RDC",
+                query_placeholder: "Tuna motuna na yo ya misala ya Leta polele...",
+                query_disclaimer: "RDC Agent du peuple akoki kobunga. Luka biyano ya solo mpe ya mikanda epai ya bakonzi ya Leta.",
+                recording_label: "Kozwa mongongo ezali kosalema... Loba polele",
+                btn_stop: "Tika",
+                news_title: "Sango & Maloba ya Leta",
+                news_empty: "Basango ya Leta ezali kobongisama sikoyo.",
+                dir_title: "Buku ya Bisika 30 ya Leta ya RDC",
+                dir_desc: "Kokota mbala moko na ba sites internet ya solo ya Leta, ba ministères na misala nyonso ya République Démocratique du Congo.",
+                dir_verified: "Bisika ya Solo",
+                dir_search_placeholder: "Luka esika ya Leta, ministère to mosala...",
+                dir_official_badge: "Ya Solo",
+                services_title: "Buku ya Misala mpe Mikanda ya Leta",
+                services_desc: "Tala mbongo ya kofuta na mibeko, mikanda ya kopesa mpe babiro ya Leta mpo na misala nyonso ya bana mboka na RDC.",
+                services_delay: "Mikolo :",
+                services_days: "mikolo",
+                services_institution: "Ebongiseli :",
+                services_fees: "Mbongo ya Leta :",
+                services_consult: "Tala",
+                services_empty: "Mosala moko te ekomami naino sikoyo.",
+                services_verified_on: "Endimami na mokolo ya",
+                news_page_title: "Sango & Maloba ya Leta ya RDC",
+                news_page_desc: "Masolo ya Leta, makambo ya bateli na kimia na Est ya mboka, mibeko ya ba ministres na basango ya solo ya Leta.",
+                news_live_badge: "Basango ya Solo ya Leta",
+                news_articles_count: "Basango",
+                filter_today: "Lelo",
+                filter_7days: "Mikolo 7 oyo eleki",
+                filter_1month: "Sanza 1 oyo eleki",
+                filter_all: "Nyonso",
+                news_search_placeholder: "Luka sango, engumba to mokonzi ya Leta...",
+                news_rubriques: "Makambo :",
+                btn_read_more: "Tanga",
+                modal_view_official: "Tala esika ya solo ya sango",
+                news_empty_title: "Sango moko te emonani",
+                news_empty_desc: "Sango moko te ekokani na mikolo to bolukiluki na yo sikoyo.",
+                news_view_all_btn: "Tala basango nyonso"
+            }
+        };
+
+        function applySiteTranslations(lang) {
+            const current = lang || localStorage.getItem('preferred_language') || 'fr';
+            const dict = TRANSLATIONS[current] || TRANSLATIONS['fr'];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) el.textContent = dict[key];
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key]) el.placeholder = dict[key];
+            });
+
+            document.querySelectorAll('[data-i18n-title]').forEach(el => {
+                const key = el.getAttribute('data-i18n-title');
+                if (dict[key]) el.title = dict[key];
+            });
+
+            // Update html lang attribute
+            document.documentElement.lang = current;
+        }
+
+        function refreshIcons(retry = 3) {
+            if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+                try {
+                    lucide.createIcons({
+                        icons: lucide.icons,
+                        attrs: {
+                            'stroke-width': 1.6
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error creating Lucide icons:', e);
+                }
+            } else if (retry > 0) {
+                setTimeout(() => refreshIcons(retry - 1), 100);
+            }
+        }
+        window.refreshIcons = refreshIcons;
+        refreshIcons();
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.contains('dark');
+            const icon = document.getElementById('theme-icon');
+
+            if (isDark) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                if (icon) icon.setAttribute('data-lucide', 'sun-medium');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                if (icon) icon.setAttribute('data-lucide', 'moon');
+            }
+            refreshIcons();
+        }
+
+        function toggleLangMenu() {
+            const menu = document.getElementById('lang-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function selectLanguage(code, label) {
+            document.getElementById('selected-lang-label').innerText = label;
+            document.getElementById('lang-menu').classList.add('hidden');
+            localStorage.setItem('preferred_language', code);
+            applySiteTranslations(code);
+            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { code: code, label: label } }));
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('main-sidebar');
+            if (window.matchMedia('(max-width: 767px)').matches) {
+                const open = sidebar.classList.toggle('mobile-open');
+                const toggle = document.getElementById('mobile-sidebar-toggle');
+                toggle.setAttribute('aria-expanded', String(open));
+                toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+            }
+            else {
+                const collapsed = sidebar.classList.toggle('sidebar-collapsed');
+                const toggle = sidebar.querySelector('.sidebar-header button');
+                toggle.setAttribute('aria-expanded', String(!collapsed));
+                toggle.title = collapsed ? 'D?velopper la barre lat?rale' : 'R?duire la barre lat?rale';
+                toggle.setAttribute('aria-label', toggle.title);
+            }
+        }
+
+        function toggleAboutModal() {
+            const modal = document.getElementById('about-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function dismissSecurityPopup() {
+            const popup = document.getElementById('security-popup');
+            popup.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+            setTimeout(() => popup.remove(), 300);
+            localStorage.setItem('security_popup_dismissed', 'true');
+        }
+
+        if (localStorage.getItem('security_popup_dismissed') === 'true') {
+            const popup = document.getElementById('security-popup');
+            if (popup) popup.classList.add('hidden');
+        }
+
+        window.addEventListener('click', function(e) {
+            const btn = document.getElementById('lang-dropdown-btn');
+            const menu = document.getElementById('lang-menu');
+            if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        // ===============================================
+        // ChromaDB Chat History & Sessions (Hover Controls)
+        // ===============================================
+
+        // --- CSRF helper (needed for POST/DELETE to Django) ---
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                for (const cookie of document.cookie.split(';')) {
+                    const c = cookie.trim();
+                    if (c.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(c.slice(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        async function migrateLocalChatHistory() {
+            let entries;
+            try { entries = Object.keys(sessionStorage).filter(key => key.startsWith('article-chat-history:') || key.startsWith('service-guide-history:')); }
+            catch(error) { return; }
+            let imported = false;
+            for (const key of entries) {
+                try {
+                    const article = key.startsWith('article-chat-history:');
+                    const contextId = key.slice(key.indexOf(':') + 1);
+                    const sessionKey = (article ? 'article-chat-session:' : 'service-guide-session:') + contextId;
+                    if (sessionStorage.getItem(sessionKey)) continue;
+                    const messages = JSON.parse(sessionStorage.getItem(key) || '[]');
+                    if (!Array.isArray(messages) || !messages.length) continue;
+                    const pendingKey = sessionKey + ':importing';
+                    const active = window.currentChatContext;
+                    const activeId = active?.kind === (article ? 'article' : 'service') && active.id === contextId ? window.currentSessionId : null;
+                    const sessionId = sessionStorage.getItem(pendingKey) || activeId || (article ? 'article_' : 'service_') + crypto.randomUUID().replaceAll('-', '');
+                    sessionStorage.setItem(pendingKey, sessionId);
+                    const response = await fetch('/api/rag/sessions/import/', {method: 'POST',
+                        headers: {'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken')},
+                        body: JSON.stringify({session_id: sessionId, kind: article ? 'article' : 'service', context_id: contextId, messages: messages.slice(-100)}),
+                    });
+                    if (response.ok) {
+                        sessionStorage.setItem(sessionKey, sessionId); sessionStorage.removeItem(pendingKey); imported = true;
+                    }
+                } catch(error) { /* Leave the original messages intact for the next visit. */ }
+            }
+            if (imported) loadChromaSessions();
+        }
+
+        async function loadChromaSessions() {
+            const listContainer = document.getElementById('recent-consultations-list');
+            const countBadge   = document.getElementById('sessions-count');
+            if (!listContainer) return;
+
+            // Show skeleton loader
+            listContainer.innerHTML = `
+                <div class="px-3.5 py-3 space-y-2">
+                    <div class="h-7 bg-slate-200/60 dark:bg-slate-800/60 rounded-lg animate-pulse"></div>
+                    <div class="h-7 bg-slate-200/60 dark:bg-slate-800/60 rounded-lg animate-pulse w-4/5"></div>
+                    <div class="h-7 bg-slate-200/60 dark:bg-slate-800/60 rounded-lg animate-pulse w-3/5"></div>
+                </div>`;
+
+            try {
+                const resp = await fetch('/api/rag/sessions/');
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                const sessions = data.sessions || [];
+
+                // Update count badge
+                if (countBadge) {
+                    countBadge.textContent = sessions.length > 0 ? sessions.length : '';
+                }
+
+                if (sessions.length === 0) {
+                    listContainer.innerHTML = `
+                        <div class="px-3.5 py-5 text-center text-[11px] text-slate-400 flex flex-col items-center gap-1.5">
+                            <i data-lucide="message-square-dashed" class="w-5 h-5 text-slate-300 dark:text-slate-600"></i>
+                            <span>Aucune consultation récente.</span>
+                        </div>`;
+                    refreshIcons();
+                    return;
+                }
+
+                listContainer.innerHTML = '';
+                sessions.forEach(sess => renderSessionItem(sess));
+                refreshIcons();
+
+            } catch (err) {
+                console.error('Failed to load Chroma sessions:', err);
+                listContainer.innerHTML = `
+                    <div class="px-3.5 py-4 text-center text-[11px] text-red-400 flex flex-col items-center gap-1">
+                        <i data-lucide="wifi-off" class="w-4 h-4"></i>
+                        <span>Impossible de charger l'historique.</span>
+                        <button onclick="loadChromaSessions()" class="mt-1 underline text-drc-blue text-[11px]">Réessayer</button>
+                    </div>`;
+                refreshIcons();
+            }
+        }
+
+        function chatHistoryTitle(value) {
+            const title = (value || '').trim() || 'Consultation';
+            return title.charAt(0).toLocaleUpperCase() + title.slice(1);
+        }
+
+        function renderSessionItem(sess) {
+            const listContainer = document.getElementById('recent-consultations-list');
+            if (!listContainer) return;
+            if (!/^[A-Za-z0-9_-]{1,120}$/.test(sess.id)) return;
+
+            // Highlight active session
+            const isActive = window.currentSessionId === sess.id;
+            const item = document.createElement('div');
+            item.id = 'sess-item-' + sess.id;
+            item.className = [
+                'group relative flex items-center justify-between px-3 py-2 rounded-xl',
+                'text-xs font-medium transition-all cursor-pointer',
+                isActive
+                    ? 'bg-blue-50 dark:bg-blue-950/40 text-drc-blue dark:text-blue-300'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
+            ].join(' ');
+
+            const title    = escapeHtml(chatHistoryTitle(sess.title));
+            const msgCount = sess.message_count || 0;
+
+            item.innerHTML = `
+                <div class="flex items-center space-x-2.5 truncate flex-1 min-w-0"
+                     data-session-open
+                     title="${title}">
+                    <span id="title-${sess.id}"
+                          class="truncate select-none font-medium text-[12.5px]">${title}</span>
+                    <input id="input-${sess.id}"
+                           class="hidden w-full bg-white dark:bg-slate-900 border border-drc-blue rounded px-1.5 py-0.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-drc-blue"
+                           value="${title}"
+                           onkeydown="handleTitleKey(event,'${sess.id}')"
+                           onblur="saveInlineTitle('${sess.id}')">
+                </div>
+                <div class="opacity-0 group-hover:opacity-100 flex items-center space-x-1 shrink-0 ml-1.5 transition-opacity">
+                    <button onclick="enableInlineEdit(event,'${sess.id}')"
+                            title="Renommer"
+                            class="p-1 rounded hover:bg-slate-300/60 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors">
+                        <i data-lucide="pencil" class="w-3 h-3"></i>
+                    </button>
+                    <button onclick="deleteSession(event,'${sess.id}')"
+                            title="Supprimer"
+                            class="p-1 rounded hover:bg-red-100 dark:hover:bg-red-950/60 text-slate-400 hover:text-[#CE1126] transition-colors">
+                        <i data-lucide="trash-2" class="w-3 h-3"></i>
+                    </button>
+                </div>`;
+            listContainer.appendChild(item);
+            item.querySelector('[data-session-open]').addEventListener('click', () => {
+                if ((sess.kind === 'article' && sess.url?.startsWith('/actualites/')) ||
+                    (sess.kind === 'service' && sess.url?.startsWith('/demarches/'))) window.location.href = sess.url;
+                else switchSession(sess.id);
+            });
+        }
+
+        function markActiveSession(sessionId) {
+            // Remove all active styles then highlight the chosen one
+            document.querySelectorAll('[id^="sess-item-"]').forEach(el => {
+                el.classList.remove('bg-blue-50','dark:bg-blue-950/40','text-drc-blue','dark:text-blue-300');
+                el.classList.add('text-slate-600','dark:text-slate-300','hover:bg-slate-200/60','dark:hover:bg-slate-800/60');
+                const icon = el.querySelector('[data-lucide="message-square"]');
+                if (icon) { icon.classList.remove('text-drc-blue'); icon.classList.add('text-slate-400'); }
+            });
+            const active = document.getElementById('sess-item-' + sessionId);
+            if (active) {
+                active.classList.remove('text-slate-600','dark:text-slate-300','hover:bg-slate-200/60','dark:hover:bg-slate-800/60');
+                active.classList.add('bg-blue-50','dark:bg-blue-950/40','text-drc-blue','dark:text-blue-300');
+                const icon = active.querySelector('[data-lucide="message-square"]');
+                if (icon) { icon.classList.remove('text-slate-400'); icon.classList.add('text-drc-blue'); }
+            }
+        }
+
+        function enableInlineEdit(e, sessionId) {
+            e.stopPropagation();
+            const span  = document.getElementById('title-' + sessionId);
+            const input = document.getElementById('input-' + sessionId);
+            if (span && input) {
+                span.classList.add('hidden');
+                input.classList.remove('hidden');
+                input.focus();
+                input.select();
+            }
+        }
+
+        function handleTitleKey(e, sessionId) {
+            if (e.key === 'Enter')  { e.preventDefault(); saveInlineTitle(sessionId); }
+            else if (e.key === 'Escape') { cancelInlineEdit(sessionId); }
+        }
+
+        async function saveInlineTitle(sessionId) {
+            const span  = document.getElementById('title-' + sessionId);
+            const input = document.getElementById('input-' + sessionId);
+            if (!input || !span) return;
+
+            const newTitle = input.value.trim() ? chatHistoryTitle(input.value) : '';
+            if (!newTitle || newTitle === span.innerText.trim()) {
+                cancelInlineEdit(sessionId);
+                return;
+            }
+
+            try {
+                const resp = await fetch(`/api/rag/sessions/${sessionId}/rename/`, {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                    body:    JSON.stringify({ title: newTitle })
+                });
+                if (resp.ok) { span.innerText = newTitle; }
+            } catch (err) {
+                console.error('Rename failed:', err);
+            }
+            cancelInlineEdit(sessionId);
+        }
+
+        function cancelInlineEdit(sessionId) {
+            const span  = document.getElementById('title-' + sessionId);
+            const input = document.getElementById('input-' + sessionId);
+            if (span && input) { input.classList.add('hidden'); span.classList.remove('hidden'); }
+        }
+
+        function deleteSession(e, sessionId) {
+            e.stopPropagation();
+            openChatDeleteDialog(sessionId, e.currentTarget);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.innerText = String(text);
+            return div.innerHTML;
+        }
+
+        // Fallback stubs — index.html overrides these
+        if (typeof startNewChat  === 'undefined') window.startNewChat  = () => { window.location.href = '/chat/'; };
+        if (typeof switchSession === 'undefined') window.switchSession = (id) => {
+            window.currentSessionId = id;
+            window.location.href = '/chat/?session=' + encodeURIComponent(id);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshIcons();
+            loadChromaSessions();
+            window.chatHistoryMigration = migrateLocalChatHistory();
+            // Restore language preference and apply site-wide translations
+            const savedLang = localStorage.getItem('preferred_language') || 'fr';
+            const labels = { fr: 'Français', sw: 'Kiswahili', ln: 'Lingála' };
+            const lbl = document.getElementById('selected-lang-label');
+            if (lbl && labels[savedLang]) lbl.innerText = labels[savedLang];
+            applySiteTranslations(savedLang);
+            refreshIcons();
+        });
+
+        window.addEventListener('load', () => {
+            refreshIcons();
+        });
+    </script>
+    <script src="{% static 'js/source-brand.js' %}"></script>
+    {% include 'chat_delete_dialog.html' %}
+    <script src="{% static 'js/chat-delete.js' %}?v=1"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
