@@ -7,6 +7,7 @@ from django.test import SimpleTestCase, override_settings
 from . import services
 
 
+@override_settings(LLM_PROVIDER='ollama')
 class EmbeddingLifecycleTests(SimpleTestCase):
     @override_settings(OLLAMA_MODEL='qwen2.5:7b', OLLAMA_LINGALA_MODEL='congo-lingala:8b')
     @patch.object(services, '_LLM_INSTANCE', None)

@@ -88,12 +88,27 @@ def get_embedding_model():
             return None
 
 
-def get_chat_ollama(user_language: str = "fr") -> ChatOllama:
+def get_llm_provider():
+    """Resolve the explicit override or development/production default."""
+    from django.core.exceptions import ImproperlyConfigured
+    provider = settings.LLM_PROVIDER
+    if provider == 'auto':
+        return 'ollama' if settings.DEBUG else 'gemini'
+    if provider not in ('ollama', 'gemini'):
+        raise ImproperlyConfigured('LLM_PROVIDER must be auto, ollama, or gemini.')
+    return provider
+
+
+def get_chat_ollama(user_language: str = "fr"):
     """
     Initializes and returns the persistent LangChain ChatOllama client.
     Requests a 24-hour keep-alive from Ollama, configurable in settings.
     Ollama manages the model's lifetime independently of this Django process.
     """
+    # Retain this entry point for existing callers; all languages use Gemini in production.
+    if get_llm_provider() == 'gemini':
+        from .gemini import get_gemini_chat
+        return get_gemini_chat()
     global _LLM_INSTANCE, _LINGALA_LLM_INSTANCE
     lingala_model = getattr(settings, 'OLLAMA_LINGALA_MODEL', '')
     use_lingala = user_language == 'ln' and bool(lingala_model)

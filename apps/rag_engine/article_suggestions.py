@@ -27,7 +27,7 @@ def suggested_questions(article, language='fr'):
     body = cache.get(f'article-body:{article.pk}') or article.full_content or article.summary or ''
     context = {'title': article.title, 'summary': article.summary or '', 'text': body[:12000],
                'source': article.source_name or '', 'published': article.published_at.isoformat()}
-    fingerprint = hashlib.sha256(json.dumps([context, language, (getattr(settings, 'OLLAMA_LINGALA_MODEL', '') if language == 'ln' else '') or getattr(settings, 'OLLAMA_MODEL', '')],
+    fingerprint = hashlib.sha256(json.dumps([context, language, getattr(settings, 'LLM_PROVIDER', 'auto'), settings.DEBUG, getattr(settings, 'GEMINI_MODEL', ''), (getattr(settings, 'OLLAMA_LINGALA_MODEL', '') if language == 'ln' else '') or getattr(settings, 'OLLAMA_MODEL', '')],
                                             ensure_ascii=False, sort_keys=True).encode('utf-8')).hexdigest()
     key = 'article-suggestions:v1:' + fingerprint
     cached = cache.get(key)

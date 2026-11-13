@@ -7,6 +7,7 @@ from .research_plan import merge_web_results, research_queries, search_perspecti
 from .langgraph_router import classify_query_intent
 
 
+@override_settings(LLM_PROVIDER='ollama')
 class ResearchPlanTests(SimpleTestCase):
     def test_greeting_followed_by_factual_question_still_gets_research(self):
         self.assertEqual(classify_query_intent('Bonjour, combien gagnent les soldats ?'), 'research_needed')

@@ -6,6 +6,7 @@ from django.test import SimpleTestCase, override_settings
 from apps.web_ui.community import model_answer
 
 
+@override_settings(LLM_PROVIDER='ollama')
 class CommunityOllamaLifetimeTests(SimpleTestCase):
     @override_settings(OLLAMA_KEEP_ALIVE='24h', OLLAMA_MODEL='test-model', OLLAMA_NUM_CTX=8192)
     @patch('langchain_ollama.ChatOllama')

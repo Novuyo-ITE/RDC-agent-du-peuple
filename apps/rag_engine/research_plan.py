@@ -38,13 +38,17 @@ def research_queries(question):
     candidates = []
     if getattr(settings, 'TAVILY_API_KEY', ''):
         try:
-            planner = ChatOllama(
-                base_url=getattr(settings, 'OLLAMA_BASE_URL', 'http://localhost:11434'),
-                model=getattr(settings, 'OLLAMA_MODEL', 'qwen2.5-coder:14b'),
-                keep_alive=getattr(settings, 'OLLAMA_KEEP_ALIVE', '24h'),
-                num_ctx=getattr(settings, 'OLLAMA_NUM_CTX', 8192),
-                temperature=0.1, num_predict=220,
-                client_kwargs={'timeout': getattr(settings, 'OLLAMA_REQUEST_TIMEOUT', 300)})
+            from .services import get_chat_ollama, get_llm_provider
+            if get_llm_provider() == 'gemini':
+                planner = get_chat_ollama().bind(options={'temperature': 0.1, 'num_predict': 512})
+            else:
+                planner = ChatOllama(
+                    base_url=getattr(settings, 'OLLAMA_BASE_URL', 'http://localhost:11434'),
+                    model=getattr(settings, 'OLLAMA_MODEL', 'qwen2.5-coder:14b'),
+                    keep_alive=getattr(settings, 'OLLAMA_KEEP_ALIVE', '24h'),
+                    num_ctx=getattr(settings, 'OLLAMA_NUM_CTX', 8192),
+                    temperature=0.1, num_predict=220,
+                    client_kwargs={'timeout': getattr(settings, 'OLLAMA_REQUEST_TIMEOUT', 300)})
             response = planner.invoke([
                 SystemMessage(content=(
                     DRC_SCOPE_INSTRUCTIONS + '\n' +
