@@ -99,9 +99,10 @@
             </a>
 
             <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                <a href="#comment-ca-marche" class="hover:text-brand-blue transition-colors">Comment ça marche</a>
                 <a href="#services" class="hover:text-brand-blue transition-colors">Démarches</a>
-                <a href="#actualites" class="hover:text-brand-blue transition-colors">Actualités</a>
+                <a href="#actualites" class="hover:text-brand-blue transition-colors">Actualités &amp; Médias</a>
                 <a href="#depeches" class="hover:text-brand-blue transition-colors flex items-center gap-1.5">
                     <span>Direct X</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse"></span>
@@ -393,46 +394,240 @@
 
     </section>
 
-    <!-- SECTION: Official Administrative Procedures (Clean card grid with real icons & badges) -->
-    <section id="services" class="py-16 bg-white border-b border-slate-200">
+    <!-- ================================================================= -->
+    <!-- SECTION 2: COMMENT ÇA MARCHE - DE LA QUESTION À LA DÉCISION          -->
+    <!-- ================================================================= -->
+    <section id="comment-ca-marche" class="py-16 md:py-20 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Catalogue Réglementaire</span>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Démarches Fréquemment Consultées</h2>
+            <div class="max-w-3xl mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-[11px] font-bold uppercase tracking-wider">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span>
+                    <span>Méthodologie Civique Républicaine</span>
                 </div>
-                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-blue hover:underline">
-                    <span>Voir toutes les démarches</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
+                    De la question à la décision
+                </h2>
+                <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+                    Un parcours en 4 étapes pour sécuriser chaque acte administratif, éliminer les intermédiaires de couloir et obtenir des décisions officielles certifiées.
+                </p>
+            </div>
+
+            <!-- 4 Connected Sequential Steps -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+                
+                <!-- Step 1 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="w-9 h-9 rounded-xl bg-blue-50 text-brand-blue border border-blue-100 flex items-center justify-center font-extrabold text-sm">
+                                01
+                            </span>
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
+                                <i data-lucide="message-square-text" class="w-4 h-4 text-brand-blue"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
+                            Posez votre question
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Formulez librement votre demande en Français, Lingála ou Kiswahili. Tapez ou dictez au micro comme devant un guichet d'État.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-slate-100 flex flex-wrap gap-1.5 text-[10.5px] font-semibold text-brand-blue">
+                        <span class="px-2 py-0.5 rounded-md bg-blue-50">Lingála</span>
+                        <span class="px-2 py-0.5 rounded-md bg-blue-50">Kiswahili</span>
+                        <span class="px-2 py-0.5 rounded-md bg-blue-50">Français</span>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 flex items-center justify-center font-extrabold text-sm">
+                                02
+                            </span>
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
+                                <i data-lucide="file-check-2" class="w-4 h-4 text-amber-600"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
+                            Vérifiez les exigences
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            L'Agent analyse les décrets légaux en vigueur et dresse la liste des pièces justificatives, des formulaires et des critères d'éligibilité.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-1.5 text-[10.5px] font-semibold text-slate-500">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Textes d'État vérifiés</span>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="w-9 h-9 rounded-xl bg-red-50 text-brand-red border border-red-100 flex items-center justify-center font-extrabold text-sm">
+                                03
+                            </span>
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
+                                <i data-lucide="shield-alert" class="w-4 h-4 text-brand-red"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
+                            Sécurisez les frais &amp; anti-fraude
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Consultez le barème légal fixé par arrêté ministériel et les banques agréées. Aucun versement d'espèces en main propre n'est toléré.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-1.5 text-[10.5px] font-semibold text-red-700 bg-red-50/70 px-2 py-1 rounded-md">
+                        <i data-lucide="ban" class="w-3 h-3 text-red-600"></i>
+                        <span>Zéro commissionnaire</span>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center justify-center font-extrabold text-sm">
+                                04
+                            </span>
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
+                                <i data-lucide="building-2" class="w-4 h-4 text-emerald-600"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
+                            Déposez au bon guichet
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Obtenez l'adresse physique exacte du centre de capture ou le portail officiel de l'institution pour déposer et suivre l'avancement.
+                        </p>
+                    </div>
+                    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-700">
+                        <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Orientation certifiée</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 3: SERVICES PUBLICS (Entamez une démarche, dès ici)       -->
+    <!-- Inspiré de UgGov : grandes icônes, vision d'ensemble, AUCUN tarif -->
+    <!-- ================================================================= -->
+    <section id="services" class="py-16 md:py-20 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+                <div class="max-w-2xl">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Catalogue Réglementaire de la République</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 tracking-tight">
+                        Entamez une démarche, dès ici
+                    </h2>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
+                        Des démarches administratives réelles guidées pas à pas. Visualisez ce que chaque document vous permet d'accomplir et préparez vos pièces avant de vous déplacer.
+                    </p>
+                </div>
+                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 hover:border-brand-blue bg-white hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors shrink-0 shadow-2xs">
+                    <i data-lucide="layout-grid" class="w-4 h-4 text-brand-blue"></i>
+                    <span>Voir tout le catalogue ({{ total_services }})</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
                 </a>
             </div>
 
+            <!-- Service Cards Grid: High Design, Thematic Icons, Big Picture Context -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for service in featured_services %}
-                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-blue hover:bg-white transition-all flex flex-col justify-between space-y-4 group">
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                            <span class="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-brand-blue font-bold">
-                                {{ service.get_category_display }}
-                            </span>
-                            <span class="text-slate-500 font-mono">{{ service.processing_time_days }} jours</span>
+                <div class="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 hover:border-brand-blue hover:bg-white hover:shadow-lg transition-all flex flex-col justify-between space-y-5 group">
+                    
+                    <div class="space-y-4">
+                        <!-- Top Card Header: Dedicated Thematic Icon & Category/Institution Pill -->
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border shadow-2xs
+                                {% if service.category == 'identity' %}bg-blue-50 border-blue-200 text-brand-blue
+                                {% elif service.category == 'business' %}bg-amber-50 border-amber-200 text-amber-700
+                                {% elif service.category == 'tax' %}bg-emerald-50 border-emerald-200 text-emerald-700
+                                {% elif service.category == 'transport' %}bg-indigo-50 border-indigo-200 text-indigo-700
+                                {% elif service.category == 'justice' %}bg-purple-50 border-purple-200 text-purple-700
+                                {% else %}bg-slate-100 border-slate-200 text-slate-700{% endif %}">
+                                
+                                {% if service.category == 'identity' %}
+                                    <i data-lucide="id-card" class="w-6 h-6"></i>
+                                {% elif service.category == 'business' %}
+                                    <i data-lucide="briefcase" class="w-6 h-6"></i>
+                                {% elif service.category == 'tax' %}
+                                    <i data-lucide="calculator" class="w-6 h-6"></i>
+                                {% elif service.category == 'transport' %}
+                                    <i data-lucide="car" class="w-6 h-6"></i>
+                                {% elif service.category == 'justice' %}
+                                    <i data-lucide="scale" class="w-6 h-6"></i>
+                                {% else %}
+                                    <i data-lucide="file-text" class="w-6 h-6"></i>
+                                {% endif %}
+                            </div>
+
+                            <div class="flex flex-col items-end text-right">
+                                <span class="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[10.5px] font-bold text-slate-700 shadow-2xs">
+                                    {{ service.get_category_display }}
+                                </span>
+                                <span class="text-[10px] text-slate-400 font-medium mt-1 truncate max-w-[150px]">
+                                    {{ service.institution|truncatechars:32 }}
+                                </span>
+                            </div>
                         </div>
-                        <h3 class="font-bold text-base text-slate-900 leading-snug group-hover:text-brand-blue transition-colors">
-                            {{ service.service_name }}
-                        </h3>
-                        <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                            {{ service.description }}
-                        </p>
+
+                        <!-- Service Title -->
+                        <div>
+                            <h3 class="font-extrabold text-base text-slate-900 leading-snug group-hover:text-brand-blue transition-colors">
+                                <a href="{% url 'web_ui:service_workspace' service_code=service.service_code %}">
+                                    {{ service.service_name }}
+                                </a>
+                            </h3>
+                            
+                            <!-- The Big Picture: What this service unlocks for the citizen -->
+                            <p class="text-xs text-slate-600 leading-relaxed mt-2 line-clamp-3">
+                                {{ service.description }}
+                            </p>
+                        </div>
+
+                        <!-- Civic Indicators (Timeframe & Official Requirements - NO PRICE) -->
+                        <div class="pt-2 flex flex-wrap items-center gap-2 text-[11px]">
+                            {% if service.processing_time_days %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium">
+                                <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                <span>{{ service.processing_time_days }} jours ouvrables</span>
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                                <span>Délivrance certifiée</span>
+                            </span>
+                            {% endif %}
+
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-600 text-[10.5px]">
+                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-slate-400"></i>
+                                <span>Procédure légale</span>
+                            </span>
+                        </div>
                     </div>
 
-                    <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
-                        <span class="font-bold text-brand-blue font-mono">
-                            {% if service.official_cost_usd %}{{ service.official_cost_usd }} USD{% elif service.official_cost_cdf %}{{ service.official_cost_cdf }} CDF{% else %}Fixé par arrêté{% endif %}
-                        </span>
-                        <a href="{% url 'web_ui:chat' %}?q={{ service.service_name|urlencode }}" class="font-bold text-slate-800 hover:text-brand-blue flex items-center gap-1">
-                            <span>Consulter</span>
+                    <!-- Card Actions: Dual Button (Workspace & Chat Consultation) -->
+                    <div class="pt-4 border-t border-slate-200/80 flex items-center justify-between gap-2">
+                        <a href="{% url 'web_ui:service_workspace' service_code=service.service_code %}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-brand-blue transition-colors shadow-2xs">
+                            <span>Entamer la démarche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+
+                        <a href="{% url 'web_ui:chat' %}?q={{ service.service_name|urlencode }}" class="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-brand-blue p-2 rounded-lg hover:bg-slate-100 transition-colors" title="Poser une question à l'Agent">
+                            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                            <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
@@ -440,6 +635,66 @@
                 <div class="col-span-full p-8 text-center bg-slate-50 rounded-2xl border border-slate-200">
                     <p class="text-xs text-slate-500">Synchronisation des démarches en cours...</p>
                 </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 4: SOURCES OFFICIELLES, GOUVERNEMENT & TÉLÉVISION PUBLIQUE -->
+    <!-- ================================================================= -->
+    <section class="py-14 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold uppercase tracking-wider">
+                        <i data-lucide="tv" class="w-3.5 h-3.5 text-brand-blue"></i>
+                        <span>Écosystème Républicain &amp; Médias d'État</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">
+                        Gouvernement &amp; Chaînes d'Information Consultées
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Les sources officielles et médias audiovisuels de référence que l'Agent du Peuple consulte en temps réel pour garantir une information certifiée.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Sources actives 24h/24</span>
+                </div>
+            </div>
+
+            <!-- Grid of 6 Verified Government, TV and Radio Sources -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for src in verified_sources %}
+                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="p-5 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all flex items-start gap-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-white border border-slate-200 group-hover:border-brand-blue flex items-center justify-center shrink-0 shadow-2xs p-2 overflow-hidden">
+                        {% if src.logo %}
+                            <img src="{% static src.logo %}" alt="{{ src.name }}" class="w-full h-full object-contain">
+                        {% else %}
+                            <i data-lucide="{{ src.icon }}" class="w-5 h-5 text-brand-blue"></i>
+                        {% endif %}
+                    </div>
+
+                    <div class="space-y-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-blue transition-colors truncate">
+                                {{ src.name }}
+                            </h4>
+                            <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[9.5px] font-bold text-slate-600 shrink-0">
+                                {{ src.badge }}
+                            </span>
+                        </div>
+                        <div class="text-[11px] font-medium text-slate-700 truncate">
+                            {{ src.full_name }}
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-snug line-clamp-2 pt-0.5">
+                            {{ src.description }}
+                        </p>
+                    </div>
+                </a>
                 {% endfor %}
             </div>
 
@@ -467,6 +722,16 @@
                         <a href="{% url 'web_ui:news' %}" class="text-xs font-bold text-brand-blue hover:underline">Toutes les dépêches</a>
                     </div>
 
+                    <!-- Live sync badge with government and TV sources -->
+                    <div class="p-3 rounded-xl bg-blue-50/80 border border-blue-100 flex items-center justify-between gap-3 text-xs text-brand-blue">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
+                            <span class="font-bold text-slate-900">Veille Républicaine :</span>
+                            <span class="text-slate-600 hidden sm:inline">RTNC TV, Radio Okapi, Actualité.cd &amp; Primature RDC</span>
+                        </div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-brand-blue bg-white px-2 py-0.5 rounded-md border border-blue-200 shadow-2xs">Temps réel</span>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {% for news in latest_news %}
                         <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-brand-blue/50 transition-all flex flex-col justify-between shadow-xs group">
@@ -481,10 +746,15 @@
                                     </div>
                                     {% endif %}
                                     
-                                    <div class="absolute top-2.5 left-2.5">
+                                    <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
                                         <span class="px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
                                             {{ news.get_category_display }}
                                         </span>
+                                        {% if news.logo_path %}
+                                        <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
+                                            <img src="{% static news.logo_path %}" alt="{{ news.source_name }}" class="w-full h-full object-contain">
+                                        </span>
+                                        {% endif %}
                                     </div>
 
                                     <div class="absolute bottom-2 right-2">
@@ -509,8 +779,14 @@
                             </div>
 
                             <div class="p-4 pt-0 flex items-center justify-between text-[11px] border-t border-slate-100 pt-3">
-                                <span class="text-slate-400 font-medium truncate max-w-[130px]">{{ news.source_name }}</span>
-                                <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline">Lire la suite</a>
+                                <div class="flex items-center gap-1.5 truncate max-w-[170px]">
+                                    {% if news.logo_path %}
+                                    <img src="{% static news.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
+                                    {% endif %}
+                                    <span class="font-bold text-slate-800 text-[11px] truncate">{{ news.source_name }}</span>
+                                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue shrink-0"></i>
+                                </div>
+                                <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline shrink-0">Lire la suite</a>
                             </div>
                         </article>
                         {% empty %}
@@ -539,12 +815,23 @@
                         {% for tweet in tweets %}
                         <div class="pt-3 pb-3 space-y-2 first:pt-0">
                             <div class="flex items-center justify-between text-[11px]">
-                                <span class="font-bold text-slate-900 flex items-center gap-1.5">
-                                    <div class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black uppercase">
-                                        {{ tweet.author|slice:":1" }}
+                                <span class="font-bold text-slate-900 flex items-center gap-2">
+                                    <div class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 p-0.5 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
+                                        {% if tweet.logo %}
+                                            <img src="{% static tweet.logo %}" alt="{{ tweet.author }}" class="w-full h-full object-contain">
+                                        {% else %}
+                                            <div class="w-full h-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black uppercase">
+                                                {{ tweet.author|slice:":1" }}
+                                            </div>
+                                        {% endif %}
                                     </div>
-                                    <span>{{ tweet.author }}</span>
-                                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                    <div class="flex flex-col leading-tight">
+                                        <span class="flex items-center gap-1 font-bold text-slate-900">
+                                            <span>{{ tweet.author }}</span>
+                                            <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                        </span>
+                                        <span class="text-[9.5px] text-slate-400 font-mono">{{ tweet.handle }}</span>
+                                    </div>
                                 </span>
                                 <span class="text-[10px] text-slate-400">{{ tweet.created_at|date:"d M H:i" }}</span>
                             </div>

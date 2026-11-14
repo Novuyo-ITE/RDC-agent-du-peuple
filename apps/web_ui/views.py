@@ -23,13 +23,36 @@ def landing_view(request):
     from apps.rag_engine.models import OfficialServiceRegistry, OfficialNews, CommunityPost
     from apps.rag_engine.official_portals import OFFICIAL_DRC_PORTALS
 
-    featured_services = OfficialServiceRegistry.objects.filter(is_active=True).order_by('category', 'service_name')[:6]
-    
+    featured_services = OfficialServiceRegistry.objects.filter(is_active=True).order_by('id')[:6]
+
+    def get_source_logo(source_name="", source_url=""):
+        sn = (source_name or "").lower()
+        su = (source_url or "").lower()
+        if "okapi" in sn or "okapi" in su:
+            return "img/sources/radiookapi.png"
+        if "actualite" in sn or "actualite" in su:
+            return "img/sources/actualite_cd.png"
+        if "rtnc" in sn or "rtnc" in su:
+            return "img/sources/rtnc.png"
+        if "primature" in sn or "primature" in su:
+            return "img/sources/primature.png"
+        if "presid" in sn or "presid" in su:
+            return "img/sources/presidence.png"
+        if "journal" in sn or "journal" in su or "jo" in sn:
+            return "img/sources/journal_officiel.png"
+        if "rfi" in sn or "rfi" in su:
+            return "img/sources/rfi.png"
+        return "img/armoirie_rdc.png"
+
     # Priority to news with images
     latest_news = list(OfficialNews.objects.approved().filter(is_verified=True).exclude(image_url='').order_by('-published_at')[:4])
     if len(latest_news) < 4:
         extra_news = list(OfficialNews.objects.approved().filter(is_verified=True).filter(image_url='').order_by('-published_at')[:4 - len(latest_news)])
         latest_news.extend(extra_news)
+
+    # Attach respective media logo to each news item
+    for item in latest_news:
+        item.logo_path = get_source_logo(item.source_name, getattr(item, 'source_url', ''))
     
     # Fetch real tweets / X dispatches
     raw_tweets = CommunityPost.objects.filter(
@@ -37,7 +60,7 @@ def landing_view(request):
         is_visible=True
     ).order_by('-created_at')[:4]
 
-    # Pre-extract tweet images and profile data for easy template rendering
+    # Pre-extract tweet images, profile data and logos for easy template rendering
     tweet_list = []
     for t in raw_tweets:
         img = None
@@ -45,18 +68,107 @@ def landing_view(request):
             imgs = t.source_metadata.get('images', [])
             if imgs and isinstance(imgs, list) and len(imgs) > 0:
                 img = imgs[0]
+        
+        author_name = t.author or 'Correspondant RDC'
+        author_lower = author_name.lower()
+        if "presid" in author_lower:
+            t_logo = "img/sources/presidence.png"
+            account_handle = "@Presidence_RDC"
+        elif "bujakera" in author_lower:
+            t_logo = "img/sources/actualite_cd.png"
+            account_handle = "@StanysBujakera"
+        elif "actualite" in author_lower:
+            t_logo = "img/sources/actualite_cd.png"
+            account_handle = "@actualitecd"
+        elif "okapi" in author_lower:
+            t_logo = "img/sources/radiookapi.png"
+            account_handle = "@radiookapi"
+        elif "rtnc" in author_lower:
+            t_logo = "img/sources/rtnc.png"
+            account_handle = "@officiel_rtnc"
+        else:
+            t_logo = "img/sources/presidence.png"
+            account_handle = "@RDC_Gouv"
+
         tweet_list.append({
-            'author': t.author or 'Correspondant RDC',
+            'author': author_name,
+            'handle': account_handle,
+            'logo': t_logo,
             'body': t.body,
             'created_at': t.created_at,
             'source_url': t.source_url,
             'image': img,
         })
 
+    # Verified civic media and government broadcast sources with their respective logos/favicons
+    verified_sources = [
+        {
+            'name': 'RTNC',
+            'full_name': 'Radio Télévision Nationale Congolaise',
+            'type': 'Média Public & Télévision d\'État',
+            'description': 'Diffuseur audiovisuel officiel de la République, direct institutionnel et journal télévisé.',
+            'url': 'https://rtnc.cd',
+            'logo': 'img/sources/rtnc.png',
+            'icon': 'tv',
+            'badge': 'Télévision Publique',
+        },
+        {
+            'name': 'Radio Okapi',
+            'full_name': 'Radio de la Paix en RDC',
+            'type': 'Presse Indépendante & Réseau National',
+            'description': 'Couverture journalistique neutre à travers les 26 provinces en Français, Lingála, Kiswahili et Kikongo.',
+            'url': 'https://www.radiookapi.net',
+            'logo': 'img/sources/radiookapi.png',
+            'icon': 'radio',
+            'badge': 'Radio Nationale',
+        },
+        {
+            'name': 'Actualite.cd',
+            'full_name': 'Actualité & Société RDC',
+            'type': 'Presse Numérique d\'Investigation',
+            'description': 'Dépêches politiques, économiques et civiques vérifiées avec correspondants permanents.',
+            'url': 'https://actualite.cd',
+            'logo': 'img/sources/actualite_cd.png',
+            'icon': 'newspaper',
+            'badge': 'Presse En Ligne',
+        },
+        {
+            'name': 'Primature RDC',
+            'full_name': 'Gouvernement de la République',
+            'type': 'Pouvoir Exécutif',
+            'description': 'Comptes-rendus hebdomadaires des Conseils des Ministres et politiques gouvernementales.',
+            'url': 'https://www.primature.gouv.cd',
+            'logo': 'img/sources/primature.png',
+            'icon': 'landmark',
+            'badge': 'Gouvernement',
+        },
+        {
+            'name': 'Présidence de la République',
+            'full_name': 'Palais de la Nation',
+            'type': 'Institution Constitutionnelle',
+            'description': 'Ordonnances du Chef de l\'État, discours à la Nation et décisions républicaines majeures.',
+            'url': 'http://presidentrdc.cd',
+            'logo': 'img/sources/presidence.png',
+            'icon': 'shield',
+            'badge': 'Présidence',
+        },
+        {
+            'name': 'Journal Officiel',
+            'full_name': 'Dépôt Légal de la République',
+            'type': 'Registre Législatif Officiel',
+            'description': 'Lois promulguées, arrêtés ministériels et immatriculations d\'entreprises au Congo.',
+            'url': 'https://journalofficiel.cd',
+            'logo': 'img/sources/journal_officiel.png',
+            'icon': 'book-open',
+            'badge': 'Droit Positif',
+        },
+    ]
+
     return render(request, 'landing.html', {
         'featured_services': featured_services,
         'latest_news': latest_news,
         'tweets': tweet_list,
+        'verified_sources': verified_sources,
         'total_portals': len(OFFICIAL_DRC_PORTALS),
         'total_services': OfficialServiceRegistry.objects.filter(is_active=True).count(),
         'total_news': OfficialNews.objects.approved().filter(is_verified=True).count(),
