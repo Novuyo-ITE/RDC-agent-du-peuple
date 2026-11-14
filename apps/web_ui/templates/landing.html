@@ -1,16 +1,16 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr" class="scroll-smooth h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demandez et accédez aux services publics en RDC | RDC Agent du Peuple</title>
-    <meta name="description" content="Accès unifié aux services publics de la République Démocratique du Congo et orientation citoyenne. Passeport, impôts, RCCM, visas, bourses et assistance officielle.">
+    <title>RDC Agent du Peuple — Le Guichet d'Orientation Civique de la République</title>
+    <meta name="description" content="Plateforme républicaine d'orientation civique, d'assistance aux démarches administratives officielles et d'information publique certifiée en République Démocratique du Congo.">
 
-    <!-- Fonts: Inter & Playfair Display (UgGov standard typography) -->
+    <!-- Plus Jakarta Sans: Clean, professional, modern sans-serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="{% static 'js/tailwindcss.js' %}"></script>
@@ -19,21 +19,20 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
                     },
                     colors: {
-                        gov: {
-                            hero: '#0B3B60',        /* Deep Sovereign Navy Blue */
-                            heroAccent: '#0055A5',  /* DRC Blue tone */
-                            structural: '#0A1E2F',  /* Deep dark navy structural */
-                            bg: '#FBFBFA',          /* UgGov subtle canvas off-white */
-                            surface: '#FFFFFF',
-                            border: '#E3E8EC',
-                            yellow: '#FCD116',      /* Congolese Golden Yellow */
-                            red: '#CE1126',         /* Congolese Flag Red */
-                            blue: '#0077C8',        /* Congolese Sky Blue */
-                            accent: '#0066B3',      /* Primary functional link color */
+                        brand: {
+                            blue: '#0077C8',
+                            blueDark: '#005A9C',
+                            yellow: '#FCD116',
+                            red: '#CE1126',
+                            dark: '#07111E',
+                            darkSurface: '#0E1A29',
+                            muted: '#64748B',
+                            border: '#E2E8F0',
+                            card: '#FFFFFF',
+                            canvas: '#F8FAFC',
                         }
                     }
                 }
@@ -45,159 +44,229 @@
     <script src="{% static 'js/lucide.min.js' %}?v=1.66"></script>
 
     <style>
-        .flag-strip-top {
-            background: linear-gradient(90deg, 
-                #0077C8 0%, #0077C8 33.3%, 
-                #FCD116 33.3%, #FCD116 41%, 
-                #CE1126 41%, #CE1126 59%, 
-                #FCD116 59%, #FCD116 66.6%, 
-                #0077C8 66.6%, #0077C8 100%);
+        /* Exact sovereign background chosen earlier */
+        .hero-banner {
+            background: radial-gradient(circle at 85% 20%, rgba(252, 209, 22, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 10% 90%, rgba(206, 17, 38, 0.08) 0%, transparent 45%),
+                        linear-gradient(135deg, #07111E 0%, #0D2038 50%, #09172A 100%);
+        }
+        .national-ribbon {
+            background: linear-gradient(90deg, #0077C8 0%, #0077C8 38%, #FCD116 38%, #FCD116 41%, #CE1126 41%, #CE1126 59%, #FCD116 59%, #FCD116 62%, #0077C8 62%, #0077C8 100%);
+        }
+        /* Floating geometric particles in hero */
+        .geo-particle {
+            position: absolute;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0.15;
+            transition: transform 0.2s ease-out;
         }
     </style>
 </head>
-<body class="bg-gov-bg text-gov-structural font-sans antialiased selection:bg-gov-yellow selection:text-black">
+<body class="bg-brand-canvas text-slate-800 font-sans antialiased selection:bg-brand-yellow selection:text-slate-900 flex flex-col min-h-full">
 
-    <!-- ================================================================= -->
-    <!-- 1. TOP NAVIGATION BAR (Exact UgGov Layout, Glassmorphism, 60/80px) -->
-    <!-- ================================================================= -->
-    <nav class="h-16 md:h-20 px-4 md:px-12 flex items-center justify-between fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-[#0B3B60]/95 backdrop-blur-md border-white/10 text-white">
-        
-        <!-- Flag Stripe Top Accent -->
-        <div class="absolute top-0 left-0 right-0 flex h-1 md:h-[5px] w-full shrink-0 flag-strip-top"></div>
+    <!-- Top Flag Ribbon -->
+    <div class="h-1.5 w-full national-ribbon shrink-0"></div>
 
-        <!-- Left: Logo & Arms -->
-        <div class="flex items-center gap-3 md:gap-4 shrink-0 mt-1">
-            <a href="{% url 'web_ui:landing' %}" class="flex items-center gap-2.5 md:gap-3 group focus-visible:outline-none">
-                <img src="{% static 'img/armoirie_rdc.png' %}" alt="Armoiries de la RDC" class="w-8 h-8 md:w-9 md:h-9 object-contain drop-shadow-xs">
-                <div class="flex flex-col items-start gap-[2px]">
-                    <span class="font-serif text-xl md:text-2xl font-bold tracking-tight select-none">
-                        <span class="text-white">rdc</span><span class="text-[#FCD116]">Gov</span><span class="text-[#FCD116] ml-1 text-sm md:text-base font-bold">Agent</span>
-                    </span>
-                    <div class="flex w-10 h-[2.5px] rounded-full overflow-hidden opacity-95 group-hover:w-full transition-all duration-300">
-                        <div class="flex-1 bg-gov-blue"></div>
-                        <div class="flex-1 bg-[#FCD116]"></div>
-                        <div class="flex-1 bg-[#CE1126]"></div>
-                    </div>
-                </div>
+    <!-- Navigation Bar: Clean, professional, solid, using the same chatbot logo -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Exact Chatbot Logo -->
+            <a href="{% url 'web_ui:landing' %}" class="flex items-center gap-3 group">
+                <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-12 w-auto object-contain transition-transform group-hover:scale-102">
             </a>
 
-            <div class="hidden lg:block h-6 w-[1px] bg-white/20"></div>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="#services" class="hover:text-brand-blue transition-colors">Démarches</a>
+                <a href="#actualites" class="hover:text-brand-blue transition-colors">Actualités</a>
+                <a href="#depeches" class="hover:text-brand-blue transition-colors flex items-center gap-1.5">
+                    <span>Direct X</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse"></span>
+                </a>
+                <a href="{% url 'web_ui:directory' %}" class="hover:text-brand-blue transition-colors">Portails d'État</a>
+            </nav>
 
-            <!-- TV & Live Broadcast Pill (UgGov style) -->
-            <a href="{% url 'web_ui:news' %}" class="hidden xl:inline-flex items-center gap-2 rounded-full border border-white/35 py-1 pl-1 pr-3 text-[12px] font-semibold transition-colors hover:border-white text-white">
-                <span class="flex h-5 w-5 items-center justify-center rounded-full bg-gov-red text-white">
-                    <i data-lucide="radio" class="w-3 h-3 animate-pulse"></i>
-                </span>
-                <span>Journal Officiel</span>
-            </a>
-        </div>
-
-        <!-- Center / Right: Nav items -->
-        <div class="flex items-center justify-end gap-3 md:gap-6 text-[13px] md:text-[14px] font-medium tracking-wide">
-            <a href="#services" class="hidden lg:inline-flex items-center hover:underline font-bold uppercase tracking-wider text-[12px] text-white/80 hover:text-white transition-colors">Services</a>
-            <a href="{% url 'web_ui:news' %}" class="hidden lg:inline-flex items-center hover:underline font-bold uppercase tracking-wider text-[12px] text-white/80 hover:text-white transition-colors">Actualités</a>
-            <a href="{% url 'web_ui:community' %}" class="hidden lg:inline-flex items-center hover:underline font-bold uppercase tracking-wider text-[12px] text-white/80 hover:text-white transition-colors">Communauté</a>
-            <a href="{% url 'web_ui:directory' %}" class="hidden xl:inline-flex items-center hover:underline font-bold uppercase tracking-wider text-[12px] text-white/80 hover:text-white transition-colors">Portails d'État</a>
-
-            <!-- Language Switcher Pill (FR / SW / LN) -->
-            <div class="relative inline-block">
-                <div class="flex items-center rounded-sm p-0.5 bg-white/10 border border-white/20 shadow-xs">
-                    <i data-lucide="globe" class="w-3.5 h-3.5 ml-1.5 mr-1 text-white opacity-90 hidden sm:block"></i>
-                    <a href="{% url 'web_ui:chat' %}" class="px-2 py-1 text-[11px] font-bold uppercase tracking-wider rounded-sm bg-white text-[#0B3B60] transition-all">FR</a>
-                    <a href="{% url 'web_ui:chat' %}" class="px-2 py-1 text-[11px] font-bold uppercase tracking-wider rounded-sm text-white/80 hover:text-white transition-all">SW</a>
-                    <a href="{% url 'web_ui:chat' %}" class="px-2 py-1 text-[11px] font-bold uppercase tracking-wider rounded-sm text-white/80 hover:text-white transition-all">LN</a>
-                </div>
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue text-white font-bold text-sm shadow-sm hover:bg-brand-blueDark transition-all">
+                        <i data-lucide="message-square" class="w-4 h-4 text-brand-yellow"></i>
+                        <span>Ouvrir l'Espace Citoyen</span>
+                    </a>
+                    <a href="{% url 'web_ui:logout' %}" class="p-2.5 rounded-xl text-slate-400 hover:text-brand-red hover:bg-slate-100 transition-colors" title="Se déconnecter">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'web_ui:login' %}" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
+                        Connexion
+                    </a>
+                    <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue text-white font-bold text-sm shadow-sm hover:bg-brand-blueDark transition-all">
+                        <span>Essayer Agent du Peuple</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-brand-yellow"></i>
+                    </a>
+                {% endif %}
             </div>
 
-            <!-- Primary Action / Try Agent du Peuple CTA -->
-            <a href="{% url 'web_ui:chat' %}" class="shrink-0">
-                <button class="px-3.5 md:px-6 py-2 md:py-2.5 font-bold rounded-sm transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap text-[12px] md:text-[14px] shadow-sm bg-gov-yellow text-slate-950 hover:bg-white hover:text-gov-hero">
-                    <span>Essayer Agent du Peuple</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-            </a>
-
-            <!-- User Auth status / Login Button -->
-            {% if user.is_authenticated %}
-                <a href="{% url 'web_ui:chat' %}" class="hidden sm:inline-flex items-center gap-1.5 text-xs text-white/90 hover:text-gov-yellow font-semibold" title="Connecté : {{ user.username }}">
-                    <i data-lucide="user" class="w-3.5 h-3.5"></i>
-                    <span class="max-w-[100px] truncate">{{ user.username }}</span>
-                </a>
-                <a href="{% url 'web_ui:logout' %}" class="p-1.5 rounded-sm hover:bg-white/10 text-white/80 hover:text-gov-red" title="Déconnexion">
-                    <i data-lucide="log-out" class="w-4 h-4"></i>
-                </a>
-            {% else %}
-                <a href="{% url 'web_ui:login' %}" class="hidden sm:inline-flex items-center text-xs text-white/80 hover:text-white font-semibold">
-                    Connexion
-                </a>
-            {% endif %}
         </div>
-    </nav>
+    </header>
 
-    <!-- ================================================================= -->
-    <!-- 2. HERO SECTION (Identical UgGov Sunset Badge, Typography, Grid)  -->
-    <!-- ================================================================= -->
-    <section class="w-full bg-[#0B3B60] pt-20 text-white md:pt-28 relative overflow-hidden border-b border-gov-border/20">
+    <!-- HERO SECTION: Retains the exact midnight blue background from earlier + Interactive JavaScript Particles -->
+    <section id="hero-interactive" class="relative hero-banner text-white overflow-hidden py-16 lg:py-24 border-b border-slate-800">
         
-        <!-- Background Radial Accents -->
-        <div class="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-gov-blue/20 blur-[100px]"></div>
-        <div class="pointer-events-none absolute left-1/3 bottom-0 h-64 w-96 rounded-full bg-gov-yellow/10 blur-[100px]"></div>
+        <!-- Interactive JS Canvas / Floating geometric elements -->
+        <canvas id="hero-canvas" class="absolute inset-0 pointer-events-none z-0 w-full h-full opacity-60"></canvas>
 
-        <div class="relative z-10 mx-auto max-w-7xl px-6 pb-20 pt-8 md:px-12 md:pb-28 md:pt-12">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
-                <!-- Hero Left: Typography & CTAs -->
-                <div class="lg:col-span-7 space-y-7 max-w-2xl">
+                <!-- Hero Left: Strong sans-serif statement -->
+                <div class="lg:col-span-7 space-y-6">
                     
-                    <h1 class="font-serif text-[34px] font-bold leading-[1.12] tracking-tight md:text-[48px] lg:text-[54px] text-white">
-                        Accès Unifié aux <br class="hidden sm:block"/>
-                        <span class="italic text-gov-yellow">Services Publics</span> &amp; Démarches de la République
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs text-brand-yellow font-bold tracking-wide backdrop-blur-xs">
+                        <span class="w-2 h-2 rounded-full bg-brand-yellow animate-pulse"></span>
+                        <span>Plateforme Citoyenne d'Orientation &amp; Droit Public</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+                        L'administration congolaise clarifiée pour chaque citoyen.
                     </h1>
 
-                    <!-- Sovereign Hosting Pledge with vertical tri-color bar (UgGov trademark feature) -->
-                    <div class="flex max-w-xl items-stretch gap-3">
-                        <span aria-hidden="true" class="flex w-1 shrink-0 flex-col overflow-hidden rounded-full">
-                            <span class="flex-1 bg-gov-blue"></span>
-                            <span class="flex-1 bg-gov-yellow"></span>
-                            <span class="flex-1 bg-gov-red"></span>
-                        </span>
-                        <p class="font-serif text-[15px] sm:text-[16px] italic leading-snug text-gov-yellow">
-                            Conçu pour les citoyens de la RDC. Ancré dans les lois réelles et barèmes légaux. Disponible en Français, Lingála et Kiswahili.
-                        </p>
-                    </div>
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal">
+                        Fini l'opacité et les intermédiaires informels. Obtenez en direct les pièces exigées, les tarifs légaux au Trésor Public et les bureaux compétents en <strong class="text-white">Français</strong>, <strong class="text-white">Lingála</strong> et <strong class="text-white">Kiswahili</strong>.
+                    </p>
 
-                    <!-- Call To Action Buttons -->
-                    <div class="flex flex-col gap-3.5 sm:flex-row pt-2">
-                        <a href="{% url 'web_ui:chat' %}" class="inline-flex h-14 items-center justify-center gap-2.5 rounded-sm px-8 text-base font-bold transition-all bg-gov-yellow text-slate-950 hover:bg-white hover:text-gov-hero shadow-lg">
+                    <!-- Main CTA -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
+                        <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-brand-yellow text-slate-950 font-extrabold text-base shadow-lg hover:bg-amber-300 transition-all transform hover:-translate-y-0.5">
                             <span>Essayer Agent du Peuple</span>
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            <i data-lucide="arrow-right" class="w-5 h-5 text-slate-950"></i>
                         </a>
 
-                        <a href="#services" class="inline-flex h-14 items-center justify-center gap-2 rounded-sm border border-white/40 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur-xs transition-colors hover:bg-white hover:text-gov-hero">
+                        <a href="#services" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm transition-colors">
                             <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                            <span>Explorer les {{ total_services }} Services</span>
+                            <span>Voir les démarches officielles</span>
                         </a>
                     </div>
 
-                    <!-- Quick Prompt Pills -->
-                    <div class="pt-4 flex flex-wrap items-center gap-2 text-xs text-white/70">
-                        <span class="font-bold text-white/90">Exemples fréquents :</span>
-                        <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">Passeport biométrique</a>
-                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">Créer une entreprise (GUCE)</a>
-                        <a href="{% url 'web_ui:chat' %}?q=Visa+DGM" class="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">e-Visa DGM</a>
-                    </div>
-
-                </div>
-
-                <!-- Hero Right: Live Metric Disc (UgGov Sunset Graphic) -->
-                <div class="lg:col-span-5 flex justify-center lg:justify-end">
-                    <div class="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full flex flex-col items-center justify-center text-center border-4 border-gov-yellow/40 bg-gradient-to-br from-gov-yellow/20 via-gov-heroAccent to-[#082842] shadow-[0_0_60px_rgba(252,209,22,0.2)]">
-                        <div class="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20">
-                            <img src="{% static 'img/armoirie_rdc.png' %}" alt="Armoiries RDC" class="w-14 h-14 object-contain">
+                    <!-- Clean metrics bar -->
+                    <div class="pt-6 border-t border-slate-800 grid grid-cols-3 gap-6 text-left">
+                        <div>
+                            <div class="text-2xl font-black text-white">{{ total_portals }} Portails</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Institutions d'État vérifiées</div>
                         </div>
-                        <div class="font-serif text-3xl sm:text-4xl font-extrabold text-white">30 Portails</div>
-                        <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-gov-yellow mt-1">Institutions d'État</div>
-                        <div class="text-[10px] text-white/70 mt-1 max-w-[200px]">Base documentaire officielle vérifiée &amp; mise à jour</div>
+                        <div>
+                            <div class="text-2xl font-black text-brand-yellow">{{ total_services }} Démarches</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Fiches de procédures légales</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-black text-white">3 Langues</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Français • Lingála • Kiswahili</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Hero Right: Live Interactive Chatbot & Service Workspace Preview -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 text-slate-900 overflow-hidden">
+                        
+                        <!-- Mini Chatbot / Workspace App Header -->
+                        <div class="bg-[#F8FAFC] px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span class="text-[11px] font-bold text-slate-700">Espace Démarche · Passeport Biométrique</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[10px] font-bold text-brand-blue bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
+                                <i data-lucide="shield-check" class="w-3 h-3 text-brand-blue"></i>
+                                <span>Portail Officiel Vérifié</span>
+                            </div>
+                        </div>
+
+                        <!-- 3 Step Tabs matching the actual service_workspace.html -->
+                        <div class="bg-slate-50 px-4 pt-2.5 flex items-center gap-2 border-b border-slate-200 text-[11px] font-bold">
+                            <div class="px-3 py-1.5 rounded-t-lg bg-white border-t border-x border-slate-200 text-brand-blue flex items-center gap-1.5 shadow-2xs">
+                                <span class="w-4 h-4 rounded-full bg-brand-blue text-white flex items-center justify-center text-[9px]">1</span>
+                                <span>Comprendre</span>
+                            </div>
+                            <div class="px-3 py-1.5 text-slate-400 flex items-center gap-1.5">
+                                <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[9px]">2</span>
+                                <span>Préparer</span>
+                            </div>
+                            <div class="px-3 py-1.5 text-slate-400 flex items-center gap-1.5">
+                                <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[9px]">3</span>
+                                <span>Déposer</span>
+                            </div>
+                        </div>
+
+                        <!-- Chatbot Conversation Snippet -->
+                        <div class="p-4 sm:p-5 space-y-3.5 bg-white text-xs">
+                            
+                            <!-- User Message Bubble -->
+                            <div class="flex justify-end">
+                                <div class="max-w-[85%] rounded-2xl rounded-tr-xs bg-brand-blue text-white p-3 space-y-1 shadow-xs">
+                                    <div class="text-[9.5px] uppercase font-bold text-brand-yellow">Question citoyenne</div>
+                                    <p class="leading-relaxed">« Nalingi koyeba motuya ya solo ya passeport na Kinshasa mpe esika ya kofuta ? »</p>
+                                </div>
+                            </div>
+
+                            <!-- Bot Response Card -->
+                            <div class="flex justify-start">
+                                <div class="w-full rounded-2xl rounded-tl-xs bg-[#F8FAFC] border border-slate-200/90 p-3.5 space-y-2.5 shadow-xs">
+                                    
+                                    <div class="flex items-center justify-between pb-2 border-b border-slate-200">
+                                        <div class="flex items-center gap-2 font-bold text-slate-900 text-xs">
+                                            <img src="{% static 'img/armoirie_rdc.png' %}" alt="" class="h-4 w-4 object-contain">
+                                            <span>RDC Agent du peuple</span>
+                                        </div>
+                                        <span class="text-[10px] text-slate-400 font-mono">Affaires Étrangères</span>
+                                    </div>
+
+                                    <!-- Structured Facts from service page -->
+                                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                                        <div class="p-2 rounded-lg bg-white border border-slate-200">
+                                            <span class="text-slate-400 block text-[9.5px] uppercase font-semibold">Tarif légal officiel</span>
+                                            <span class="font-bold text-brand-blue font-mono text-xs">99 USD (au taux légal)</span>
+                                        </div>
+                                        <div class="p-2 rounded-lg bg-white border border-slate-200">
+                                            <span class="text-slate-400 block text-[9.5px] uppercase font-semibold">Mode de paiement</span>
+                                            <span class="font-bold text-slate-900 text-[11px]">Banque agréée</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Anti-fraud advice -->
+                                    <div class="p-2.5 rounded-lg bg-amber-50/90 border border-amber-200 text-amber-900 text-[10.5px] leading-snug flex items-start gap-1.5">
+                                        <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5"></i>
+                                        <span><strong>Consigne officielle :</strong> Aucun versement en main propre n'est admis. Exigez la quittance du Trésor Public.</span>
+                                    </div>
+
+                                    <!-- Suggested quick questions -->
+                                    <div class="pt-1 flex flex-wrap gap-1.5 text-[10px]">
+                                        <a href="{% url 'web_ui:chat' %}?q=Pieces+a+fournir+pour+passeport" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors">
+                                            📋 Pièces à fournir ?
+                                        </a>
+                                        <a href="{% url 'web_ui:chat' %}?q=Ou+deposer+le+dossier+passeport" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors">
+                                            📍 Où déposer à Kinshasa ?
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Mini Composer Input Bar (reflecting the real chatbot UI) -->
+                        <div class="p-3 bg-[#F4F2EA] border-t border-slate-200 flex items-center gap-2">
+                            <div class="flex-1 bg-white rounded-xl border border-slate-300 px-3 py-2 text-xs text-slate-400 flex items-center justify-between">
+                                <span class="truncate">Posez votre question administrative ici...</span>
+                                <i data-lucide="mic" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                            </div>
+                            <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique" class="h-9 w-9 rounded-xl bg-brand-blue text-white flex items-center justify-center hover:bg-brand-blueDark transition-colors shrink-0 shadow-xs" title="Ouvrir dans le chat">
+                                <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
 
@@ -206,150 +275,52 @@
 
     </section>
 
-    <!-- ================================================================= -->
-    <!-- 3. HOW IT WORKS: FROM QUESTION TO DECISION (Exact UgGov 4 Steps)  -->
-    <!-- ================================================================= -->
-    <section id="how-it-works" class="relative z-10 w-full bg-gov-bg py-12 md:py-20 border-b border-gov-border">
-        <div class="mx-auto max-w-7xl px-6 md:px-12">
+    <!-- SECTION: Official Administrative Procedures (Clean card grid with real icons & badges) -->
+    <section id="services" class="py-16 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="mb-10 max-w-2xl md:mb-14">
-                <span class="inline-flex items-center rounded-full bg-gov-accent/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gov-accent">Comment ça marche</span>
-                <h2 class="mt-4 font-serif text-3xl sm:text-4xl md:text-[50px] leading-[1.08] tracking-tight text-gov-structural">
-                    De la question à la décision
-                </h2>
-                <p class="mt-3 text-[15px] leading-relaxed text-gov-structural/70 md:text-base">
-                    Accessible sans inscription préalable, en Français, Lingála et Kiswahili.
-                </p>
-            </div>
-
-            <!-- 4 Column Sequential Process with Connecting Track -->
-            <ol class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-                
-                <!-- Step 1 -->
-                <li class="flex flex-col rounded-2xl border border-gov-border bg-gov-surface p-6 shadow-xs hover:border-gov-accent/50 transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gov-border bg-gov-bg font-serif text-base font-bold text-gov-structural">1</span>
-                        <i data-lucide="message-circle" class="w-5 h-5 text-gov-accent"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Posez votre question</h3>
-                    <p class="mt-2 text-[13.5px] leading-relaxed text-gov-structural/70">
-                        Tapez ou dictez votre demande comme vous le feriez au guichet public. Aucune compétence technique requise.
-                    </p>
-                    <div class="mt-auto pt-4 flex flex-wrap gap-1.5 text-[10.5px] font-bold text-gov-accent">
-                        <span class="px-2 py-0.5 rounded bg-gov-accent/10">Lingála</span>
-                        <span class="px-2 py-0.5 rounded bg-gov-accent/10">Kiswahili</span>
-                        <span class="px-2 py-0.5 rounded bg-gov-accent/10">Français</span>
-                    </div>
-                </li>
-
-                <!-- Step 2 -->
-                <li class="flex flex-col rounded-2xl border border-gov-border bg-gov-surface p-6 shadow-xs hover:border-gov-accent/50 transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gov-border bg-gov-bg font-serif text-base font-bold text-gov-structural">2</span>
-                        <i data-lucide="file-text" class="w-5 h-5 text-gov-accent"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Vérifiez les exigences</h3>
-                    <p class="mt-2 text-[13.5px] leading-relaxed text-gov-structural/70">
-                        L’Agent dresse la liste exacte des pièces justificatives, des délais légaux et des tarifs officiels certifiés.
-                    </p>
-                    <div class="mt-auto pt-4 flex flex-wrap gap-1 text-[11px] font-mono text-gov-structural/60">
-                        <span>diplomatie.gouv.cd</span> • <span>guce.cd</span>
-                    </div>
-                </li>
-
-                <!-- Step 3 -->
-                <li class="flex flex-col rounded-2xl border border-gov-border bg-gov-surface p-6 shadow-xs hover:border-gov-accent/50 transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gov-border bg-gov-bg font-serif text-base font-bold text-gov-structural">3</span>
-                        <i data-lucide="credit-card" class="w-5 h-5 text-gov-accent"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Tarifs &amp; Banques Agréées</h3>
-                    <p class="mt-2 text-[13.5px] leading-relaxed text-gov-structural/70">
-                        Consultez le montant légal à payer au Trésor Public. Ne versez jamais d’argent en main propre sans bordereau bancaire.
-                    </p>
-                    <div class="mt-auto pt-4 text-[10.5px] font-bold text-gov-red flex items-center gap-1">
-                        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
-                        <span>Zéro commission informelle</span>
-                    </div>
-                </li>
-
-                <!-- Step 4 -->
-                <li class="flex flex-col rounded-2xl border border-gov-border bg-gov-surface p-6 shadow-xs hover:border-gov-accent/50 transition-all">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gov-border bg-gov-bg font-serif text-base font-bold text-gov-structural">4</span>
-                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Suivez jusqu'au bout</h3>
-                    <p class="mt-2 text-[13.5px] leading-relaxed text-gov-structural/70">
-                        Obtenez l’adresse exacte du bureau de retrait de votre document et les voies de recours légales en cas de retard indu.
-                    </p>
-                    <div class="mt-auto pt-4">
-                        <a href="{% url 'web_ui:chat' %}" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                            <span>Poser une question</span>
-                            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                        </a>
-                    </div>
-                </li>
-
-            </ol>
-
-        </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 4. GOVERNMENT SERVICES (Start a service, right here)              -->
-    <!-- ================================================================= -->
-    <section id="services" class="relative z-10 w-full overflow-hidden border-b border-gov-border bg-gradient-to-b from-white to-gov-surface/40 py-12 md:py-20">
-        <div class="relative mx-auto max-w-7xl px-6 md:px-12">
-            
-            <!-- Section Header -->
-            <div class="mb-8 flex flex-col justify-between gap-4 md:mb-12 md:flex-row md:items-end">
-                <div class="max-w-2xl">
-                    <span class="inline-flex items-center gap-2 rounded-full bg-gov-accent/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gov-accent">Services gouvernementaux</span>
-                    <h2 class="mt-3 font-serif text-3xl sm:text-4xl md:text-[46px] leading-[1.05] tracking-tight text-gov-structural">
-                        Entamez une démarche, dès ici
-                    </h2>
-                    <p class="mt-3 max-w-xl text-[15px] leading-relaxed text-gov-structural/70">
-                        Vraies démarches publiques guidées étape par étape. Choisissez un service ou laissez l’Agent vous orienter.
-                    </p>
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Catalogue Réglementaire</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Démarches Fréquemment Consultées</h2>
                 </div>
-                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-gov-structural/20 bg-white hover:bg-gov-bg text-xs font-bold text-gov-structural shadow-xs transition-colors shrink-0">
-                    <i data-lucide="search" class="w-4 h-4 text-gov-accent"></i>
-                    <span>Voir tout le catalogue officiel</span>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-gov-structural/50"></i>
+                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-blue hover:underline">
+                    <span>Voir toutes les démarches</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
             </div>
 
-            <!-- Service Cards Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {% for service in featured_services %}
-                <div class="p-6 rounded-2xl bg-white border border-gov-border/80 hover:border-gov-accent hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-blue hover:bg-white transition-all flex flex-col justify-between space-y-4 group">
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-gov-accent">
-                            <span>{{ service.get_category_display }}</span>
-                            <span class="text-gov-structural/40">{{ service.processing_time_days }} jours</span>
+                        <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                            <span class="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-brand-blue font-bold">
+                                {{ service.get_category_display }}
+                            </span>
+                            <span class="text-slate-500 font-mono">{{ service.processing_time_days }} jours</span>
                         </div>
-                        <h4 class="font-serif font-bold text-base text-gov-structural leading-snug">
+                        <h3 class="font-bold text-base text-slate-900 leading-snug group-hover:text-brand-blue transition-colors">
                             {{ service.service_name }}
-                        </h4>
-                        <p class="text-xs text-gov-structural/65 leading-relaxed line-clamp-3">
+                        </h3>
+                        <p class="text-xs text-slate-600 leading-relaxed line-clamp-3">
                             {{ service.description }}
                         </p>
                     </div>
 
-                    <div class="pt-3 border-t border-gov-border/60 flex items-center justify-between text-xs">
-                        <span class="font-mono font-bold text-gov-accent">
-                            {% if service.official_cost_usd %}{{ service.official_cost_usd }} USD{% elif service.official_cost_cdf %}{{ service.official_cost_cdf }} CDF{% else %}Barème légal{% endif %}
+                    <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
+                        <span class="font-bold text-brand-blue font-mono">
+                            {% if service.official_cost_usd %}{{ service.official_cost_usd }} USD{% elif service.official_cost_cdf %}{{ service.official_cost_cdf }} CDF{% else %}Fixé par arrêté{% endif %}
                         </span>
-                        <a href="{% url 'web_ui:chat' %}?q={{ service.service_name|urlencode }}" class="font-bold text-gov-structural hover:text-gov-accent flex items-center gap-1">
+                        <a href="{% url 'web_ui:chat' %}?q={{ service.service_name|urlencode }}" class="font-bold text-slate-800 hover:text-brand-blue flex items-center gap-1">
                             <span>Consulter</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
                     </div>
                 </div>
                 {% empty %}
-                <div class="col-span-full p-8 text-center bg-white rounded-2xl border border-gov-border">
-                    <p class="text-sm text-gov-structural/60">Services en cours de synchronisation avec le registre officiel.</p>
+                <div class="col-span-full p-8 text-center bg-slate-50 rounded-2xl border border-slate-200">
+                    <p class="text-xs text-slate-500">Synchronisation des démarches en cours...</p>
                 </div>
                 {% endfor %}
             </div>
@@ -357,96 +328,142 @@
         </div>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- 5. WHAT CONGOLESE ARE READING & SAYING (Live News & Community)    -->
-    <!-- ================================================================= -->
-    <section class="w-full bg-gov-bg px-6 py-12 md:px-12 md:py-20 border-b border-gov-border">
-        <div class="mx-auto max-w-7xl">
+    <!-- SECTION: Verified News & Live Tweets with Real Pictures -->
+    <section id="actualites" class="py-16 bg-brand-canvas border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <header class="mb-10 max-w-2xl">
-                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-gov-accent">En direct sur la plateforme</p>
-                <h2 class="mt-2 font-serif text-3xl sm:text-4xl font-bold text-gov-structural">
-                    Ce que les Congolais lisent et partagent
-                </h2>
-            </header>
+            <div class="mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Veille de l'État &amp; Actualité Citoyenne</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Dépêches Officielles &amp; Direct X</h2>
+            </div>
 
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- Left: Official Verified News Feed -->
-                <div class="relative flex flex-col rounded-2xl border border-gov-border bg-gov-surface p-6 md:p-8 shadow-xs">
-                    <span aria-hidden="true" class="absolute inset-x-0 top-0 flex h-1 flag-strip-top"></span>
-                    
-                    <div class="flex items-center justify-between pb-4 border-b border-gov-border/60">
-                        <h3 class="flex items-center gap-2 font-serif text-xl font-bold text-gov-structural">
-                            <i data-lucide="newspaper" class="w-5 h-5 text-gov-accent"></i>
-                            <span>Dépêches &amp; Journal Public</span>
-                        </h3>
-                        <a href="{% url 'web_ui:news' %}" class="text-xs font-bold text-gov-accent hover:underline">Toutes les dépêches</a>
+                <!-- Left: Authentic Verified News from DRC Media with Authentic Pictures -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                        <div class="flex items-center gap-2 font-bold text-sm text-slate-900">
+                            <i data-lucide="newspaper" class="w-4 h-4 text-brand-blue"></i>
+                            <span>Dernières dépêches illustrées</span>
+                        </div>
+                        <a href="{% url 'web_ui:news' %}" class="text-xs font-bold text-brand-blue hover:underline">Toutes les dépêches</a>
                     </div>
 
-                    <div class="divide-y divide-gov-border/60 mt-2 flex-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {% for news in latest_news %}
-                        <article class="py-4 space-y-1.5 group">
-                            <div class="flex items-center gap-2 text-[11px] text-gov-structural/50">
-                                <span class="font-bold text-gov-accent uppercase tracking-wider">{{ news.get_category_display }}</span>
-                                <span>•</span>
-                                <span>{{ news.published_at|date:"d M Y" }}</span>
+                        <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-brand-blue/50 transition-all flex flex-col justify-between shadow-xs group">
+                            <div>
+                                <!-- Real News Image -->
+                                <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+                                    {% if news.image_url %}
+                                    <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';">
+                                    {% else %}
+                                    <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+                                        <i data-lucide="newspaper" class="w-8 h-8 opacity-40"></i>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="absolute top-2.5 left-2.5">
+                                        <span class="px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
+                                            {{ news.get_category_display }}
+                                        </span>
+                                    </div>
+
+                                    <div class="absolute bottom-2 right-2">
+                                        <span class="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
+                                            {{ news.region }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- News Content -->
+                                <div class="p-4 space-y-2">
+                                    <div class="text-[10px] text-slate-400 font-semibold">
+                                        {{ news.published_at|date:"d F Y" }}
+                                    </div>
+                                    <h4 class="font-bold text-xs text-slate-900 leading-snug group-hover:text-brand-blue transition-colors line-clamp-2">
+                                        <a href="{% url 'web_ui:news' %}?article={{ news.id }}">{{ news.title }}</a>
+                                    </h4>
+                                    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                                        {{ news.summary }}
+                                    </p>
+                                </div>
                             </div>
-                            <h4 class="font-serif font-bold text-sm text-gov-structural group-hover:text-gov-accent transition-colors">
-                                <a href="{% url 'web_ui:news' %}?article={{ news.id }}">{{ news.title }}</a>
-                            </h4>
-                            <p class="text-xs text-gov-structural/65 line-clamp-2 leading-relaxed">
-                                {{ news.summary }}
-                            </p>
+
+                            <div class="p-4 pt-0 flex items-center justify-between text-[11px] border-t border-slate-100 pt-3">
+                                <span class="text-slate-400 font-medium truncate max-w-[130px]">{{ news.source_name }}</span>
+                                <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline">Lire la suite</a>
+                            </div>
                         </article>
                         {% empty %}
-                        <p class="text-xs text-gov-structural/50 py-4">Actualités en cours de diffusion.</p>
+                        <p class="text-xs text-slate-400 col-span-full">Chargement des dépêches...</p>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- Right: Citizen Community Feed (Complaints, Tracasseries, Delays) -->
-                <div class="relative flex flex-col rounded-2xl border border-gov-border bg-gov-surface p-6 md:p-8 shadow-xs">
-                    <span aria-hidden="true" class="absolute inset-x-0 top-0 flex h-1 flag-strip-top"></span>
+                <!-- Right: Real Tweets / X Social Feed with Media Pictures -->
+                <div id="depeches" class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
                     
-                    <div class="flex items-center justify-between pb-4 border-b border-gov-border/60">
-                        <h3 class="flex items-center gap-2 font-serif text-xl font-bold text-gov-structural">
-                            <i data-lucide="users" class="w-5 h-5 text-gov-yellow"></i>
-                            <span>Espace d'Échange Citoyen</span>
-                        </h3>
-                        <a href="{% url 'web_ui:community' %}" class="text-xs font-bold text-gov-accent hover:underline">Ouvrir la communauté</a>
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                        <div class="flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-black text-white flex items-center justify-center font-bold text-xs">
+                                𝕏
+                            </span>
+                            <div>
+                                <h4 class="font-bold text-xs text-slate-900 leading-none">Fils d'Information X / Twitter</h4>
+                                <span class="text-[10px] text-slate-400">Journalistes et sources de terrain en RDC</span>
+                            </div>
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Flux actif"></span>
                     </div>
 
-                    <p class="text-xs text-gov-structural/65 pt-3 pb-2">
-                        Questions, signalements et retours d'expérience des usagers concernant les lenteurs, frais anormaux et services publics.
-                    </p>
-
-                    <div class="divide-y divide-gov-border/60 flex-1">
-                        {% for post in community_posts %}
-                        <div class="py-3.5 space-y-1">
-                            <div class="flex items-center justify-between text-[11px] text-gov-structural/50">
-                                <span class="font-bold text-gov-structural">{% if post.author %}{{ post.author.username }}{% else %}Citoyen vérifié{% endif %}</span>
-                                <span>{{ post.created_at|date:"d/m/Y H:i" }}</span>
+                    <div class="divide-y divide-slate-100 space-y-2">
+                        {% for tweet in tweets %}
+                        <div class="pt-3 pb-3 space-y-2 first:pt-0">
+                            <div class="flex items-center justify-between text-[11px]">
+                                <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                                    <div class="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-black uppercase">
+                                        {{ tweet.author|slice:":1" }}
+                                    </div>
+                                    <span>{{ tweet.author }}</span>
+                                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                </span>
+                                <span class="text-[10px] text-slate-400">{{ tweet.created_at|date:"d M H:i" }}</span>
                             </div>
-                            <h5 class="font-bold text-xs text-gov-structural leading-snug">
-                                {{ post.title }}
-                            </h5>
-                            <p class="text-xs text-gov-structural/70 line-clamp-2">
-                                {{ post.body }}
+                            
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                {{ tweet.body|truncatechars:180 }}
                             </p>
+
+                            <!-- Tweet image if available -->
+                            {% if tweet.image %}
+                            <div class="rounded-xl overflow-hidden max-h-40 bg-slate-100 border border-slate-100">
+                                <img src="{{ tweet.image }}" alt="" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.display='none';">
+                            </div>
+                            {% endif %}
+
+                            {% if tweet.source_url %}
+                            <div class="pt-1">
+                                <a href="{{ tweet.source_url }}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-brand-blue hover:underline inline-flex items-center gap-1">
+                                    <span>Consulter sur 𝕏</span>
+                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                         {% empty %}
-                        <div class="py-6 text-center text-xs text-gov-structural/50">
-                            Aucun signalement citoyen récent.
+                        <div class="py-6 text-center text-xs text-slate-400">
+                            Flux en direct en cours d'actualisation.
                         </div>
                         {% endfor %}
                     </div>
 
-                    <div class="pt-4 border-t border-gov-border/60">
-                        <a href="{% url 'web_ui:community' %}" class="w-full py-2.5 rounded-lg bg-gov-bg hover:bg-gov-surface border border-gov-border text-center text-xs font-bold text-gov-structural block transition-colors">
-                            Participer au débat citoyen
+                    <div class="pt-2 border-t border-slate-100 text-center">
+                        <a href="{% url 'web_ui:community' %}" class="text-xs font-bold text-brand-blue hover:underline">
+                            Voir toute la communauté &amp; signalements
                         </a>
                     </div>
+
                 </div>
 
             </div>
@@ -454,323 +471,194 @@
         </div>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- 6. SUPPORTED SECTORS (UgGov 6 Category Cards with Ministères)     -->
-    <!-- ================================================================= -->
-    <section id="topics" class="py-12 md:py-20 max-w-7xl mx-auto px-6 md:px-12 w-full border-b border-gov-border">
-        <div class="mb-8 md:mb-12">
-            <span class="inline-flex items-center gap-2 rounded-full bg-gov-accent/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gov-accent">Branches de l'État</span>
-            <h2 class="mt-3 font-serif text-3xl md:text-4xl font-bold text-gov-structural">Secteurs Pris en Charge</h2>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- CLEAN CALLOUT BANNER: Try Agent du Peuple -->
+    <section class="py-16 bg-slate-900 text-white text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             
-            <!-- Sector 1: Finance -->
-            <div class="bg-gov-surface p-6 border border-gov-border rounded-xl flex flex-col justify-between group hover:shadow-md transition-all">
-                <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-gov-accent flex items-center justify-center font-bold">
-                        <i data-lucide="landmark" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Finances &amp; Fiscalité</h3>
-                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider bg-gov-accent/10 text-gov-accent">DGI • DGRAD • DGDA • BCC</span>
-                    <p class="text-xs text-gov-structural/65 leading-relaxed pt-1">
-                        Numéro Impôt, droits de douane, déclaration fiscale et barèmes bancaires de la Banque Centrale du Congo.
-                    </p>
-                </div>
-                <div class="pt-4 border-t border-gov-border/60 mt-4">
-                    <a href="{% url 'web_ui:chat' %}?q=Finances+et+impots" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                        <span>Consulter l'Agent</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-            </div>
+            <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-14 w-auto mx-auto object-contain">
 
-            <!-- Sector 2: Security & Justice -->
-            <div class="bg-gov-surface p-6 border border-gov-border rounded-xl flex flex-col justify-between group hover:shadow-md transition-all">
-                <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-xl bg-red-50 text-gov-red flex items-center justify-center font-bold">
-                        <i data-lucide="shield" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Sécurité &amp; Citoyenneté</h3>
-                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider bg-gov-red/10 text-gov-red">Intérieur • DGM • Défense</span>
-                    <p class="text-xs text-gov-structural/65 leading-relaxed pt-1">
-                        Passeports biométriques, pièces d'identité, régulation frontalière et casier judiciaire.
-                    </p>
-                </div>
-                <div class="pt-4 border-t border-gov-border/60 mt-4">
-                    <a href="{% url 'web_ui:chat' %}?q=Securite+et+passeport" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                        <span>Consulter l'Agent</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Sector 3: Commerce & Entreprise -->
-            <div class="bg-gov-surface p-6 border border-gov-border rounded-xl flex flex-col justify-between group hover:shadow-md transition-all">
-                <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
-                        <i data-lucide="briefcase" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Économie &amp; Entrepreneuriat</h3>
-                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider bg-amber-100 text-amber-900">GUCE • ANAPI • ARSP</span>
-                    <p class="text-xs text-gov-structural/65 leading-relaxed pt-1">
-                        Création d'entreprise en 3 jours, agrément sous-traitance, incitations du code des investissements.
-                    </p>
-                </div>
-                <div class="pt-4 border-t border-gov-border/60 mt-4">
-                    <a href="{% url 'web_ui:chat' %}?q=Entreprise+GUCE+ARSP" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                        <span>Consulter l'Agent</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Sector 4: Mines & Énergie -->
-            <div class="bg-gov-surface p-6 border border-gov-border rounded-xl flex flex-col justify-between group hover:shadow-md transition-all">
-                <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
-                        <i data-lucide="gem" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Mines &amp; Ressources</h3>
-                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider bg-emerald-100 text-emerald-900">Mines • CEEC • Cadastre Minier</span>
-                    <p class="text-xs text-gov-structural/65 leading-relaxed pt-1">
-                        Traçabilité des 3T, permis de recherche, redevance minière et certificats d'origine légaux.
-                    </p>
-                </div>
-                <div class="pt-4 border-t border-gov-border/60 mt-4">
-                    <a href="{% url 'web_ui:chat' %}?q=Mines+et+traçabilite" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                        <span>Consulter l'Agent</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Sector 5: Affaires Sociales & Santé -->
-            <div class="bg-gov-surface p-6 border border-gov-border rounded-xl flex flex-col justify-between group hover:shadow-md transition-all">
-                <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
-                        <i data-lucide="heart-pulse" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Santé &amp; Couverture Sociale</h3>
-                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider bg-purple-100 text-purple-900">Santé Publique • CNSS</span>
-                    <p class="text-xs text-gov-structural/65 leading-relaxed pt-1">
-                        Gratuité de la maternité, déclarations CNSS, centres de soins publics et ripostes sanitaires.
-                    </p>
-                </div>
-                <div class="pt-4 border-t border-gov-border/60 mt-4">
-                    <a href="{% url 'web_ui:chat' %}?q=Sante+et+maternite+gratuite" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                        <span>Consulter l'Agent</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Sector 6: Éducation & Recherche -->
-            <div class="bg-gov-surface p-6 border border-gov-border rounded-xl flex flex-col justify-between group hover:shadow-md transition-all">
-                <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-700 flex items-center justify-center font-bold">
-                        <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-gov-structural">Éducation &amp; Diplômes</h3>
-                    <span class="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider bg-sky-100 text-sky-900">Éducation Nationale • ESU</span>
-                    <p class="text-xs text-gov-structural/65 leading-relaxed pt-1">
-                        Vérification numérique de diplômes d'État, bourses de solidarité nationale et calendrier académique.
-                    </p>
-                </div>
-                <div class="pt-4 border-t border-gov-border/60 mt-4">
-                    <a href="{% url 'web_ui:chat' %}?q=Diplomes+et+education" class="text-xs font-bold text-gov-accent hover:underline flex items-center gap-1">
-                        <span>Consulter l'Agent</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 7. SYSTEM ARCHITECTURE & COMPLIANCE (UgGov Dark Section)          -->
-    <!-- ================================================================= -->
-    <section class="bg-[#0A1E2F] text-white py-12 md:py-20 w-full relative z-10 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            
-            <div>
-                <span class="inline-flex items-center gap-2 rounded-full bg-gov-yellow/10 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gov-yellow">Cadre Technologique Souverain</span>
-                <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-8">Architecture &amp; Sécurité des Données</h2>
-                
-                <ul class="space-y-6">
-                    <li class="flex gap-4">
-                        <span class="font-mono text-sm text-gov-yellow font-bold pt-1">01</span>
-                        <div>
-                            <h4 class="font-bold text-base mb-1 text-white">Qu'est-ce qu'un Guichet Officiel ?</h4>
-                            <p class="text-white/70 text-sm leading-relaxed">C'est le point de référence numérique d'orientation entre l'administration publique et le citoyen.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4">
-                        <span class="font-mono text-sm text-gov-yellow font-bold pt-1">02</span>
-                        <div>
-                            <h4 class="font-bold text-base mb-1 text-white">Ancrage Documentaire RAG</h4>
-                            <p class="text-white/70 text-sm leading-relaxed">L'agent ne devine rien : chaque réponse est rigoureusement ancrée aux portails d'État vérifiés et aux arrêtés officiels.</p>
-                        </div>
-                    </li>
-                    <li class="flex gap-4">
-                        <span class="font-mono text-sm text-gov-yellow font-bold pt-1">03</span>
-                        <div>
-                            <h4 class="font-bold text-base mb-1 text-white">Protection de la Vie Privée</h4>
-                            <p class="text-white/70 text-sm leading-relaxed">Aucune donnée bancaire, mot de passe ou coordonnée sensible n'est requise pour poser une question citoyenne.</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Terminal Mockup (UgGov visual style) -->
-            <div class="rounded-2xl border border-white/15 p-6 bg-[#0E283F] shadow-2xl space-y-4">
-                <div class="flex items-center justify-between pb-3 border-b border-white/10 text-xs">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-gov-red"></span>
-                        <span class="w-3 h-3 rounded-full bg-gov-yellow"></span>
-                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                        <span class="font-mono text-white/60 ml-2">rdc_agent_du_peuple.sh</span>
-                    </div>
-                    <span class="text-[10px] uppercase font-bold text-emerald-400">En Ligne</span>
-                </div>
-                
-                <div class="space-y-3 font-mono text-xs">
-                    <div class="text-white/60">// Requête Citoyenne en Lingála :</div>
-                    <div class="text-gov-yellow font-medium">« Ndenge nini nakoki kozwa carte de commerçant na Kinshasa ? »</div>
-                    
-                    <div class="text-white/60 pt-2">// Analyse RAG &amp; Validation du barème :</div>
-                    <div class="p-3 rounded-lg bg-black/40 text-emerald-300 text-[11px] leading-relaxed space-y-1">
-                        <div>&gt; Institution : Ministère du Commerce Extérieur / GUCE</div>
-                        <div>&gt; Frais vérifiés : Fixés par arrêté interministériel</div>
-                        <div>&gt; Avertissement : Exigez le reçu officiel du Trésor</div>
-                    </div>
-                </div>
-
-                <div class="pt-2">
-                    <a href="{% url 'web_ui:chat' %}" class="w-full py-3 rounded-xl bg-gov-yellow text-slate-950 font-bold text-xs uppercase tracking-wider block text-center hover:bg-white transition-colors">
-                        Ouvrir le terminal interactif
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- 8. FINAL CALL TO ACTION (UgGov style prompt to launch)           -->
-    <!-- ================================================================= -->
-    <section class="py-16 md:py-24 bg-white border-b border-gov-border text-center">
-        <div class="max-w-4xl mx-auto px-6 space-y-6">
-            <span class="inline-flex items-center gap-2 rounded-full bg-gov-accent/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-gov-accent">Prêt à entamer votre démarche ?</span>
-            
-            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-gov-structural leading-tight">
-                Obtenez une réponse exacte, immédiate et vérifiée auprès de l'État.
+            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
+                Une question sur vos droits ou démarches administratives ?
             </h2>
 
-            <p class="text-gov-structural/70 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-                Sans déplacement inutile, sans attente au guichet et sans intermédiaire non autorisé.
+            <p class="text-slate-300 max-w-xl mx-auto text-sm leading-relaxed">
+                Interrogez l'Agent du Peuple dès maintenant. C'est gratuit, accessible 24h/24 et strictement conforme aux lois de la République.
             </p>
 
-            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="{% url 'web_ui:chat' %}" class="inline-flex h-14 items-center justify-center gap-3 rounded-sm px-10 text-base font-bold bg-gov-yellow text-slate-950 hover:bg-gov-hero hover:text-white transition-all shadow-md">
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-brand-yellow text-slate-950 font-extrabold text-sm shadow-md hover:bg-amber-300 transition-all">
                     <span>Essayer Agent du Peuple</span>
                     <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
 
                 {% if not user.is_authenticated %}
-                <a href="{% url 'web_ui:register' %}" class="inline-flex h-14 items-center justify-center gap-2 rounded-sm border border-gov-border px-8 text-sm font-semibold text-gov-structural hover:bg-gov-bg transition-colors">
+                <a href="{% url 'web_ui:register' %}" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm transition-colors">
                     <i data-lucide="user-plus" class="w-4 h-4"></i>
-                    <span>Créer un compte citoyen</span>
+                    <span>Créer un compte</span>
                 </a>
                 {% endif %}
             </div>
+
         </div>
     </section>
 
-    <!-- ================================================================= -->
-    <!-- 9. FOOTER (Exact UgGov Structure, Central Crest, Columns)         -->
-    <!-- ================================================================= -->
-    <footer class="relative z-10 w-full bg-[#0A1E2F] text-white">
-        
-        <!-- Flag Stripe Accent with Central Crest Disc -->
-        <div aria-hidden="true" class="relative h-0">
-            <div class="absolute inset-x-0 top-0 flex h-1.5 flex-col flag-strip-top"></div>
-            <div class="absolute left-1/2 top-[3px] grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white shadow-xl ring-1 ring-black/5">
-                <img src="{% static 'img/armoirie_rdc.png' %}" alt="Armoiries RDC" class="h-10 w-10 object-contain">
+    <!-- FOOTER: Standard civic footer -->
+    <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            <div class="space-y-3 md:col-span-2">
+                <div class="flex items-center gap-2 text-white font-bold text-sm">
+                    <img src="{% static 'img/armoirie_rdc.png' %}" alt="RDC" class="h-6 w-auto">
+                    <span>République Démocratique du Congo — Agent du Peuple</span>
+                </div>
+                <p class="text-slate-400 text-xs leading-relaxed max-w-md">
+                    Guichet d'orientation citoyenne et d'accès aux droits administratifs légaux. Les informations fournies s'appuient strictement sur les démarches officielles et lois publiées au Journal Officiel.
+                </p>
+                <div class="text-[11px] text-slate-500">
+                    Justice • Paix • Travail
+                </div>
             </div>
+
+            <div class="space-y-2">
+                <div class="text-white font-bold text-xs uppercase tracking-wider">Navigation</div>
+                <ul class="space-y-1.5">
+                    <li><a href="{% url 'web_ui:chat' %}" class="hover:text-brand-yellow transition-colors">Chatbot Républicain</a></li>
+                    <li><a href="{% url 'web_ui:services' %}" class="hover:text-brand-yellow transition-colors">Catalogue des Démarches</a></li>
+                    <li><a href="{% url 'web_ui:news' %}" class="hover:text-brand-yellow transition-colors">Actualités Officielles</a></li>
+                    <li><a href="{% url 'web_ui:directory' %}" class="hover:text-brand-yellow transition-colors">30 Portails Ministériels</a></li>
+                </ul>
+            </div>
+
+            <div class="space-y-2">
+                <div class="text-white font-bold text-xs uppercase tracking-wider">Accès Citoyen</div>
+                <ul class="space-y-1.5">
+                    {% if user.is_authenticated %}
+                        <li class="text-emerald-400 font-semibold">Connecté : {{ user.username }}</li>
+                        <li><a href="{% url 'web_ui:logout' %}" class="hover:text-brand-red transition-colors">Se déconnecter</a></li>
+                    {% else %}
+                        <li><a href="{% url 'web_ui:login' %}" class="hover:text-brand-yellow transition-colors">Connexion</a></li>
+                        <li><a href="{% url 'web_ui:register' %}" class="hover:text-brand-yellow transition-colors">Créer un compte</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
         </div>
 
-        <div class="mx-auto max-w-7xl px-6 pb-20 pt-16 md:px-12">
-            <div class="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,2.8fr)]">
-                
-                <!-- Left brand col -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-2">
-                        <span class="font-serif text-2xl font-bold tracking-tight">
-                            <span class="text-white">rdc</span><span class="text-[#FCD116]">Gov</span><span class="text-[#FCD116] ml-1 text-base font-bold">Agent</span>
-                        </span>
-                    </div>
-                    <p class="max-w-xs text-[13px] leading-relaxed text-gov-yellow/85">
-                        Guichet numérique républicain d'information civique et d'orientation administrative.
-                    </p>
-                    <div class="text-xs text-white/50">
-                        Justice • Paix • Travail
-                    </div>
-                </div>
-
-                <!-- Right link cols -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-xs">
-                    
-                    <div class="space-y-3">
-                        <h5 class="font-bold text-gov-yellow uppercase tracking-wider text-[11px]">Utiliser l'Agent</h5>
-                        <ul class="space-y-2 text-white/70">
-                            <li><a href="{% url 'web_ui:chat' %}" class="hover:text-white transition-colors">Chatbot Interactif</a></li>
-                            <li><a href="{% url 'web_ui:services' %}" class="hover:text-white transition-colors">Catalogue des Démarches</a></li>
-                            <li><a href="{% url 'web_ui:community' %}" class="hover:text-white transition-colors">Espace Communauté</a></li>
-                            <li><a href="{% url 'web_ui:directory' %}" class="hover:text-white transition-colors">30 Portails Ministériels</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="space-y-3">
-                        <h5 class="font-bold text-gov-yellow uppercase tracking-wider text-[11px]">S'informer</h5>
-                        <ul class="space-y-2 text-white/70">
-                            <li><a href="{% url 'web_ui:news' %}" class="hover:text-white transition-colors">Dépêches Officielles</a></li>
-                            <li><a href="{% url 'web_ui:services' %}" class="hover:text-white transition-colors">Tarifs &amp; Délais Légaux</a></li>
-                            <li><a href="{% url 'web_ui:directory' %}" class="hover:text-white transition-colors">Adresses des Guichets</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="space-y-3">
-                        <h5 class="font-bold text-gov-yellow uppercase tracking-wider text-[11px]">Accès Citoyen</h5>
-                        <ul class="space-y-2 text-white/70">
-                            {% if user.is_authenticated %}
-                                <li class="text-emerald-400 font-bold">Connecté : {{ user.username }}</li>
-                                <li><a href="{% url 'web_ui:logout' %}" class="hover:text-gov-red transition-colors">Se déconnecter</a></li>
-                            {% else %}
-                                <li><a href="{% url 'web_ui:login' %}" class="hover:text-white transition-colors">Connexion</a></li>
-                                <li><a href="{% url 'web_ui:register' %}" class="hover:text-white transition-colors">Créer un compte</a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="pt-8 mt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-white/50 gap-4">
-                <div>© 2026 République Démocratique du Congo — RDC Agent du Peuple.</div>
-                <div>Plateforme d'accès civique aux informations administratives officielles.</div>
-            </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-900 text-center text-[11px] text-slate-500">
+            © 2026 République Démocratique du Congo — RDC Agent du Peuple. Tous droits réservés.
         </div>
     </footer>
 
+    <!-- Interactive Hero Square-Grid Particle Animation (Vanilla JS) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
+
+            // Canvas interactive floating square grid effect in Hero
+            const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let squares = [];
+            const squareCount = 36;
+            const colors = [
+                'rgba(252, 209, 22, 0.18)', // gold
+                'rgba(0, 119, 200, 0.22)',  // blue
+                'rgba(206, 17, 38, 0.16)',  // red
+                'rgba(255, 255, 255, 0.12)' // white
+            ];
+
+            function resize() {
+                width = canvas.width = canvas.offsetWidth;
+                height = canvas.height = canvas.offsetHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            // Initialize squares
+            for (let i = 0; i < squareCount; i++) {
+                squares.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 28 + 14,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    rotation: Math.random() * Math.PI,
+                    vRot: (Math.random() - 0.5) * 0.008,
+                    wireframe: Math.random() > 0.4
+                });
+            }
+
+            // Mouse interaction
+            let mouseX = -1000, mouseY = -1000;
+            const heroSection = document.getElementById('hero-interactive');
+            if (heroSection) {
+                heroSection.addEventListener('mousemove', (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = e.clientX - rect.left;
+                    mouseY = e.clientY - rect.top;
+                });
+                heroSection.addEventListener('mouseleave', () => {
+                    mouseX = -1000;
+                    mouseY = -1000;
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Subtle grid dots in background
+                ctx.fillStyle = 'rgba(252, 209, 22, 0.05)';
+                const gap = 32;
+                for (let x = gap; x < width; x += gap) {
+                    for (let y = gap; y < height; y += gap) {
+                        ctx.fillRect(x, y, 1.5, 1.5);
+                    }
+                }
+
+                // Draw and update squares
+                squares.forEach(s => {
+                    s.x += s.vx;
+                    s.y += s.vy;
+                    s.rotation += s.vRot;
+
+                    // Screen wrap
+                    if (s.x < -s.size) s.x = width + s.size;
+                    if (s.x > width + s.size) s.x = -s.size;
+                    if (s.y < -s.size) s.y = height + s.size;
+                    if (s.y > height + s.size) s.y = -s.size;
+
+                    // Mouse push
+                    const dx = s.x - mouseX;
+                    const dy = s.y - mouseY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120 && dist > 0) {
+                        const force = (120 - dist) / 120 * 1.5;
+                        s.x += (dx / dist) * force;
+                        s.y += (dy / dist) * force;
+                    }
+
+                    // Render square
+                    ctx.save();
+                    ctx.translate(s.x, s.y);
+                    ctx.rotate(s.rotation);
+                    if (s.wireframe) {
+                        ctx.strokeStyle = s.color;
+                        ctx.lineWidth = 1.2;
+                        ctx.strokeRect(-s.size / 2, -s.size / 2, s.size, s.size);
+                    } else {
+                        ctx.fillStyle = s.color;
+                        ctx.fillRect(-s.size / 2, -s.size / 2, s.size, s.size);
+                    }
+                    ctx.restore();
+                });
+
+                requestAnimationFrame(animate);
+            }
+            animate();
         });
     </script>
 </body>

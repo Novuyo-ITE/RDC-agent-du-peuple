@@ -12,28 +12,51 @@ from apps.rag_engine.official_portals import get_all_portals_grouped, OFFICIAL_D
 
 def landing_view(request):
     """
-    Public national landing page faithfully mirroring the uggovagent.ug structure:
-    - Deep forest/emerald green hero section with golden Congolese sunrise badge
-    - National stripe (Blue, Yellow, Red)
-    - Real-time live statistics (queries, services, verified portals)
-    - "How it works: From question to decision" (4-step sequence with official citations)
-    - "Government services: Start a service, right here" (real live catalog items)
-    - "What Congolese are reading and saying" (live Official News + Community Feed)
-    - Supported sectors (Finance, Security, Infrastructure, Administration, Health, Education)
-    - System Architecture & Sovereign Compliance
-    - Dual call-to-action to "Agent du Peuple"
+    Public national landing page designed with professional, modern civic aesthetics:
+    - Retains the exact deep midnight blue hero background chosen earlier
+    - Clean modern sans-serif typography (Plus Jakarta Sans)
+    - Real official news articles with authentic imagery
+    - Real-time verified X / Twitter dispatches from Congolese institutions and correspondents
+    - Direct access button to "Essayer Agent du Peuple"
+    - Clear, clean service catalog cards without excessive artificial gradients
     """
     from apps.rag_engine.models import OfficialServiceRegistry, OfficialNews, CommunityPost
     from apps.rag_engine.official_portals import OFFICIAL_DRC_PORTALS
 
-    featured_services = OfficialServiceRegistry.objects.filter(is_active=True).order_by('category', 'service_name')[:8]
-    latest_news = OfficialNews.objects.approved().filter(is_verified=True).order_by('-published_at')[:4]
-    community_posts = CommunityPost.objects.filter(is_visible=True).order_by('-created_at')[:4]
+    featured_services = OfficialServiceRegistry.objects.filter(is_active=True).order_by('category', 'service_name')[:6]
+    
+    # Priority to news with images
+    latest_news = list(OfficialNews.objects.approved().filter(is_verified=True).exclude(image_url='').order_by('-published_at')[:4])
+    if len(latest_news) < 4:
+        extra_news = list(OfficialNews.objects.approved().filter(is_verified=True).filter(image_url='').order_by('-published_at')[:4 - len(latest_news)])
+        latest_news.extend(extra_news)
+    
+    # Fetch real tweets / X dispatches
+    raw_tweets = CommunityPost.objects.filter(
+        platform__icontains='Twitter',
+        is_visible=True
+    ).order_by('-created_at')[:4]
+
+    # Pre-extract tweet images and profile data for easy template rendering
+    tweet_list = []
+    for t in raw_tweets:
+        img = None
+        if t.source_metadata and isinstance(t.source_metadata, dict):
+            imgs = t.source_metadata.get('images', [])
+            if imgs and isinstance(imgs, list) and len(imgs) > 0:
+                img = imgs[0]
+        tweet_list.append({
+            'author': t.author or 'Correspondant RDC',
+            'body': t.body,
+            'created_at': t.created_at,
+            'source_url': t.source_url,
+            'image': img,
+        })
 
     return render(request, 'landing.html', {
         'featured_services': featured_services,
         'latest_news': latest_news,
-        'community_posts': community_posts,
+        'tweets': tweet_list,
         'total_portals': len(OFFICIAL_DRC_PORTALS),
         'total_services': OfficialServiceRegistry.objects.filter(is_active=True).count(),
         'total_news': OfficialNews.objects.approved().filter(is_verified=True).count(),
