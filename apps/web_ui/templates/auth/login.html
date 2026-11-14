@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Connexion Citoyenne — RDC Agent du Peuple{% endblock %}
+
+{% block content %}
+<div class="flex-1 overflow-y-auto custom-scrollbar flex items-center justify-center p-4 sm:p-6 bg-uggov-bgLight dark:bg-uggov-bgDark">
+    
+    <div class="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-7 sm:p-9 shadow-xl relative overflow-hidden">
+        
+        <!-- Header emblem -->
+        <div class="text-center space-y-3 pb-6 border-b border-slate-100 dark:border-slate-800">
+            <a href="{% url 'web_ui:landing' %}" class="inline-block group">
+                <img src="{% static 'img/armoirie_rdc.png' %}" alt="Armoiries RDC" class="h-16 w-auto mx-auto object-contain group-hover:scale-105 transition-transform">
+            </a>
+            <div>
+                <h1 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">Espace Citoyen</h1>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Connectez-vous pour retrouver vos consultations et démarches administratives.</p>
+            </div>
+        </div>
+
+        {% if form.errors %}
+        <div class="mt-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-900 text-congo-red text-xs space-y-1">
+            <div class="font-bold flex items-center gap-1.5">
+                <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                <span>Identifiants non reconnus</span>
+            </div>
+            <p>Vérifiez votre nom d'utilisateur et votre mot de passe ou créez un nouveau compte.</p>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form method="POST" action="{% url 'web_ui:login' %}" class="mt-6 space-y-4">
+            {% csrf_token %}
+            {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
+            <div class="space-y-1.5">
+                <label for="id_username" class="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                    Nom d'utilisateur ou Téléphone
+                </label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                    </span>
+                    <input type="text" name="username" id="id_username" required autofocus placeholder="Votre identifiant..." class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800 text-slate-900 dark:text-white text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-congo-blue">
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between">
+                    <label for="id_password" class="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                        Mot de passe
+                    </label>
+                </div>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i data-lucide="lock" class="w-4 h-4"></i>
+                    </span>
+                    <input type="password" name="password" id="id_password" required placeholder="••••••••" class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800 text-slate-900 dark:text-white text-xs placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-congo-blue">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-xl bg-congo-blue hover:bg-congo-azure text-white font-bold text-xs uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-2">
+                <span>Accéder à mon espace</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </form>
+
+        <!-- Footer / Register Link -->
+        <div class="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 text-center space-y-3">
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+                Vous n'avez pas encore de compte ?
+                <a href="{% url 'web_ui:register' %}{% if next %}?next={{ next }}{% endif %}" class="font-bold text-congo-blue hover:underline ml-1">Inscrivez-vous ici</a>
+            </p>
+            <div>
+                <a href="{% url 'web_ui:landing' %}" class="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    <span>Retour à la page d'accueil</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

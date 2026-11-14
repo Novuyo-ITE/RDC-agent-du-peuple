@@ -1,0 +1,466 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" class="h-full scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RDC Agent du Peuple — Le Guichet d'Accompagnement Citoyen de la République</title>
+    <meta name="description" content="Plateforme républicaine d'orientation civique, d'assistance aux démarches administratives officielles et d'information publique certifiée en République Démocratique du Congo.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="{% static 'js/tailwindcss.js' %}"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        civic: ['"Cinzel"', 'serif'],
+                    },
+                    colors: {
+                        congo: {
+                            blue: '#0055A5',
+                            azure: '#0077C8',
+                            sky: '#E6F1FA',
+                            gold: '#FCD116',
+                            amber: '#E5B20D',
+                            red: '#CE1126',
+                            crimson: '#9E0B1C',
+                            slate: '#0F172A',
+                            deep: '#07111E',
+                            parchment: '#FAF8F3',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="{% static 'js/lucide.min.js' %}?v=1.66"></script>
+
+    <style>
+        .wax-pattern {
+            background-color: #FAF8F3;
+            background-image: radial-gradient(rgba(0, 85, 165, 0.04) 1px, transparent 0);
+            background-size: 28px 28px;
+        }
+        .congo-stripe {
+            background: linear-gradient(90deg, #0077C8 0%, #0077C8 38%, #FCD116 38%, #FCD116 41%, #CE1126 41%, #CE1126 59%, #FCD116 59%, #FCD116 62%, #0077C8 62%, #0077C8 100%);
+        }
+        .hero-banner {
+            background: radial-gradient(circle at 85% 20%, rgba(252, 209, 22, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 10% 90%, rgba(206, 17, 38, 0.08) 0%, transparent 45%),
+                        linear-gradient(135deg, #07111E 0%, #0D2038 50%, #09172A 100%);
+        }
+        .stamp-border {
+            border: 2px dashed rgba(252, 209, 22, 0.4);
+        }
+    </style>
+</head>
+<body class="h-full wax-pattern text-slate-800 flex flex-col font-sans antialiased selection:bg-congo-gold selection:text-slate-900">
+
+    <!-- Flag Stripe Accent -->
+    <div class="h-2 w-full congo-stripe shrink-0"></div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Emblem + Title -->
+            <a href="{% url 'web_ui:landing' %}" class="flex items-center gap-3.5 group">
+                <img src="{% static 'img/armoirie_rdc.png' %}" alt="Armoiries RDC" class="h-12 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-xs">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-civic text-xs font-black tracking-widest text-congo-azure uppercase">République Démocratique du Congo</span>
+                    </div>
+                    <div class="font-bold text-lg text-slate-900 tracking-tight flex items-center gap-1.5">
+                        Agent du Peuple <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-congo-gold/20 text-slate-800 border border-congo-gold/40">Guichet Officiel</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                <a href="#missions" class="hover:text-congo-blue transition-colors">Notre Mission</a>
+                <a href="#demarches" class="hover:text-congo-blue transition-colors">Démarches Vérifiées</a>
+                <a href="{% url 'web_ui:news' %}" class="hover:text-congo-blue transition-colors flex items-center gap-1.5">
+                    <span>Journal Public</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-congo-red"></span>
+                </a>
+                <a href="{% url 'web_ui:directory' %}" class="hover:text-congo-blue transition-colors">Portails d'État</a>
+            </nav>
+
+            <!-- Access CTA -->
+            <div class="flex items-center gap-3">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-congo-blue text-white font-bold text-sm shadow-md hover:bg-congo-azure transition-all transform hover:-translate-y-0.5">
+                        <i data-lucide="message-square" class="w-4 h-4 text-congo-gold"></i>
+                        <span>Ouvrir l'Espace Citoyen</span>
+                    </a>
+                    <a href="{% url 'web_ui:logout' %}" class="hidden sm:inline-flex items-center p-2.5 rounded-xl text-slate-500 hover:text-congo-red hover:bg-slate-100 transition-colors" title="Se déconnecter">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'web_ui:login' %}" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-slate-700 hover:text-slate-900 font-semibold text-sm hover:bg-slate-100 transition-colors">
+                        <i data-lucide="user-check" class="w-4 h-4 text-slate-500"></i>
+                        <span>Connexion</span>
+                    </a>
+                    <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-congo-blue text-white font-bold text-sm shadow-md hover:bg-congo-azure transition-all transform hover:-translate-y-0.5">
+                        <span>Essayer Agent du Peuple</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-congo-gold"></i>
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </header>
+
+    <!-- HERO SECTION: Human, Historical & Authentic Presence -->
+    <section class="relative hero-banner text-white overflow-hidden py-20 lg:py-28 border-b border-slate-800">
+        
+        <!-- Background Elements -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#FCD116_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        <div class="absolute -right-20 -bottom-20 w-96 h-96 rounded-full bg-congo-azure/10 blur-3xl pointer-events-none"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Hero Narrative -->
+                <div class="lg:col-span-7 space-y-7">
+                    
+                    <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs text-congo-gold font-bold tracking-wide backdrop-blur-xs">
+                        <span class="w-2 h-2 rounded-full bg-congo-gold animate-pulse"></span>
+                        <span>Plateforme Citoyenne de Justice Administrative & Droit Public</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+                        L'État congolais à portée de main, <span class="font-serif italic font-normal text-congo-gold">sans intermédiaire ni tracasserie.</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-light">
+                        Passeport biométrique, création d’entreprise au GUCE, cadastre, bourses d’études ou vérification de barèmes officiels. Posez vos questions en <strong class="text-white font-medium">Français</strong>, <strong class="text-white font-medium">Lingála</strong> ou <strong class="text-white font-medium">Kiswahili</strong> et recevez les textes réels, les tarifs stricts et les guichets légaux.
+                    </p>
+
+                    <!-- Primary CTAs -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                        <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-congo-gold text-slate-950 font-extrabold text-base shadow-xl hover:bg-amber-300 transition-all transform hover:-translate-y-0.5">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-congo-red"></i>
+                            <span>Essayer Agent du Peuple</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+
+                        <a href="#demarches" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm backdrop-blur-xs transition-colors">
+                            <i data-lucide="book-open" class="w-4 h-4 text-congo-azure"></i>
+                            <span>Consulter les barèmes officiels</span>
+                        </a>
+                    </div>
+
+                    <!-- Trust Indicators -->
+                    <div class="pt-6 border-t border-slate-700/60 grid grid-cols-3 gap-6 text-left">
+                        <div>
+                            <div class="text-2xl font-black text-white font-civic">100%</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Ancré dans les lois & arrêtés</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-black text-congo-gold font-civic">0 CDF</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Contre la corruption informelle</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-black text-white font-civic">3 Langues</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Français • Lingála • Kiswahili</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Live Document / Public Card Showcase -->
+                <div class="lg:col-span-5">
+                    <div class="relative mx-auto max-w-md bg-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-200 text-slate-900">
+                        
+                        <!-- Republic Header Emblem -->
+                        <div class="flex items-center justify-between pb-5 border-b border-slate-100">
+                            <div class="flex items-center gap-3">
+                                <img src="{% static 'img/armoirie_rdc.png' %}" alt="RDC" class="h-10 w-auto">
+                                <div>
+                                    <div class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Exemple de consultation</div>
+                                    <div class="font-bold text-sm text-slate-900">Délivrance de Passeport Ordinaire</div>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold uppercase tracking-wide flex items-center gap-1">
+                                <i data-lucide="shield-check" class="w-3 h-3"></i> Vérifié
+                            </span>
+                        </div>
+
+                        <!-- Card Body (Real administrative transparency) -->
+                        <div class="py-5 space-y-4 text-xs leading-relaxed">
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
+                                <div class="text-slate-400 font-semibold uppercase text-[10px]">Question Citoyenne :</div>
+                                <div class="text-slate-800 font-medium italic">« Nalingi koyeba motuya ya solo ya passeport biométrique na Kinshasa mpe mikanda nini esengeli kopesa ? »</div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+                                    <span>Tarif Légal Fixé par Arrêté :</span>
+                                    <span class="text-congo-azure font-extrabold text-sm font-mono">99 USD (ou équivalent CDF)</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs text-slate-600">
+                                    <span>Autorité compétente :</span>
+                                    <span class="font-semibold text-slate-900">Ministère des Affaires Étrangères</span>
+                                </div>
+                                <div class="flex items-center justify-between text-xs text-slate-600">
+                                    <span>Paiement exigé :</span>
+                                    <span class="font-semibold text-slate-900">Banque agréée avec preuve de versement</span>
+                                </div>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-amber-50/80 border border-amber-200 text-amber-900 text-[11px] flex gap-2.5 items-start">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+                                <div><strong>Mise en garde légale :</strong> Aucun agent n'est habilité à percevoir des espèces en main propre dans la cour du ministère.</div>
+                            </div>
+                        </div>
+
+                        <!-- Launch Interactive Button -->
+                        <a href="{% url 'web_ui:chat' %}" class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-congo-blue hover:bg-congo-azure text-white text-xs font-bold transition-colors">
+                            <i data-lucide="message-square" class="w-4 h-4 text-congo-gold"></i>
+                            <span>Poser votre propre question administrative</span>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE MISSIONS (Human, Grounded in Congolese Realities) -->
+    <section id="missions" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <div class="font-civic text-xs font-bold tracking-widest text-congo-azure uppercase">Éthique Républicaine</div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Trois principes pour protéger les droits de chaque citoyen</h2>
+            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Ce service a été pensé pour briser l'opacité administrative, donner à chacun les moyens de vérifier ses droits et faire barrage aux commissions indues.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Pillar 1 -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-xs hover:border-congo-azure/50 transition-all space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-congo-blue flex items-center justify-center font-bold">
+                    <i data-lucide="scale" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Barèmes et Décrets Stricts</h3>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Toutes les réponses se fondent sur les ordonnances présidentielles, décrets de la Primature et arrêtés ministériels en vigueur. Nous citons la source, l'article et la date de publication.
+                </p>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-xs hover:border-congo-gold/80 transition-all space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                    <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Lutte contre les Intermédiaires</h3>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Nous détaillons les bordereaux de banque requis et les guichets agréés du Trésor Public pour éviter les rançonnements par des commissionnaires non autorisés.
+                </p>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-xs hover:border-congo-red/50 transition-all space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-red-50 text-congo-red flex items-center justify-center font-bold">
+                    <i data-lucide="languages" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900">Langues Nationales Respectées</h3>
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Le droit d'accès au service public appartient à tous : l'assistant comprend et formule les explications administratives en Lingála, Kiswahili et Français sans barrière d'usage.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- POPULAR ADMINISTRATIVE PROCEDURES -->
+    <section id="demarches" class="py-16 bg-white border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+                <div>
+                    <div class="font-civic text-xs font-bold tracking-widest text-congo-azure uppercase">Service Public Vérifié</div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">Démarches Fréquentes des Citoyens</h2>
+                </div>
+                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-congo-blue hover:text-congo-azure transition-colors">
+                    <span>Explorer tout le catalogue officiel</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Service Card 1 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-congo-blue flex items-center justify-center font-bold">
+                            <i data-lucide="book-marked" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-900">Passeport Biométrique</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">Procédure de capture biométrique, pièces requises, prise de rendez-vous et paiement bancaire.</p>
+                    </div>
+                    <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique" class="text-xs font-bold text-congo-blue hover:underline flex items-center gap-1">
+                        <span>Voir la procédure</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold">
+                            <i data-lucide="briefcase" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-900">Création d'Entreprise (GUCE)</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">Immatriculation RCCM, numéro Impôt, identification nationale sous 3 jours ouvrés.</p>
+                    </div>
+                    <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE" class="text-xs font-bold text-congo-blue hover:underline flex items-center gap-1">
+                        <span>Voir la procédure</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                            <i data-lucide="file-check" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-900">Acte d'État Civil</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">Déclaration de naissance, acte de mariage, certificat de résidence auprès de votre commune.</p>
+                    </div>
+                    <a href="{% url 'web_ui:chat' %}?q=Acte+de+naissance+commune" class="text-xs font-bold text-congo-blue hover:underline flex items-center gap-1">
+                        <span>Voir la procédure</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/80 hover:bg-white hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="w-10 h-10 rounded-xl bg-red-100 text-congo-red flex items-center justify-center font-bold">
+                            <i data-lucide="plane-takeoff" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-slate-900">Visas & DGM Électronique</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">Conditions d'entrée, visa volant, visa ordinaire et prorogation de séjour sur le portail eVisa.</p>
+                    </div>
+                    <a href="{% url 'web_ui:chat' %}?q=Visa+DGM+RDC" class="text-xs font-bold text-congo-blue hover:underline flex items-center gap-1">
+                        <span>Voir la procédure</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CALLOUT CITOYEN: Call to Action with civic pride -->
+    <section class="py-20 relative overflow-hidden bg-slate-900 text-white">
+        <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#FCD116_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative space-y-7">
+            
+            <img src="{% static 'img/armoirie_rdc.png' %}" alt="Armoiries RDC" class="h-16 w-auto mx-auto object-contain drop-shadow-md">
+
+            <div class="inline-block px-4 py-1.5 rounded-full bg-congo-gold/20 border border-congo-gold/30 text-congo-gold font-bold text-xs uppercase tracking-widest">
+                Service Républicain Ouvert à Tous
+            </div>
+
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight max-w-3xl mx-auto">
+                Prêt à clarifier vos démarches administratives ?
+            </h2>
+
+            <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                Rejoignez les milliers de citoyens qui consultent quotidiennement les règles authentiques de l'État pour protéger leurs démarches, leurs économies et leur temps.
+            </p>
+
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="{% url 'web_ui:chat' %}" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-9 py-4 rounded-2xl bg-congo-gold text-slate-950 font-extrabold text-base shadow-xl hover:bg-amber-300 transition-all transform hover:-translate-y-0.5">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-congo-red"></i>
+                    <span>Essayer Agent du Peuple</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+
+                {% if not user.is_authenticated %}
+                <a href="{% url 'web_ui:register' %}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm transition-colors">
+                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                    <span>Créer un compte citoyen</span>
+                </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            <div class="space-y-3 md:col-span-2">
+                <div class="flex items-center gap-2 text-white font-bold text-sm">
+                    <img src="{% static 'img/armoirie_rdc.png' %}" alt="RDC" class="h-6 w-auto">
+                    <span>République Démocratique du Congo — Agent du Peuple</span>
+                </div>
+                <p class="text-slate-400 text-xs leading-relaxed max-w-md">
+                    Guichet d'orientation citoyenne et d'accès aux droits administratifs légaux. Les informations fournies ont une vocation d'information publique et d'aide à la transparence.
+                </p>
+                <div class="text-[11px] text-slate-500">
+                    Justice • Paix • Travail
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <div class="text-white font-bold text-xs uppercase tracking-wider">Navigation</div>
+                <ul class="space-y-1.5">
+                    <li><a href="{% url 'web_ui:chat' %}" class="hover:text-congo-gold transition-colors">Chatbot Républicain</a></li>
+                    <li><a href="{% url 'web_ui:services' %}" class="hover:text-congo-gold transition-colors">Répertoire des démarches</a></li>
+                    <li><a href="{% url 'web_ui:news' %}" class="hover:text-congo-gold transition-colors">Actualités d'État</a></li>
+                    <li><a href="{% url 'web_ui:directory' %}" class="hover:text-congo-gold transition-colors">30 Portails officiels</a></li>
+                </ul>
+            </div>
+
+            <div class="space-y-2">
+                <div class="text-white font-bold text-xs uppercase tracking-wider">Accès Sécurisé</div>
+                <ul class="space-y-1.5">
+                    {% if user.is_authenticated %}
+                        <li><span class="text-emerald-400">Connecté : {{ user.username }}</span></li>
+                        <li><a href="{% url 'web_ui:logout' %}" class="hover:text-congo-red transition-colors">Se déconnecter</a></li>
+                    {% else %}
+                        <li><a href="{% url 'web_ui:login' %}" class="hover:text-congo-gold transition-colors">Connexion citoyenne</a></li>
+                        <li><a href="{% url 'web_ui:register' %}" class="hover:text-congo-gold transition-colors">Inscription gratuite</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-900 text-center text-[11px] text-slate-500">
+            © 2026 République Démocratique du Congo. RDC Agent du Peuple. Tous droits réservés.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>

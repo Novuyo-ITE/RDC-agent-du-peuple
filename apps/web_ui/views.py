@@ -2,16 +2,75 @@
 Views for the DRC Government Web Portal UI (mirroring uggovagent.ug layout).
 """
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.views.decorators.cache import never_cache
 from apps.rag_engine.models import OfficialServiceRegistry, KnowledgeBase, VerificationStatus
 from apps.rag_engine.official_portals import get_all_portals_grouped, OFFICIAL_DRC_PORTALS
 
 
+def landing_view(request):
+    """
+    Public republican landing page.
+    Authentic, civic, dignified presence with direct access to 'Agent du Peuple'.
+    """
+    return render(request, 'landing.html', {
+        'page_title': 'RDC Agent du Peuple — Guichet Républicain d’Accompagnement Citoyen',
+    })
+
+
 def home_view(request):
-    """Start with the chatbot welcome page."""
-    from django.shortcuts import redirect
-    return redirect('web_ui:chat')
+    """Direct route for /: displays the landing page."""
+    return landing_view(request)
+
+
+def login_view(request):
+    """Citoyen authentication login view."""
+    if request.user.is_authenticated:
+        return redirect('web_ui:chat')
+
+    next_url = request.GET.get('next') or request.POST.get('next') or 'web_ui:chat'
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            return redirect(next_url)
+    else:
+        form = AuthenticationForm(request)
+
+    return render(request, 'auth/login.html', {
+        'form': form,
+        'next': next_url,
+    })
+
+
+def register_view(request):
+    """Citoyen registration view."""
+    if request.user.is_authenticated:
+        return redirect('web_ui:chat')
+
+    next_url = request.GET.get('next') or request.POST.get('next') or 'web_ui:chat'
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect(next_url)
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'auth/register.html', {
+        'form': form,
+        'next': next_url,
+    })
+
+
+def logout_view(request):
+    """Logout citoyen view."""
+    auth_logout(request)
+    return redirect('web_ui:landing')
 
 
 @never_cache

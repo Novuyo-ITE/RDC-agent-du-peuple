@@ -235,6 +235,39 @@
                     {% endif %}
                 </a>
 
+                <!-- Portails Officiels / Directory -->
+                <a title="Portails d'État" aria-label="Portails d'État" href="{% url 'web_ui:directory' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'directory' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <i data-lucide="landmark" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+                        <span>Portails d'État</span>
+                    </div>
+                    {% if request.resolver_match.url_name == 'directory' %}
+                    <span class="w-2 h-2 rounded-full bg-drc-blue dark:bg-blue-400"></span>
+                    {% endif %}
+                </a>
+
+                <!-- User Session Pill / Auth status -->
+                <div class="pt-2 px-1">
+                    {% if user.is_authenticated %}
+                    <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 border border-slate-300/40 dark:border-slate-700/60 text-xs">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="w-6 h-6 rounded-full bg-congo-blue text-white flex items-center justify-center font-bold text-[11px] shrink-0 uppercase">
+                                {{ user.username|slice:":1" }}
+                            </span>
+                            <span class="font-bold text-slate-800 dark:text-slate-200 truncate">{{ user.username }}</span>
+                        </div>
+                        <a href="{% url 'web_ui:logout' %}" class="p-1 rounded-lg text-slate-400 hover:text-congo-red transition-colors shrink-0" title="Se déconnecter">
+                            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'web_ui:login' %}" class="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl border border-congo-blue/30 text-congo-blue dark:text-blue-400 hover:bg-congo-blue/5 text-xs font-bold transition-colors">
+                        <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+                        <span>Connexion Citoyenne</span>
+                    </a>
+                    {% endif %}
+                </div>
+
 
             </div>
 
