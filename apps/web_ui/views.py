@@ -44,15 +44,18 @@ def landing_view(request):
             return "img/sources/rfi.png"
         return "img/armoirie_rdc.png"
 
-    # Priority to news with images
-    latest_news = list(OfficialNews.objects.approved().filter(is_verified=True).exclude(image_url='').order_by('-published_at')[:4])
-    if len(latest_news) < 4:
-        extra_news = list(OfficialNews.objects.approved().filter(is_verified=True).filter(image_url='').order_by('-published_at')[:4 - len(latest_news)])
+    # Priority to news with images (3 for the top carousel headline + 4 for the secondary grid)
+    latest_news = list(OfficialNews.objects.approved().filter(is_verified=True).exclude(image_url='').order_by('-published_at')[:7])
+    if len(latest_news) < 7:
+        extra_news = list(OfficialNews.objects.approved().filter(is_verified=True).filter(image_url='').order_by('-published_at')[:7 - len(latest_news)])
         latest_news.extend(extra_news)
 
     # Attach respective media logo to each news item
     for item in latest_news:
         item.logo_path = get_source_logo(item.source_name, getattr(item, 'source_url', ''))
+
+    headline_news = latest_news[:3]
+    secondary_news = latest_news[3:]
     
     # Fetch real tweets / X dispatches
     raw_tweets = CommunityPost.objects.filter(
@@ -166,6 +169,8 @@ def landing_view(request):
 
     return render(request, 'landing.html', {
         'featured_services': featured_services,
+        'headline_news': headline_news,
+        'secondary_news': secondary_news,
         'latest_news': latest_news,
         'tweets': tweet_list,
         'verified_sources': verified_sources,

@@ -642,161 +642,218 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- SECTION 4: SOURCES OFFICIELLES, GOUVERNEMENT & TÉLÉVISION PUBLIQUE -->
+    <!-- SECTION 4: VEILLE DE L'ÉTAT & ACTUALITÉ CITOYENNE                 -->
+    <!-- Positionné directement après le Catalogue Réglementaire           -->
     <!-- ================================================================= -->
-    <section class="py-14 bg-white border-b border-slate-200">
+    <section id="actualites" class="py-16 md:py-20 bg-brand-canvas border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold uppercase tracking-wider">
-                        <i data-lucide="tv" class="w-3.5 h-3.5 text-brand-blue"></i>
-                        <span>Écosystème Républicain &amp; Médias d'État</span>
-                    </div>
-                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">
-                        Gouvernement &amp; Chaînes d'Information Consultées
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Information Publique Certifiée</span>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-1">
+                        Veille de l'État &amp; Actualité Citoyenne
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                        Les sources officielles et médias audiovisuels de référence que l'Agent du Peuple consulte en temps réel pour garantir une information certifiée.
+                    <p class="text-xs sm:text-sm text-slate-600 mt-2">
+                        Dépêches officielles, points de situation sur les politiques publiques et alertes vérifiées à travers les 26 provinces de la RDC.
                     </p>
                 </div>
-                <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Sources actives 24h/24</span>
-                </div>
-            </div>
-
-            <!-- Grid of 6 Verified Government, TV and Radio Sources -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {% for src in verified_sources %}
-                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="p-5 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all flex items-start gap-4 group">
-                    <div class="w-12 h-12 rounded-xl bg-white border border-slate-200 group-hover:border-brand-blue flex items-center justify-center shrink-0 shadow-2xs p-2 overflow-hidden">
-                        {% if src.logo %}
-                            <img src="{% static src.logo %}" alt="{{ src.name }}" class="w-full h-full object-contain">
-                        {% else %}
-                            <i data-lucide="{{ src.icon }}" class="w-5 h-5 text-brand-blue"></i>
-                        {% endif %}
-                    </div>
-
-                    <div class="space-y-1 min-w-0">
-                        <div class="flex items-center gap-2">
-                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-blue transition-colors truncate">
-                                {{ src.name }}
-                            </h4>
-                            <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[9.5px] font-bold text-slate-600 shrink-0">
-                                {{ src.badge }}
-                            </span>
-                        </div>
-                        <div class="text-[11px] font-medium text-slate-700 truncate">
-                            {{ src.full_name }}
-                        </div>
-                        <p class="text-[11px] text-slate-500 leading-snug line-clamp-2 pt-0.5">
-                            {{ src.description }}
-                        </p>
-                    </div>
+                <a href="{% url 'web_ui:news' %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-blue hover:underline shrink-0">
+                    <span>Accéder au journal complet</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
-                {% endfor %}
-            </div>
-
-        </div>
-    </section>
-
-    <!-- SECTION: Verified News & Live Tweets with Real Pictures -->
-    <section id="actualites" class="py-16 bg-brand-canvas border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="mb-10">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Veille de l'État &amp; Actualité Citoyenne</span>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Dépêches Officielles &amp; Direct X</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- Left: Authentic Verified News from DRC Media with Authentic Pictures -->
-                <div class="lg:col-span-7 space-y-4">
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-200">
-                        <div class="flex items-center gap-2 font-bold text-sm text-slate-900">
-                            <i data-lucide="newspaper" class="w-4 h-4 text-brand-blue"></i>
-                            <span>Dernières dépêches illustrées</span>
-                        </div>
-                        <a href="{% url 'web_ui:news' %}" class="text-xs font-bold text-brand-blue hover:underline">Toutes les dépêches</a>
-                    </div>
+                <!-- Left Column: Big Headline Carousel Card + Secondary News Cards -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- ========================================================= -->
+                    <!-- BIG HEADLINE CAROUSEL CARD                                -->
+                    <!-- Spanning from "Veille Républicaine..." to "Temps réel"    -->
+                    <!-- ========================================================= -->
+                    <div id="headline-carousel-card" class="bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden group">
+                        
+                        <!-- Top Header Spanning: Veille Républicaine -> Temps réel -->
+                        <div class="px-4 py-3 bg-slate-900 text-white flex items-center justify-between gap-3 text-xs">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="w-2.5 h-2.5 rounded-full bg-brand-red animate-pulse shrink-0"></span>
+                                <span class="font-extrabold uppercase tracking-wider text-[11px] text-white shrink-0">Veille Républicaine :</span>
+                                <span class="text-slate-300 font-medium truncate text-[11.5px] hidden sm:inline">RTNC TV, Radio Okapi, Actualité.cd &amp; Primature RDC</span>
+                            </div>
 
-                    <!-- Live sync badge with government and TV sources -->
-                    <div class="p-3 rounded-xl bg-blue-50/80 border border-blue-100 flex items-center justify-between gap-3 text-xs text-brand-blue">
-                        <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-brand-red animate-pulse"></span>
-                            <span class="font-bold text-slate-900">Veille Républicaine :</span>
-                            <span class="text-slate-600 hidden sm:inline">RTNC TV, Radio Okapi, Actualité.cd &amp; Primature RDC</span>
+                            <div class="flex items-center gap-3 shrink-0">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-brand-yellow bg-white/10 px-2 py-0.5 rounded-md border border-white/10 shadow-2xs">
+                                    Temps réel
+                                </span>
+                                
+                                <!-- Carousel Controls -->
+                                <div class="flex items-center gap-1.5 pl-1 border-l border-slate-700">
+                                    <button type="button" id="headline-prev-btn" class="w-6 h-6 rounded-md bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer" title="Actualité précédente">
+                                        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                    <span id="headline-slide-indicator" class="text-[10px] font-mono text-slate-300 px-1">1 / {{ headline_news|length|default:1 }}</span>
+                                    <button type="button" id="headline-next-btn" class="w-6 h-6 rounded-md bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer" title="Actualité suivante">
+                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-brand-blue bg-white px-2 py-0.5 rounded-md border border-blue-200 shadow-2xs">Temps réel</span>
-                    </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        {% for news in latest_news %}
-                        <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-brand-blue/50 transition-all flex flex-col justify-between shadow-xs group">
-                            <div>
-                                <!-- Real News Image -->
-                                <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
-                                    {% if news.image_url %}
-                                    <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';">
-                                    {% else %}
-                                    <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
-                                        <i data-lucide="newspaper" class="w-8 h-8 opacity-40"></i>
-                                    </div>
-                                    {% endif %}
+                        <!-- Carousel Slides Container -->
+                        <div class="relative bg-white">
+                            {% for item in headline_news %}
+                            <div class="headline-slide transition-opacity duration-300 p-5 sm:p-6 {% if not forloop.first %}hidden{% endif %}" data-slide-index="{{ forloop.counter0 }}">
+                                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
                                     
-                                    <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                                        <span class="px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
-                                            {{ news.get_category_display }}
-                                        </span>
-                                        {% if news.logo_path %}
-                                        <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
-                                            <img src="{% static news.logo_path %}" alt="{{ news.source_name }}" class="w-full h-full object-contain">
-                                        </span>
+                                    <!-- Lead Photo with Badges & Logo -->
+                                    <div class="md:col-span-6 relative rounded-xl overflow-hidden bg-slate-100 aspect-16/10 shadow-2xs">
+                                        {% if item.image_url %}
+                                        <img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';">
+                                        {% else %}
+                                        <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+                                            <i data-lucide="newspaper" class="w-10 h-10 opacity-30"></i>
+                                        </div>
                                         {% endif %}
+
+                                        <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                                            <span class="px-2.5 py-0.5 rounded-full bg-slate-900/85 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                                À LA UNE · {{ item.get_category_display }}
+                                            </span>
+                                            {% if item.logo_path %}
+                                            <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
+                                                <img src="{% static item.logo_path %}" alt="{{ item.source_name }}" class="w-full h-full object-contain">
+                                            </span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="absolute bottom-2.5 right-2.5">
+                                            <span class="px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
+                                                {{ item.region }}
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    <div class="absolute bottom-2 right-2">
-                                        <span class="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
-                                            {{ news.region }}
-                                        </span>
-                                    </div>
-                                </div>
+                                    <!-- Lead Story Details -->
+                                    <div class="md:col-span-6 space-y-3">
+                                        <div class="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
+                                            {% if item.logo_path %}
+                                            <img src="{% static item.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
+                                            {% endif %}
+                                            <span class="font-bold text-slate-800">{{ item.source_name }}</span>
+                                            <span>·</span>
+                                            <span>{{ item.published_at|date:"d F Y à H:i" }}</span>
+                                        </div>
 
-                                <!-- News Content -->
-                                <div class="p-4 space-y-2">
-                                    <div class="text-[10px] text-slate-400 font-semibold">
-                                        {{ news.published_at|date:"d F Y" }}
+                                        <h3 class="font-extrabold text-base sm:text-lg text-slate-900 leading-snug hover:text-brand-blue transition-colors line-clamp-3">
+                                            <a href="{% url 'web_ui:news' %}?article={{ item.id }}">{{ item.title }}</a>
+                                        </h3>
+
+                                        <p class="text-xs sm:text-[13px] text-slate-600 leading-relaxed line-clamp-3">
+                                            {{ item.summary }}
+                                        </p>
+
+                                        <div class="pt-2 flex flex-wrap items-center gap-2.5">
+                                            <a href="{% url 'web_ui:news' %}?article={{ item.id }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-blue text-white text-xs font-bold hover:bg-brand-blueDark transition-colors shadow-2xs">
+                                                <span>Lire l'article complet</span>
+                                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                            </a>
+                                            <a href="{% url 'web_ui:chat' %}?q={{ item.title|urlencode }}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors">
+                                                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                                <span>Comprendre avec l'IA</span>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <h4 class="font-bold text-xs text-slate-900 leading-snug group-hover:text-brand-blue transition-colors line-clamp-2">
-                                        <a href="{% url 'web_ui:news' %}?article={{ news.id }}">{{ news.title }}</a>
-                                    </h4>
-                                    <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
-                                        {{ news.summary }}
-                                    </p>
+
                                 </div>
                             </div>
-
-                            <div class="p-4 pt-0 flex items-center justify-between text-[11px] border-t border-slate-100 pt-3">
-                                <div class="flex items-center gap-1.5 truncate max-w-[170px]">
-                                    {% if news.logo_path %}
-                                    <img src="{% static news.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
-                                    {% endif %}
-                                    <span class="font-bold text-slate-800 text-[11px] truncate">{{ news.source_name }}</span>
-                                    <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue shrink-0"></i>
-                                </div>
-                                <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline shrink-0">Lire la suite</a>
+                            {% empty %}
+                            <div class="p-8 text-center text-xs text-slate-400">
+                                Synchronisation du fil d'actualités républicain...
                             </div>
-                        </article>
-                        {% empty %}
-                        <p class="text-xs text-slate-400 col-span-full">Chargement des dépêches...</p>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
+
                     </div>
+
+                    <!-- Secondary News Cards Grid (Below the Big Headline Carousel) -->
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-slate-200/80 mb-4">
+                            <div class="flex items-center gap-2 font-bold text-xs text-slate-800">
+                                <i data-lucide="layout-grid" class="w-4 h-4 text-brand-blue"></i>
+                                <span>Autres dépêches illustrées</span>
+                            </div>
+                            <span class="text-[11px] text-slate-400 font-medium">Médias certifiés</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {% for news in secondary_news %}
+                            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-brand-blue/50 hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
+                                <div>
+                                    <!-- Photo -->
+                                    <div class="relative w-full h-40 bg-slate-100 overflow-hidden">
+                                        {% if news.image_url %}
+                                        <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';">
+                                        {% else %}
+                                        <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+                                            <i data-lucide="newspaper" class="w-8 h-8 opacity-40"></i>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                                            <span class="px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
+                                                {{ news.get_category_display }}
+                                            </span>
+                                            {% if news.logo_path %}
+                                            <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
+                                                <img src="{% static news.logo_path %}" alt="{{ news.source_name }}" class="w-full h-full object-contain">
+                                            </span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="absolute bottom-2 right-2">
+                                            <span class="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
+                                                {{ news.region }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="p-4 space-y-2">
+                                        <div class="text-[10px] text-slate-400 font-semibold">
+                                            {{ news.published_at|date:"d F Y" }}
+                                        </div>
+                                        <h4 class="font-bold text-xs text-slate-900 leading-snug group-hover:text-brand-blue transition-colors line-clamp-2">
+                                            <a href="{% url 'web_ui:news' %}?article={{ news.id }}">{{ news.title }}</a>
+                                        </h4>
+                                        <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                                            {{ news.summary }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 pt-0 flex items-center justify-between text-[11px] border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-1.5 truncate max-w-[170px]">
+                                        {% if news.logo_path %}
+                                        <img src="{% static news.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
+                                        {% endif %}
+                                        <span class="font-bold text-slate-800 text-[11px] truncate">{{ news.source_name }}</span>
+                                        <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue shrink-0"></i>
+                                    </div>
+                                    <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline shrink-0">Lire la suite</a>
+                                </div>
+                            </article>
+                            {% empty %}
+                            <p class="text-xs text-slate-400 col-span-full">Dépêches complémentaires en cours d'actualisation...</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Right: Real Tweets / X Social Feed with Media Pictures -->
-                <div id="depeches" class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
+                <!-- Right Column: Real Tweets / X Social Feed with Media Pictures -->
+                <div id="depeches" class="lg:col-span-5 bg-white rounded-2xl p-5 border border-slate-200/90 shadow-xs space-y-4">
                     
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                         <div class="flex items-center gap-2">
@@ -804,8 +861,8 @@
                                 𝕏
                             </span>
                             <div>
-                                <h4 class="font-bold text-xs text-slate-900 leading-none">Fils d'Information X / Twitter</h4>
-                                <span class="text-[10px] text-slate-400">Journalistes et sources de terrain en RDC</span>
+                                <h4 class="font-bold text-xs text-slate-900 leading-none">Direct X · Dépêches de Terrain</h4>
+                                <span class="text-[10px] text-slate-400">Journalistes et sources officielles en RDC</span>
                             </div>
                         </div>
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Flux actif"></span>
@@ -870,6 +927,70 @@
                     </div>
 
                 </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 5: SOURCES OFFICIELLES, GOUVERNEMENT & TÉLÉVISION PUBLIQUE -->
+    <!-- ================================================================= -->
+    <section id="sources-officielles" class="py-14 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold uppercase tracking-wider">
+                        <i data-lucide="tv" class="w-3.5 h-3.5 text-brand-blue"></i>
+                        <span>Écosystème Républicain &amp; Médias d'État</span>
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">
+                        Gouvernement &amp; Chaînes d'Information Consultées
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        Les sources officielles et médias audiovisuels de référence que l'Agent du Peuple consulte en temps réel pour garantir une information certifiée.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Sources actives 24h/24</span>
+                </div>
+            </div>
+
+            <!-- Grid of 6 Verified Government, TV and Radio Sources with their respective Logos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {% for src in verified_sources %}
+                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="p-5 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all flex items-start gap-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-white border border-slate-200 group-hover:border-brand-blue flex items-center justify-center shrink-0 shadow-2xs p-2 overflow-hidden">
+                        {% if src.logo %}
+                            <img src="{% static src.logo %}" alt="{{ src.name }}" class="w-full h-full object-contain">
+                        {% else %}
+                            <i data-lucide="{{ src.icon }}" class="w-5 h-5 text-brand-blue"></i>
+                        {% endif %}
+                    </div>
+
+                    <div class="space-y-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-blue transition-colors truncate">
+                                {{ src.name }}
+                            </h4>
+                            <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[9.5px] font-bold text-slate-600 shrink-0">
+                                {{ src.badge }}
+                            </span>
+                        </div>
+                        <div class="text-[11px] font-medium text-slate-700 truncate">
+                            {{ src.full_name }}
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-snug line-clamp-2 pt-0.5">
+                            {{ src.description }}
+                        </p>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
 
             </div>
 
@@ -1076,6 +1197,56 @@
                     });
                 }, 1200);
             }
+
+            // Headline News Carousel Controller (matching platform news carousels)
+            const slides = document.querySelectorAll('.headline-slide');
+            const prevBtn = document.getElementById('headline-prev-btn');
+            const nextBtn = document.getElementById('headline-next-btn');
+            const counter = document.getElementById('headline-slide-indicator');
+            let currentSlide = 0;
+            let slideInterval = null;
+
+            function showSlide(index) {
+                if (!slides || slides.length === 0) return;
+                slides.forEach((s, i) => {
+                    s.classList.toggle('hidden', i !== index);
+                });
+                currentSlide = index;
+                if (counter) {
+                    counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+                }
+            }
+
+            function nextSlide() {
+                if (!slides || slides.length === 0) return;
+                showSlide((currentSlide + 1) % slides.length);
+            }
+
+            function prevSlide() {
+                if (!slides || slides.length === 0) return;
+                showSlide((currentSlide - 1 + slides.length) % slides.length);
+            }
+
+            if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+            if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+            function startTimer() {
+                if (slides && slides.length > 1) {
+                    slideInterval = setInterval(nextSlide, 7000);
+                }
+            }
+
+            function resetTimer() {
+                if (slideInterval) clearInterval(slideInterval);
+                startTimer();
+            }
+
+            const carouselCard = document.getElementById('headline-carousel-card');
+            if (carouselCard) {
+                carouselCard.addEventListener('mouseenter', () => { if (slideInterval) clearInterval(slideInterval); });
+                carouselCard.addEventListener('mouseleave', () => { startTimer(); });
+            }
+            startTimer();
         });
     </script>
 </body>
