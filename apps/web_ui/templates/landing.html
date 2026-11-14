@@ -539,11 +539,12 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- SECTION: SOUVERAINETÉ & SECTEURS COUVERTS PAR L'ÉTAT              -->
-    <!-- Inspiré du statut régalien "Owned by the Government" de UgGov     -->
-    <!-- Même fond que le Hero avec grille carrée jaune & silhouettes      -->
+    <!-- SECTION 3: SOUVERAINETÉ & BRANCHES & DOMAINES DE L'ÉTAT           -->
+    <!-- Remplace le Catalogue Réglementaire avec les couleurs du drapeau  -->
+    <!-- Photos réelles de citoyens noirs et de la réalité congolaise      -->
     <!-- ================================================================= -->
-    <section id="souverainete-secteurs" class="sovereign-sectors-banner py-20 text-white border-b border-slate-800 overflow-hidden relative">
+    <section id="branches-secteurs" class="sovereign-sectors-banner py-20 text-white border-b border-slate-800 overflow-hidden relative">
+        <div id="services" class="scroll-mt-24"></div>
         
         <!-- Decorative yellow square wireframe shapes behind -->
         <div class="yellow-square-shape w-48 h-48 -top-12 -left-12 rotate-12"></div>
@@ -554,16 +555,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <!-- Sovereign Republican Ownership Banner -->
-            <div class="mb-14 rounded-2xl bg-slate-900/80 backdrop-blur-md text-white p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-2xl border border-slate-700/80">
-                <!-- Subtle corner gold glow -->
-                <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-brand-yellow/10 blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-brand-blue/20 blur-3xl pointer-events-none"></div>
+            <div class="mb-14 rounded-2xl bg-slate-900/85 backdrop-blur-md text-white p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-2xl border border-slate-700/80">
+                <!-- Congolese Flag Tri-Color Top Strip -->
+                <div class="absolute inset-x-0 top-0 h-1.5 flex">
+                    <div class="w-1/3 bg-[#0077C8]"></div>
+                    <div class="w-1/3 bg-[#CE1126]"></div>
+                    <div class="w-1/3 bg-[#FCD116]"></div>
+                </div>
 
-                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2">
                     <div class="lg:col-span-8 space-y-3.5">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-yellow/15 text-brand-yellow text-[11px] font-bold uppercase tracking-wider border border-brand-yellow/30">
-                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-brand-yellow"></i>
-                            <span>Infrastructure Numérique Publique · République Démocratique du Congo</span>
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FCD116]/15 text-[#FCD116] text-[11px] font-extrabold uppercase tracking-wider border border-[#FCD116]/30">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#FCD116]"></i>
+                            <span>Infrastructure Numérique Républicaine · RDC</span>
                         </div>
                         <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
                             Une Plateforme Détenue par l'État Congolais
@@ -575,14 +579,14 @@
 
                     <div class="lg:col-span-4 grid grid-cols-1 gap-3 text-xs">
                         <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-3 shadow-xs">
-                            <i data-lucide="server" class="w-4 h-4 text-brand-blue shrink-0 mt-0.5"></i>
+                            <i data-lucide="server" class="w-4 h-4 text-[#0077C8] shrink-0 mt-0.5"></i>
                             <div>
                                 <span class="font-bold text-white block">Données &amp; Hébergement Souverains</span>
                                 <span class="text-[11px] text-slate-400">Aucune vente ni exploitation commerciale des données citoyennes.</span>
                             </div>
                         </div>
                         <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-3 shadow-xs">
-                            <i data-lucide="scale" class="w-4 h-4 text-brand-yellow shrink-0 mt-0.5"></i>
+                            <i data-lucide="scale" class="w-4 h-4 text-[#FCD116] shrink-0 mt-0.5"></i>
                             <div>
                                 <span class="font-bold text-white block">Zéro Hallucination Juridique</span>
                                 <span class="text-[11px] text-slate-400">Réponses indexées uniquement sur les textes de lois et décrets d'État.</span>
@@ -595,380 +599,297 @@
             <!-- Sectors Covered Header -->
             <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-brand-yellow">Branches &amp; Domaines Régaliens</span>
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#0077C8]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#CE1126]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#FCD116]"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#FCD116]">Branches &amp; Domaines de l'État</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-1.5">
                         Secteurs Publics Pris en Charge
                     </h2>
-                    <p class="text-xs sm:text-sm text-slate-300 mt-1">
-                        Explorez les démarches réglementaires couvertes par l'Agent du Peuple avec photos réelles et institutions de tutelle.
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+                        Accès unifié aux démarches officielles de la République. Choisissez une branche d'État pour consulter les exigences et lancer votre orientation.
                     </p>
                 </div>
-                <div class="flex items-center gap-2 text-xs font-bold text-brand-yellow bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-xs">
-                    <span class="w-2 h-2 rounded-full bg-brand-yellow animate-pulse"></span>
-                    <span>26 Provinces &amp; Diaspora</span>
-                </div>
+                
+                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-xs font-bold text-white transition-colors shrink-0 shadow-2xs">
+                    <i data-lucide="layout-grid" class="w-4 h-4 text-[#FCD116]"></i>
+                    <span>Toutes les démarches ({{ total_services }})</span>
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-300"></i>
+                </a>
             </div>
 
-            <!-- 6 Sectors Cards Grid with REAL PICTURES -->
+            <!-- 6 Sectors Cards Grid with Real Photographs of Black People & DRC Reality -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <!-- Sector 1: Identity & Civil Status -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-yellow/60 hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <!-- Sector 1: Identity & Civil Status (DRC Blue Accent) -->
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#0077C8] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
-                        <div class="relative w-full h-44 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/identite.jpg' %}" alt="Identité Civile" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                        <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
+                            <img src="{% static 'img/sectors/identite.jpg' %}" alt="Citoyenneté & Passeports" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
+                            
+                            <!-- DRC Blue Sector Badge -->
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-blue-600/90 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     Affaires Étrangères · DGM
                                 </span>
                             </div>
-                            <div class="absolute bottom-2.5 left-3 text-white">
-                                <span class="text-xs font-bold font-mono text-brand-yellow">Secteur Républicain</span>
+                            <div class="absolute bottom-2.5 left-3">
+                                <span class="text-xs font-extrabold font-mono text-[#FCD116]">Identité &amp; Citoyenneté</span>
                             </div>
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-brand-yellow transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
                                 Identité Civile, Passeports &amp; Migration
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
-                                Délivrance du passeport biométrique officiel, extraits d'actes de naissance communaux, attestations de nationalité et formalités e-Visa d'entrée en RDC.
+                                Délivrance du passeport biométrique officiel (99 USD), extraits d'actes de naissance communaux, attestations de nationalité et formalités e-Visa d'entrée en RDC.
                             </p>
-                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-300">
-                                <span class="px-2 py-0.5 rounded-md bg-blue-950/80 border border-blue-800">Passeport Biométrique</span>
-                                <span class="px-2 py-0.5 rounded-md bg-blue-950/80 border border-blue-800">État Civil</span>
-                                <span class="px-2 py-0.5 rounded-md bg-blue-950/80 border border-blue-800">e-Visa</span>
+                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
+                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Passeport Biométrique</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">État Civil</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">e-Visa</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto">
-                        <a href="{% url 'web_ui:chat' %}?q=Passeport+et+etat+civil" class="text-xs font-bold text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1 transition-colors">
-                            <span>Consulter ce secteur</span>
+                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
+                        <a href="{% url 'web_ui:service_workspace' service_code='passeport-biometrique-ordinaire' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                            <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique+ordinaire" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                            <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
+                            <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Sector 2: Business & Enterprise -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-yellow/60 hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <!-- Sector 2: Business & Enterprise (DRC Golden Yellow Accent) -->
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
-                        <div class="relative w-full h-44 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/economie.jpg' %}" alt="Entreprises & Commerce" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                        <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
+                            <img src="{% static 'img/sectors/economie.jpg' %}" alt="Entrepreneuriat Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
+                            
+                            <!-- DRC Golden Yellow Badge -->
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-amber-600/90 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                <span class="px-2.5 py-1 rounded-full bg-[#FCD116] text-slate-950 text-[10px] font-black uppercase tracking-wider shadow-sm">
                                     GUCE · ANAPI · RCCM
                                 </span>
                             </div>
-                            <div class="absolute bottom-2.5 left-3 text-white">
-                                <span class="text-xs font-bold font-mono text-brand-yellow">Entrepreneuriat</span>
+                            <div class="absolute bottom-2.5 left-3">
+                                <span class="text-xs font-extrabold font-mono text-[#FCD116]">Économie &amp; Entrepreneuriat</span>
                             </div>
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-brand-yellow transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
                                 Entreprises, Commerce &amp; Sous-traitance
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
-                                Création d'entreprise au Guichet Unique en 3 jours, immatriculation au RCCM, agréments ARSP pour la sous-traitance et incitations ANAPI.
+                                Création d'entreprise au Guichet Unique en 3 jours, immatriculation au RCCM, agréments ARSP pour la sous-traitance et incitations fiscales ANAPI.
                             </p>
-                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-amber-300">
-                                <span class="px-2 py-0.5 rounded-md bg-amber-950/80 border border-amber-800">Création SARL/SAS</span>
-                                <span class="px-2 py-0.5 rounded-md bg-amber-950/80 border border-amber-800">RCCM</span>
-                                <span class="px-2 py-0.5 rounded-md bg-amber-950/80 border border-amber-800">ARSP</span>
+                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-amber-200">
+                                <span class="px-2 py-0.5 rounded-md bg-[#FCD116]/15 border border-[#FCD116]/30">Création SARL/SAS</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#FCD116]/15 border border-[#FCD116]/30">RCCM</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#FCD116]/15 border border-[#FCD116]/30">ARSP</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto">
-                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE" class="text-xs font-bold text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1 transition-colors">
-                            <span>Consulter ce secteur</span>
+                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
+                        <a href="{% url 'web_ui:service_workspace' service_code='creation-entreprise-guce' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                            <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE+RCCM" class="px-3 py-1.5 rounded-xl bg-[#FCD116] text-slate-950 font-black text-xs hover:bg-amber-300 transition-colors inline-flex items-center gap-1 shadow-xs">
+                            <i data-lucide="message-square" class="w-3 h-3 text-slate-950"></i>
+                            <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Sector 3: Public Finance & Taxes -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-yellow/60 hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <!-- Sector 3: Public Finance & Taxes (DRC Flag Red Accent) -->
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#CE1126] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
-                        <div class="relative w-full h-44 bg-slate-900 overflow-hidden">
+                        <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/finances.jpg' %}" alt="Finances & Impôts" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
+                            
+                            <!-- DRC Flag Red Badge -->
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-emerald-600/90 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                <span class="px-2.5 py-1 rounded-full bg-[#CE1126] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-red-400/30">
                                     DGI · DGDA · DGRAD · BCC
                                 </span>
                             </div>
-                            <div class="absolute bottom-2.5 left-3 text-white">
-                                <span class="text-xs font-bold font-mono text-brand-yellow">Fiscalité Publique</span>
+                            <div class="absolute bottom-2.5 left-3">
+                                <span class="text-xs font-extrabold font-mono text-[#FCD116]">Fiscalité &amp; Trésor Public</span>
                             </div>
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-brand-yellow transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
                                 Finances Publiques, Fiscalité &amp; Douanes
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Obtention du Numéro Impôt (NIF), déclarations fiscales professionnelles, droits de douane DGDA et taux officiels de la Banque Centrale du Congo.
                             </p>
-                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-emerald-300">
-                                <span class="px-2 py-0.5 rounded-md bg-emerald-950/80 border border-emerald-800">Numéro NIF</span>
-                                <span class="px-2 py-0.5 rounded-md bg-emerald-950/80 border border-emerald-800">Déclarations DGI</span>
-                                <span class="px-2 py-0.5 rounded-md bg-emerald-950/80 border border-emerald-800">Douanes</span>
+                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-red-200">
+                                <span class="px-2 py-0.5 rounded-md bg-[#CE1126]/20 border border-[#CE1126]/40">Numéro NIF</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#CE1126]/20 border border-[#CE1126]/40">Déclarations DGI</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#CE1126]/20 border border-[#CE1126]/40">Douanes</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto">
-                        <a href="{% url 'web_ui:chat' %}?q=Numero+impot+NIF+DGI" class="text-xs font-bold text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1 transition-colors">
-                            <span>Consulter ce secteur</span>
+                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
+                        <a href="{% url 'web_ui:service_workspace' service_code='numero-identification-fiscale-dgi' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                            <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <a href="{% url 'web_ui:chat' %}?q=Numero+Identification+Fiscale+NIF" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                            <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
+                            <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Sector 4: Justice & Legal Security -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-yellow/60 hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <!-- Sector 4: Justice & Legal Security (DRC Blue Accent) -->
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#0077C8] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
-                        <div class="relative w-full h-44 bg-slate-900 overflow-hidden">
+                        <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/justice.jpg' %}" alt="Justice & Droit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
+                            
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-purple-600/90 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     Ministère de la Justice · Parquet
                                 </span>
                             </div>
-                            <div class="absolute bottom-2.5 left-3 text-white">
-                                <span class="text-xs font-bold font-mono text-brand-yellow">État de Droit</span>
+                            <div class="absolute bottom-2.5 left-3">
+                                <span class="text-xs font-extrabold font-mono text-[#FCD116]">État de Droit &amp; Sécurité</span>
                             </div>
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-brand-yellow transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
                                 Justice, Sécurité &amp; Droits Civiques
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Casier judiciaire certifié, légalisation de signatures, consultation du Journal Officiel de la RDC et signalement de pratiques frauduleuses.
                             </p>
-                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-purple-300">
-                                <span class="px-2 py-0.5 rounded-md bg-purple-950/80 border border-purple-800">Casier Judiciaire</span>
-                                <span class="px-2 py-0.5 rounded-md bg-purple-950/80 border border-purple-800">Légalisations</span>
-                                <span class="px-2 py-0.5 rounded-md bg-purple-950/80 border border-purple-800">Lois JO</span>
+                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
+                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Casier Judiciaire</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Légalisations</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Lois JO</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto">
-                        <a href="{% url 'web_ui:chat' %}?q=Casier+judiciaire+et+legalisation" class="text-xs font-bold text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1 transition-colors">
-                            <span>Consulter ce secteur</span>
+                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
+                        <a href="{% url 'web_ui:service_workspace' service_code='extrait-casier-judiciaire' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                            <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <a href="{% url 'web_ui:chat' %}?q=Extrait+de+casier+judiciaire" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                            <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
+                            <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Sector 5: Transports & Mobility -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-yellow/60 hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <!-- Sector 5: Transports & Mobility (DRC Golden Yellow Accent) -->
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
-                        <div class="relative w-full h-44 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/transport.jpg' %}" alt="Transports & Mobilité" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                        <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
+                            <img src="{% static 'img/sectors/transport.jpg' %}" alt="Mobilité & Chauffeur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
+                            
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-indigo-600/90 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                <span class="px-2.5 py-1 rounded-full bg-[#FCD116] text-slate-950 text-[10px] font-black uppercase tracking-wider shadow-sm">
                                     Ministère des Transports
                                 </span>
                             </div>
-                            <div class="absolute bottom-2.5 left-3 text-white">
-                                <span class="text-xs font-bold font-mono text-brand-yellow">Mobilité Nationale</span>
+                            <div class="absolute bottom-2.5 left-3">
+                                <span class="text-xs font-extrabold font-mono text-[#FCD116]">Mobilité &amp; Transports</span>
                             </div>
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-brand-yellow transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
                                 Transports, Permis &amp; Sécurité Routière
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Permis de conduire biométrique national, contrôle technique obligatoire, immatriculation des véhicules et régulation des réseaux de transport.
                             </p>
-                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-indigo-300">
-                                <span class="px-2 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-800">Permis National</span>
-                                <span class="px-2 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-800">Contrôle Technique</span>
-                                <span class="px-2 py-0.5 rounded-md bg-indigo-950/80 border border-indigo-800">Régulation</span>
+                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-amber-200">
+                                <span class="px-2 py-0.5 rounded-md bg-[#FCD116]/15 border border-[#FCD116]/30">Permis National</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#FCD116]/15 border border-[#FCD116]/30">Contrôle Technique</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#FCD116]/15 border border-[#FCD116]/30">Immatriculation</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto">
-                        <a href="{% url 'web_ui:chat' %}?q=Permis+de+conduire+biometrique" class="text-xs font-bold text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1 transition-colors">
-                            <span>Consulter ce secteur</span>
+                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
+                        <a href="{% url 'web_ui:service_workspace' service_code='permis-de-conduire-biometrique' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                            <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <a href="{% url 'web_ui:chat' %}?q=Permis+de+conduire+biometrique" class="px-3 py-1.5 rounded-xl bg-[#FCD116] text-slate-950 font-black text-xs hover:bg-amber-300 transition-colors inline-flex items-center gap-1 shadow-xs">
+                            <i data-lucide="message-square" class="w-3 h-3 text-slate-950"></i>
+                            <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Sector 6: Education & Scholarships -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-brand-yellow/60 hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <!-- Sector 6: Education & Scholarships (DRC Flag Red Accent) -->
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#CE1126] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
-                        <div class="relative w-full h-44 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/education.jpg' %}" alt="Enseignement Supérieur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/30"></div>
+                        <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
+                            <img src="{% static 'img/sectors/education.jpg' %}" alt="Étudiants Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
+                            
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-teal-600/90 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                                <span class="px-2.5 py-1 rounded-full bg-[#CE1126] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-red-400/30">
                                     ESU · Éducation Nationale
                                 </span>
                             </div>
-                            <div class="absolute bottom-2.5 left-3 text-white">
-                                <span class="text-xs font-bold font-mono text-brand-yellow">Jeunesse &amp; Avenir</span>
+                            <div class="absolute bottom-2.5 left-3">
+                                <span class="text-xs font-extrabold font-mono text-[#FCD116]">Jeunesse &amp; Avenir</span>
                             </div>
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-brand-yellow transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
                                 Enseignement Supérieur, Diplômes &amp; Bourses
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Homologation des diplômes d'État, orientations académiques universitaires, programmes de bourses publiques et répertoire des instituts agréés.
                             </p>
-                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-teal-300">
-                                <span class="px-2 py-0.5 rounded-md bg-teal-950/80 border border-teal-800">Diplôme d'État</span>
-                                <span class="px-2 py-0.5 rounded-md bg-teal-950/80 border border-teal-800">Universités ESU</span>
-                                <span class="px-2 py-0.5 rounded-md bg-teal-950/80 border border-teal-800">Bourses d'Études</span>
+                            <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-red-200">
+                                <span class="px-2 py-0.5 rounded-md bg-[#CE1126]/20 border border-[#CE1126]/40">Diplôme d'État</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#CE1126]/20 border border-[#CE1126]/40">Universités ESU</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#CE1126]/20 border border-[#CE1126]/40">Bourses</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto">
-                        <a href="{% url 'web_ui:chat' %}?q=Diplomes+et+bourses+etudes" class="text-xs font-bold text-brand-yellow hover:text-amber-300 inline-flex items-center gap-1 transition-colors">
+                    <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
+                        <a href="{% url 'web_ui:chat' %}?q=Diplomes+detat+et+universites" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
                             <span>Consulter ce secteur</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ================================================================= -->
-    <!-- SECTION 3: SERVICES PUBLICS (Entamez une démarche, dès ici)       -->
-    <!-- Inspiré de UgGov : grandes icônes, vision d'ensemble, AUCUN tarif -->
-    <!-- ================================================================= -->
-    <section id="services" class="py-16 md:py-20 bg-white border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-                <div class="max-w-2xl">
-                    <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Catalogue Réglementaire de la République</span>
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-2 tracking-tight">
-                        Entamez une démarche, dès ici
-                    </h2>
-                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">
-                        Des démarches administratives réelles guidées pas à pas. Visualisez ce que chaque document vous permet d'accomplir et préparez vos pièces avant de vous déplacer.
-                    </p>
-                </div>
-                <a href="{% url 'web_ui:services' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 hover:border-brand-blue bg-white hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors shrink-0 shadow-2xs">
-                    <i data-lucide="layout-grid" class="w-4 h-4 text-brand-blue"></i>
-                    <span>Voir tout le catalogue ({{ total_services }})</span>
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
-                </a>
-            </div>
-
-            <!-- Service Cards Grid: High Design, Thematic Icons, Big Picture Context -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {% for service in featured_services %}
-                <div class="p-6 rounded-2xl bg-[#F8FAFC] border border-slate-200/90 hover:border-brand-blue hover:bg-white hover:shadow-lg transition-all flex flex-col justify-between space-y-5 group">
-                    
-                    <div class="space-y-4">
-                        <!-- Top Card Header: Dedicated Thematic Icon & Category/Institution Pill -->
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 border shadow-2xs
-                                {% if service.category == 'identity' %}bg-blue-50 border-blue-200 text-brand-blue
-                                {% elif service.category == 'business' %}bg-amber-50 border-amber-200 text-amber-700
-                                {% elif service.category == 'tax' %}bg-emerald-50 border-emerald-200 text-emerald-700
-                                {% elif service.category == 'transport' %}bg-indigo-50 border-indigo-200 text-indigo-700
-                                {% elif service.category == 'justice' %}bg-purple-50 border-purple-200 text-purple-700
-                                {% else %}bg-slate-100 border-slate-200 text-slate-700{% endif %}">
-                                
-                                {% if service.category == 'identity' %}
-                                    <i data-lucide="id-card" class="w-6 h-6"></i>
-                                {% elif service.category == 'business' %}
-                                    <i data-lucide="briefcase" class="w-6 h-6"></i>
-                                {% elif service.category == 'tax' %}
-                                    <i data-lucide="calculator" class="w-6 h-6"></i>
-                                {% elif service.category == 'transport' %}
-                                    <i data-lucide="car" class="w-6 h-6"></i>
-                                {% elif service.category == 'justice' %}
-                                    <i data-lucide="scale" class="w-6 h-6"></i>
-                                {% else %}
-                                    <i data-lucide="file-text" class="w-6 h-6"></i>
-                                {% endif %}
-                            </div>
-
-                            <div class="flex flex-col items-end text-right">
-                                <span class="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-[10.5px] font-bold text-slate-700 shadow-2xs">
-                                    {{ service.get_category_display }}
-                                </span>
-                                <span class="text-[10px] text-slate-400 font-medium mt-1 truncate max-w-[150px]">
-                                    {{ service.institution|truncatechars:32 }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Service Title -->
-                        <div>
-                            <h3 class="font-extrabold text-base text-slate-900 leading-snug group-hover:text-brand-blue transition-colors">
-                                <a href="{% url 'web_ui:service_workspace' service_code=service.service_code %}">
-                                    {{ service.service_name }}
-                                </a>
-                            </h3>
-                            
-                            <!-- The Big Picture: What this service unlocks for the citizen -->
-                            <p class="text-xs text-slate-600 leading-relaxed mt-2 line-clamp-3">
-                                {{ service.description }}
-                            </p>
-                        </div>
-
-                        <!-- Civic Indicators (Timeframe & Official Requirements - NO PRICE) -->
-                        <div class="pt-2 flex flex-wrap items-center gap-2 text-[11px]">
-                            {% if service.processing_time_days %}
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium">
-                                <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-blue"></i>
-                                <span>{{ service.processing_time_days }} jours ouvrables</span>
-                            </span>
-                            {% else %}
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 font-medium">
-                                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                                <span>Délivrance certifiée</span>
-                            </span>
-                            {% endif %}
-
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-600 text-[10.5px]">
-                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-slate-400"></i>
-                                <span>Procédure légale</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Card Actions: Dual Button (Workspace & Chat Consultation) -->
-                    <div class="pt-4 border-t border-slate-200/80 flex items-center justify-between gap-2">
-                        <a href="{% url 'web_ui:service_workspace' service_code=service.service_code %}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-brand-blue transition-colors shadow-2xs">
-                            <span>Entamer la démarche</span>
-                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                        </a>
-
-                        <a href="{% url 'web_ui:chat' %}?q={{ service.service_name|urlencode }}" class="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-brand-blue p-2 rounded-lg hover:bg-slate-100 transition-colors" title="Poser une question à l'Agent">
-                            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                        <a href="{% url 'web_ui:chat' %}?q=Bourses+detudes+nationales" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                            <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
                             <span>Tuna l'IA</span>
                         </a>
                     </div>
                 </div>
-                {% empty %}
-                <div class="col-span-full p-8 text-center bg-slate-50 rounded-2xl border border-slate-200">
-                    <p class="text-xs text-slate-500">Synchronisation des démarches en cours...</p>
-                </div>
-                {% endfor %}
+
             </div>
 
         </div>
