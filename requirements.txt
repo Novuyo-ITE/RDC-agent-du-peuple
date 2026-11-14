@@ -1,45 +1,65 @@
-# DRC Government Digital Assistant (local Ollama / hosted Gemini + RAG)
+# ============================================================
+# DRC Government Digital Assistant — CPU-only requirements
+# Compatible with any standard Python 3.11/3.12 host
+# (Railway, Render, Fly.io, VPS, etc.) — NO Docker needed
+# ============================================================
 
-# Core Django & Channels
+# ── Core Django & ASGI ─────────────────────────────────────
 django>=5.0,<5.2
 djangorestframework>=3.15.0
 channels[daphne]>=4.1.0
+# channels-redis is optional (auto-detected at runtime; falls back to InMemoryChannelLayer)
 channels-redis>=4.3,<5
 asgiref>=3.8,<4
 django-cors-headers>=4.3.1
 
-# Database & Vector Store
+# ── Database ───────────────────────────────────────────────
+# psycopg is optional — app auto-detects PostgreSQL at startup;
+# falls back to SQLite if Postgres is unreachable. Keep it here
+# so hosted Postgres works; on SQLite-only servers it installs harmlessly.
 psycopg[binary]>=3.1.18
+
+# pgvector is only used when Postgres is active; import is guarded in models.py
 pgvector>=0.3.0
-chromadb==1.5.9
 
-# Task Queue & Cache
-celery>=5.3.6
-redis>=5.0.3
-
-# LangChain, Ollama & Search Tools
+# ── LangChain & LLM clients ────────────────────────────────
 langchain>=0.3.0
 langchain-core>=0.3.0
 langchain-community>=0.3.0
 langchain-ollama>=0.2.0
 langchain-google-genai>=4.2.5,<5
 langgraph>=1.0,<2
-mcp>=1.0.0
 
-# Embeddings & NLP
-sentence-transformers>=3.0.0
+# ── Embeddings (CPU-only torch) ────────────────────────────
+# Install torch first from the CPU-only PyTorch index, then sentence-transformers.
+# Run separately on deploy: pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Or use the pinned CPU wheel below (works on most Linux/Windows/macOS CI hosts):
 torch>=2.2.0
+sentence-transformers>=3.0.0
 
-# Web Scraping
+# ── ChromaDB (pure Python, CPU-only) ───────────────────────
+# chromadb 0.5.x ships as a pure-Python wheel — no native CUDA binaries.
+chromadb>=0.5.0,<1.6.0
+
+# ── Task queue (optional — only needed if Celery workers run) ─
+celery>=5.3.6
+redis>=5.0.3
+
+# ── MCP / search tools ─────────────────────────────────────
+mcp>=1.0.0
+tavily-python>=0.5.0
+
+# ── Web / RSS scraping ─────────────────────────────────────
 beautifulsoup4>=4.12.3
 feedparser>=6.0.11
 requests>=2.31.0
-python-dotenv>=1.0.1
-playwright>=1.43.0
+lxml>=5.0.0
 
-# Speech-to-Text & Audio
+# ── Utilities ──────────────────────────────────────────────
+python-dotenv>=1.0.1
+pypdf>=5.0,<7.0
+
+# ── Voice / Speech-to-Text (CPU-only faster-whisper) ───────
+# faster-whisper works on CPU with int8 compute; no CUDA needed.
 faster-whisper>=1.0.2
 pydub>=0.25.1
-
-
-pypdf>=5.0,<7.0

@@ -24,11 +24,11 @@ def get_whisper_model():
     """
     global _WHISPER_MODEL
     if _WHISPER_MODEL is None:
-        model_size = os.environ.get('WHISPER_MODEL', 'medium')
+        model_size = os.environ.get('WHISPER_MODEL', 'small')
         try:
             from faster_whisper import WhisperModel
-            device = os.environ.get('WHISPER_DEVICE', 'cuda')
-            compute_type = os.environ.get('WHISPER_COMPUTE', 'float16')
+            device = os.environ.get('WHISPER_DEVICE', 'cpu')
+            compute_type = os.environ.get('WHISPER_COMPUTE', 'int8')
 
             logger.info(f"Loading faster-whisper [{model_size}] on device [{device}] with compute [{compute_type}]...")
             # Use a previously downloaded model without waiting for a network check.

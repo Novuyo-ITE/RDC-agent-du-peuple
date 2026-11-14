@@ -11,6 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 from dotenv import load_dotenv
 load_dotenv(BASE_DIR / '.env', override=False, encoding='utf-8-sig')
+CHROMA_PERSIST_DIRECTORY = os.environ.get('CHROMA_PERSIST_DIRECTORY', str(BASE_DIR / 'chroma_db'))
 TAVILY_API_KEY = os.environ.get('TAVILY_API_KEY', '')
 TAVILY_SEARCH_DEPTH = os.environ.get('TAVILY_SEARCH_DEPTH', 'basic')
 SERVICE_BROWSER_CHANNEL = os.environ.get('SERVICE_BROWSER_CHANNEL', 'msedge' if os.name == 'nt' else '')
@@ -213,10 +214,10 @@ EMBEDDING_MODEL_NAME = os.environ.get('EMBEDDING_MODEL_NAME', 'BAAI/bge-m3')
 EMBEDDING_ALLOW_DOWNLOAD = os.environ.get('EMBEDDING_ALLOW_DOWNLOAD', 'False').lower() in ('true', '1', 'yes')
 EMBEDDING_DIM = int(os.environ.get('EMBEDDING_DIM', 1024))
 
-# Voice Configuration
-FASTER_WHISPER_MODEL = os.environ.get('WHISPER_MODEL', 'medium')
-FASTER_WHISPER_DEVICE = os.environ.get('WHISPER_DEVICE', 'cuda')
-FASTER_WHISPER_COMPUTE_TYPE = os.environ.get('WHISPER_COMPUTE', 'float16')
+# Voice Configuration — CPU-safe defaults (overridable via .env if CUDA is available)
+FASTER_WHISPER_MODEL = os.environ.get('WHISPER_MODEL', 'small')
+FASTER_WHISPER_DEVICE = os.environ.get('WHISPER_DEVICE', 'cpu')
+FASTER_WHISPER_COMPUTE_TYPE = os.environ.get('WHISPER_COMPUTE', 'int8')
 
 # CORS settings for API access
 CORS_ALLOW_ALL_ORIGINS = True

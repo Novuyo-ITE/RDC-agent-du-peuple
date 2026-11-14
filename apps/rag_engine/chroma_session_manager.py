@@ -41,7 +41,7 @@ def get_chroma_client() -> chromadb.ClientAPI:
     """Singleton Chroma persistent client pointing to drc_gov_agent/chroma_db."""
     global _CHROMA_CLIENT
     if _CHROMA_CLIENT is None:
-        chroma_dir = Path(settings.BASE_DIR) / 'chroma_db'
+        chroma_dir = Path(settings.CHROMA_PERSIST_DIRECTORY)
         chroma_dir.mkdir(parents=True, exist_ok=True)
         _CHROMA_CLIENT = chromadb.PersistentClient(
             path=str(chroma_dir),

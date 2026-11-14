@@ -25,3 +25,4 @@ venv/
 .codex/
 .agents/
 *.log
+backups/
