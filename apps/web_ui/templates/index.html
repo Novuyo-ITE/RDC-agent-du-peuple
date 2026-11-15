@@ -6,6 +6,17 @@
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/chat-welcome.css' %}?v=41">{% endblock %}
 
 {% block content %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const question = new URLSearchParams(window.location.search).get('q');
+    const input = document.getElementById('query-input');
+    if (!question || !input) return;
+    input.value = question.slice(0, 1000);
+    input.dispatchEvent(new Event('input', {bubbles: true}));
+    input.focus();
+});
+</script>
+
 <div class="flex-1 flex overflow-hidden relative">
 
     <!-- Central Assistant Conversation Area -->

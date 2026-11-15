@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth h-full">
 <head>
+    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=7">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RDC Agent du Peuple — Le Guichet d'Orientation Civique de la République</title>
@@ -99,6 +100,8 @@
 </head>
 <body class="bg-brand-canvas text-slate-800 font-sans antialiased selection:bg-brand-yellow selection:text-slate-900 flex flex-col min-h-full">
 
+    <!-- Navigation Bar: Clean, professional, solid, using the same chatbot logo -->
+    <header id="landing-nav" class="sticky top-0 z-40 border-b border-white/10">
     <!-- 1. FULL-WIDTH TRI-COLOR BANNER (Blue, Red, Yellow) matching the workspace (base.html) -->
     <div class="w-full flex h-1.5 shrink-0 z-50">
         <div class="hidden md:block w-1/3 bg-[#0077C8]"></div>
@@ -109,9 +112,8 @@
         <div class="w-1/3 bg-[#FCD116]"></div>
     </div>
 
-    <!-- Navigation Bar: Clean, professional, solid, using the same chatbot logo -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+
+        <div class="landing-nav-inner mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between gap-5">
             
             <!-- Exact Chatbot Logo -->
             <a href="{% url 'web_ui:landing' %}" class="flex items-center gap-3 group">
@@ -119,17 +121,18 @@
             </a>
 
             <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
-                <a href="#comment-ca-marche" class="hover:text-brand-blue transition-colors">Comment ça marche</a>
-                <a href="#services" class="hover:text-brand-blue transition-colors">Démarches</a>
-                <a href="#actualites" class="hover:text-brand-blue transition-colors">Actualités &amp; Médias</a>
-                <a href="#depeches" class="hover:text-brand-blue transition-colors flex items-center gap-1.5">
+            <nav class="hidden xl:flex items-center gap-6 text-sm font-semibold text-slate-200">
+                <a href="#comment-ca-marche" class="hover:text-brand-yellow transition-colors">Comment ça marche</a>
+                <a href="#services" class="hover:text-brand-yellow transition-colors">Démarches</a>
+                <a href="#actualites" class="hover:text-brand-yellow transition-colors">Actualités &amp; Médias</a>
+                <a href="#depeches" class="hover:text-brand-yellow transition-colors flex items-center gap-1.5">
                     <span>Direct X</span>
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse"></span>
                 </a>
-                <a href="{% url 'web_ui:directory' %}" class="hover:text-brand-blue transition-colors">Portails d'État</a>
+                <a href="{% url 'web_ui:directory' %}" class="hover:text-brand-yellow transition-colors">Portails d'État</a>
             </nav>
 
+            <details class="landing-mobile-nav xl:hidden"><summary aria-label="Ouvrir le menu"><i data-lucide="menu" class="w-5 h-5"></i></summary><nav><a href="#demarches-rapides">Démarches</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#actualites">Actualités</a><a href="#communaute">Communauté</a><a href="#questions-frequentes">Questions fréquentes</a></nav></details>
             <!-- Action Buttons -->
             <div class="flex items-center gap-3">
                 {% if user.is_authenticated %}
@@ -137,11 +140,11 @@
                         <i data-lucide="message-square" class="w-4 h-4 text-brand-yellow"></i>
                         <span>Ouvrir l'Espace Citoyen</span>
                     </a>
-                    <a href="{% url 'web_ui:logout' %}" class="p-2.5 rounded-xl text-slate-400 hover:text-brand-red hover:bg-slate-100 transition-colors" title="Se déconnecter">
+                    <a href="{% url 'web_ui:logout' %}" class="p-2.5 rounded-xl text-slate-400 hover:text-brand-red hover:bg-white/10 transition-colors" title="Se déconnecter">
                         <i data-lucide="log-out" class="w-4 h-4"></i>
                     </a>
                 {% else %}
-                    <a href="{% url 'web_ui:login' %}" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
+                    <a href="{% url 'web_ui:login' %}" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-slate-200 hover:text-white font-semibold text-sm transition-colors">
                         Connexion
                     </a>
                     <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue text-white font-bold text-sm shadow-sm hover:bg-brand-blueDark transition-all">
@@ -164,7 +167,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
                 <!-- Hero Left: Strong sans-serif statement -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="lg:col-span-6 space-y-6">
                     
                     <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs text-brand-yellow font-bold tracking-wide backdrop-blur-xs">
                         <span class="w-2 h-2 rounded-full bg-brand-yellow animate-pulse"></span>
@@ -176,7 +179,7 @@
                     </h1>
 
                     <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal">
-                        Fini l'opacité et les intermédiaires informels. Obtenez en direct les pièces exigées, les tarifs légaux au Trésor Public et les bureaux compétents en <strong class="text-white">Français</strong>, <strong class="text-white">Lingála</strong> et <strong class="text-white">Kiswahili</strong>.
+                        Fini l'opacité et les intermédiaires informels. Obtenez en direct les pièces exigées, les tarifs légaux au Trésor Public et les bureaux compétents en <strong class="text-white">Lingála</strong>, <strong class="text-white">Kiswahili</strong>, <strong class="text-white">Kikongo</strong> et <strong class="text-white">Tshiluba</strong>, ainsi qu'en français. RDC Agent du Peuple est un bien public souverain. Conçu sans finalité lucrative, il garantit à chaque Congolais un accès équitable et direct aux actes administratifs, sans intermédiaires, dans le respect absolu de la vie privée et de la neutralité républicaine.
                     </p>
 
                     <!-- Main CTA -->
@@ -192,220 +195,24 @@
                         </a>
                     </div>
 
-                    <!-- Clean metrics bar -->
-                    <div class="pt-6 border-t border-slate-800 grid grid-cols-3 gap-6 text-left">
-                        <div>
-                            <div class="text-2xl font-black text-white">{{ total_portals }} Portails</div>
-                            <div class="text-xs text-slate-400 mt-0.5">Institutions d'État vérifiées</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-black text-brand-yellow">{{ total_services }} Démarches</div>
-                            <div class="text-xs text-slate-400 mt-0.5">Fiches de procédures légales</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-black text-white">3 Langues</div>
-                            <div class="text-xs text-slate-400 mt-0.5">Français • Lingála • Kiswahili</div>
-                        </div>
-                    </div>
 
                 </div>
 
                 <!-- Hero Right: Live Interactive Chatbot & Service Workspace Preview -->
-                <div class="lg:col-span-5">
-                    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 text-slate-900 overflow-hidden">
-                        
-                        <!-- Mini Chatbot / Workspace App Header -->
-                        <div class="bg-[#F8FAFC] px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span class="text-[11px] font-bold text-slate-700">Espace Démarche · Passeport Biométrique</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 text-[10px] font-bold text-brand-blue bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
-                                <i data-lucide="shield-check" class="w-3 h-3 text-brand-blue"></i>
-                                <span>Portail Officiel Vérifié</span>
-                            </div>
+                <div class="lg:col-span-6 hero-preview-column">
+                    <div class="citizen-chat">
+                        <div class="citizen-chat-top"><span class="citizen-chat-mark">RDC<span>Agent du Peuple</span></span><span class="citizen-chat-preview">Aperçu interactif</span></div>
+                        <div class="citizen-chat-toolbar"><span><i data-lucide="message-circle" class="w-4 h-4"></i> Nouvelle conversation</span><button type="button" id="hero-chat-toggle" aria-label="Mettre la démonstration en pause">Mettre en pause</button></div>
+                        <div id="hero-chat-container" class="citizen-chat-thread custom-scrollbar" aria-label="Exemple de conversation">
+                            <div class="citizen-chat-intro"><span class="citizen-chat-avatar"><i data-lucide="sparkles" class="w-5 h-5"></i></span><p>Une question.<br><strong>Un point de départ clair.</strong></p></div>
+                            <div id="hero-demo-user" class="citizen-chat-user" hidden><span class="citizen-message-label">VOUS</span><p id="hero-demo-question"></p></div>
+                            <div id="hero-demo-assistant" class="citizen-chat-assistant" hidden><div class="citizen-agent-label"><span class="citizen-agent-dot"></span> Agent du Peuple</div><p id="hero-demo-thinking" class="citizen-thinking"><span class="animate-pulse" aria-hidden="true">● ● ●</span> Réflexion en cours…</p><p id="hero-demo-answer" class="whitespace-pre-line"></p></div>
+                            <div id="hero-demo-next" class="citizen-chat-source" hidden><i data-lucide="book-open" class="w-4 h-4"></i><a id="hero-demo-resource" href="{% url 'web_ui:services' %}">Explorer les démarches &rarr;</a></div>
+                            <p id="hero-demo-status" role="status" class="citizen-chat-status">Le citoyen rédige sa question…</p>
                         </div>
-
-                        <!-- 3 Step Tabs matching the actual service_workspace.html -->
-                        <div class="bg-slate-50 px-4 pt-2.5 flex items-center gap-2 border-b border-slate-200 text-[11px] font-bold">
-                            <div class="px-3 py-1.5 rounded-t-lg bg-white border-t border-x border-slate-200 text-brand-blue flex items-center gap-1.5 shadow-2xs">
-                                <span class="w-4 h-4 rounded-full bg-brand-blue text-white flex items-center justify-center text-[9px]">1</span>
-                                <span>Comprendre</span>
-                            </div>
-                            <div class="px-3 py-1.5 text-slate-400 flex items-center gap-1.5">
-                                <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[9px]">2</span>
-                                <span>Préparer</span>
-                            </div>
-                            <div class="px-3 py-1.5 text-slate-400 flex items-center gap-1.5">
-                                <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[9px]">3</span>
-                                <span>Déposer</span>
-                            </div>
-                        </div>
-
-                        <!-- Chatbot Conversation Snippet: Scrollable Real Lingála Chat -->
-                        <div id="hero-chat-container" class="p-3.5 sm:p-4 space-y-3.5 bg-slate-50/60 text-xs max-h-[410px] overflow-y-auto scroll-smooth custom-scrollbar">
-                            
-                            <!-- Timestamp & Lingala Context Banner -->
-                            <div class="flex items-center justify-center my-1">
-                                <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-slate-200/80 text-slate-600">
-                                    Lisolo ya sika na Lingála · Défiler pour voir la suite ↓
-                                </span>
-                            </div>
-
-                            <!-- Turn 1: User Message Bubble -->
-                            <div class="flex justify-end">
-                                <div class="max-w-[85%] rounded-2xl rounded-tr-xs bg-brand-blue text-white p-3 space-y-1 shadow-xs">
-                                    <div class="text-[9.5px] uppercase font-bold text-brand-yellow flex items-center justify-between gap-2">
-                                        <span>Motuna ya Citoyen</span>
-                                        <span class="text-white/70 font-normal text-[9px]">10:24</span>
-                                    </div>
-                                    <p class="leading-relaxed">« Mbote ! Nalingi koyeba motuya ya solo ya passeport biométrique na Kinshasa mpe esika wapi esengeli kofuta ? »</p>
-                                </div>
-                            </div>
-
-                            <!-- Turn 1: Bot Response Card -->
-                            <div class="flex justify-start">
-                                <div class="w-full rounded-2xl rounded-tl-xs bg-white border border-slate-200 p-3.5 space-y-2.5 shadow-xs">
-                                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                                        <div class="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
-                                            <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="" class="h-4 w-4 object-contain">
-                                            <span>RDC Agent du Peuple</span>
-                                        </div>
-                                        <span class="text-[10px] text-slate-400 font-mono">Affaires Étrangères · RDC</span>
-                                    </div>
-
-                                    <p class="leading-relaxed text-slate-700">
-                                        Mbote ndeko ! Motuya ya leta mpo na <strong>Passeport biométrique ordinaire</strong> ezali <strong>99 USD</strong> (to na valeur ya Franc Congolais na taux officiel ya Banque Centrale).
-                                    </p>
-
-                                    <!-- Structured Facts from service page -->
-                                    <div class="grid grid-cols-2 gap-2 text-[11px]">
-                                        <div class="p-2 rounded-lg bg-blue-50/70 border border-blue-100">
-                                            <span class="text-slate-500 block text-[9.5px] uppercase font-semibold">Tarif légal officiel</span>
-                                            <span class="font-bold text-brand-blue font-mono text-xs">99 USD (au taux légal)</span>
-                                        </div>
-                                        <div class="p-2 rounded-lg bg-blue-50/70 border border-blue-100">
-                                            <span class="text-slate-500 block text-[9.5px] uppercase font-semibold">Esika ya kofuta</span>
-                                            <span class="font-bold text-slate-900 text-[11px]">Banque agréée (Equity BCDC)</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Anti-fraud advice -->
-                                    <div class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-[10.5px] leading-snug flex items-start gap-1.5">
-                                        <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5"></i>
-                                        <span><strong>Toli ya Leta :</strong> Moto moko te azali na ndingisa ya kozwa mbongo na maboko na couloir. Soki ofuti na banque, senga quittance ya Trésor Public !</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Turn 2: User Follow-up in Lingala -->
-                            <div class="flex justify-end">
-                                <div class="max-w-[85%] rounded-2xl rounded-tr-xs bg-brand-blue text-white p-3 space-y-1 shadow-xs">
-                                    <div class="text-[9.5px] uppercase font-bold text-brand-yellow flex items-center justify-between gap-2">
-                                        <span>Motuna ya Citoyen</span>
-                                        <span class="text-white/70 font-normal text-[9px]">10:25</span>
-                                    </div>
-                                    <p class="leading-relaxed">« Mikanda nini esengeli nabongisa liboso ya kokende na centre ya capture na Gombe ? »</p>
-                                </div>
-                            </div>
-
-                            <!-- Turn 2: Bot Response Card (Requirements Checklist) -->
-                            <div class="flex justify-start">
-                                <div class="w-full rounded-2xl rounded-tl-xs bg-white border border-slate-200 p-3.5 space-y-2.5 shadow-xs">
-                                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                                        <div class="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
-                                            <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="" class="h-4 w-4 object-contain">
-                                            <span>RDC Agent du Peuple</span>
-                                        </div>
-                                        <span class="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">Dossier certifié</span>
-                                    </div>
-
-                                    <p class="leading-relaxed text-slate-700 font-medium">
-                                        Mpo na kobimisa passeport na yo, mikanda 5 ya solo oyo esengeli kolakisa :
-                                    </p>
-
-                                    <ul class="space-y-1.5 text-[11px] text-slate-700 pl-1">
-                                        <li class="flex items-start gap-1.5">
-                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                                            <span><strong>1. Attestation ya nationalité congolaise</strong> (Ministère ya Justice to Parquet).</span>
-                                        </li>
-                                        <li class="flex items-start gap-1.5">
-                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                                            <span><strong>2. Extrait d'acte de naissance</strong> légalisé na commune.</span>
-                                        </li>
-                                        <li class="flex items-start gap-1.5">
-                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                                            <span><strong>3. Quittance ya banque</strong> oyo emonisi bofuti ya 99 USD.</span>
-                                        </li>
-                                        <li class="flex items-start gap-1.5">
-                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                                            <span><strong>4. Inscription passeport.gouv.cd</strong> elongo na QR Code na référence ya NIF.</span>
-                                        </li>
-                                        <li class="flex items-start gap-1.5">
-                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5"></i>
-                                            <span><strong>5. Passeport ya kala</strong> (soki ezali renouvellement) to attestation ya bosangi na Police.</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Turn 3: User Follow-up on Fraud & Delays in Lingala -->
-                            <div class="flex justify-end">
-                                <div class="max-w-[85%] rounded-2xl rounded-tr-xs bg-brand-blue text-white p-3 space-y-1 shadow-xs">
-                                    <div class="text-[9.5px] uppercase font-bold text-brand-yellow flex items-center justify-between gap-2">
-                                        <span>Motuna ya Citoyen</span>
-                                        <span class="text-white/70 font-normal text-[9px]">10:26</span>
-                                    </div>
-                                    <p class="leading-relaxed">« Soki commissionnaire asengi ngai 150$ alobi ekobima na mikolo mibale (48h), nakoki kopesa ye ? »</p>
-                                </div>
-                            </div>
-
-                            <!-- Turn 3: Bot Response Card (Strict Legal Reality) -->
-                            <div class="flex justify-start">
-                                <div class="w-full rounded-2xl rounded-tl-xs bg-white border border-slate-200 p-3.5 space-y-2.5 shadow-xs">
-                                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                                        <div class="flex items-center gap-1.5 font-bold text-slate-900 text-xs">
-                                            <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="" class="h-4 w-4 object-contain">
-                                            <span>RDC Agent du Peuple</span>
-                                        </div>
-                                        <span class="text-[10px] text-red-600 font-semibold bg-red-50 px-2 py-0.5 rounded-full border border-red-100">Alerte Anti-fraude</span>
-                                    </div>
-
-                                    <div class="p-2.5 rounded-lg bg-red-50 border border-red-200 text-red-900 text-[11px] leading-snug font-medium">
-                                        🚫 <strong>Te ndeko, boyá mpenza mobulu wana !</strong>
-                                        <p class="mt-1 font-normal">Commissionnaire moko te azali na ndingisa ya kobimisa passeport na mikolo mibale to kosenga 150$. Wana ezali kanyaka (corruption).</p>
-                                    </div>
-
-                                    <div class="space-y-1 text-[11px] text-slate-700">
-                                        <p>⏳ <strong>Délai officiel :</strong> Mikolo 10 kino 14 ya mosala na Kinshasa (kino mikolo 28 na ba provinces).</p>
-                                        <p>📍 <strong>Esika ya kiti :</strong> Centre ya Ministère des Affaires Étrangères na Gombe.</p>
-                                    </div>
-
-                                    <!-- Quick Action Chips -->
-                                    <div class="pt-2 border-t border-slate-100 flex flex-wrap gap-1.5 text-[10px]">
-                                        <a href="{% url 'web_ui:chat' %}?q=Kosenga+passeport+biometrique" class="px-2.5 py-1 rounded-md bg-brand-blue text-white font-medium hover:bg-brand-blueDark transition-colors">
-                                            💬 Tuna Agent du Peuple na Lingála
-                                        </a>
-                                        <a href="{% url 'web_ui:service_workspace' service_code='passeport-biometrique-ordinaire' %}" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors">
-                                            📋 Espace Démarche Officielle
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Mini Composer Input Bar (reflecting the real chatbot UI) -->
-                        <div class="p-3 bg-[#F4F2EA] border-t border-slate-200 flex items-center gap-2">
-                            <div class="flex-1 bg-white rounded-xl border border-slate-300 px-3 py-2 text-xs text-slate-400 flex items-center justify-between">
-                                <span class="truncate">Posez votre question administrative ici...</span>
-                                <i data-lucide="mic" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-                            </div>
-                            <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique" class="h-9 w-9 rounded-xl bg-brand-blue text-white flex items-center justify-center hover:bg-brand-blueDark transition-colors shrink-0 shadow-xs" title="Ouvrir dans le chat">
-                                <i data-lucide="arrow-up" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-
+                        <div class="citizen-demo-input"><span class="citizen-message-label">EXEMPLE EN COURS</span><p><span id="hero-demo-composer"></span><span class="hero-typing-cursor" aria-hidden="true"></span></p></div>
+                        <div class="citizen-chat-bottom"><div class="citizen-chat-prompts"><a href="{% url 'web_ui:chat' %}?q=Comment+obtenir+un+acte+de+naissance">Acte de naissance <span>&nearr;</span></a><a href="{% url 'web_ui:chat' %}?q=Comment+cr%C3%A9er+une+entreprise">Créer une entreprise <span>&nearr;</span></a></div>
+                        <form action="{% url 'web_ui:chat' %}" method="get" class="citizen-question-form"><label for="hero-chat-question" class="sr-only">Votre question</label><input id="hero-chat-question" name="q" required maxlength="1000" placeholder="Et vous, de quoi avez-vous besoin ?"><button type="submit" aria-label="Ouvrir la conversation"><i data-lucide="arrow-up" class="w-5 h-5"></i></button></form><p class="citizen-chat-footnote">Lingála ? Kiswahili ? Kikongo ? Tshiluba ? Français <span>Réponses à vérifier auprès des sources officielles.</span></p></div>
                     </div>
                 </div>
 
@@ -413,6 +220,8 @@
         </div>
 
     </section>
+
+    {% include 'landing_quick_services.html' %}
 
     <!-- ================================================================= -->
     <!-- SECTION 2: COMMENT ÇA MARCHE - DE LA QUESTION À LA DÉCISION          -->
@@ -546,56 +355,8 @@
     <section id="branches-secteurs" class="sovereign-sectors-banner py-20 text-white border-b border-slate-800 overflow-hidden relative">
         <div id="services" class="scroll-mt-24"></div>
         
-        <!-- Decorative yellow square wireframe shapes behind -->
-        <div class="yellow-square-shape w-48 h-48 -top-12 -left-12 rotate-12"></div>
-        <div class="yellow-square-shape w-80 h-80 top-1/3 -right-28 rotate-45 border-brand-yellow/15"></div>
-        <div class="yellow-square-shape w-40 h-40 bottom-16 left-1/4 -rotate-12 border-brand-yellow/20"></div>
-        <div class="yellow-square-shape w-64 h-64 -bottom-20 right-1/4 rotate-6 border-brand-yellow/15"></div>
-
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
-            <!-- Sovereign Republican Ownership Banner -->
-            <div class="mb-14 rounded-2xl bg-slate-900/85 backdrop-blur-md text-white p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-2xl border border-slate-700/80">
-                <!-- Congolese Flag Tri-Color Top Strip -->
-                <div class="absolute inset-x-0 top-0 h-1.5 flex">
-                    <div class="w-1/3 bg-[#0077C8]"></div>
-                    <div class="w-1/3 bg-[#CE1126]"></div>
-                    <div class="w-1/3 bg-[#FCD116]"></div>
-                </div>
-
-                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2">
-                    <div class="lg:col-span-8 space-y-3.5">
-                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FCD116]/15 text-[#FCD116] text-[11px] font-extrabold uppercase tracking-wider border border-[#FCD116]/30">
-                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#FCD116]"></i>
-                            <span>Infrastructure Numérique Républicaine · RDC</span>
-                        </div>
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                            Une Plateforme Détenue par l'État Congolais
-                        </h2>
-                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-                            RDC Agent du Peuple est un bien public souverain. Conçu sans finalité lucrative, il garantit à chaque Congolais un accès équitable et direct aux actes administratifs, sans intermédiaires, dans le respect absolu de la vie privée et de la neutralité républicaine.
-                        </p>
-                    </div>
-
-                    <div class="lg:col-span-4 grid grid-cols-1 gap-3 text-xs">
-                        <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-3 shadow-xs">
-                            <i data-lucide="server" class="w-4 h-4 text-[#0077C8] shrink-0 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-white block">Données &amp; Hébergement Souverains</span>
-                                <span class="text-[11px] text-slate-400">Aucune vente ni exploitation commerciale des données citoyennes.</span>
-                            </div>
-                        </div>
-                        <div class="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700 flex items-start gap-3 shadow-xs">
-                            <i data-lucide="scale" class="w-4 h-4 text-[#FCD116] shrink-0 mt-0.5"></i>
-                            <div>
-                                <span class="font-bold text-white block">Zéro Hallucination Juridique</span>
-                                <span class="text-[11px] text-slate-400">Réponses indexées uniquement sur les textes de lois et décrets d'État.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Sectors Covered Header -->
             <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
@@ -627,7 +388,7 @@
                 <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#0077C8] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/identite.jpg' %}" alt="Citoyenneté & Passeports" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="{% static 'img/sectors/identite-congo.webp' %}" alt="Citoyenneté & Passeports" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <!-- DRC Blue Sector Badge -->
@@ -672,7 +433,7 @@
                 <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/economie.jpg' %}" alt="Entrepreneuriat Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="{% static 'img/sectors/economie-congo.webp' %}" alt="Entrepreneuriat Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <!-- DRC Golden Yellow Badge -->
@@ -806,7 +567,7 @@
                 <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/transport.jpg' %}" alt="Mobilité & Chauffeur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="{% static 'img/sectors/transport-congo.webp' %}" alt="Mobilité & Chauffeur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <div class="absolute top-3 left-3">
@@ -850,7 +611,7 @@
                 <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#CE1126] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
-                            <img src="{% static 'img/sectors/education.jpg' %}" alt="Étudiants Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <img src="{% static 'img/sectors/education-congo.webp' %}" alt="Étudiants Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <div class="absolute top-3 left-3">
@@ -902,20 +663,9 @@
     <section id="actualites" class="py-16 md:py-20 bg-brand-canvas border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Information Publique Certifiée</span>
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-1">
-                        Veille de l'État &amp; Actualité Citoyenne
-                    </h2>
-                    <p class="text-xs sm:text-sm text-slate-600 mt-2">
-                        Dépêches officielles, points de situation sur les politiques publiques et alertes vérifiées à travers les 26 provinces de la RDC.
-                    </p>
-                </div>
-                <a href="{% url 'web_ui:news' %}" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-blue hover:underline shrink-0">
-                    <span>Accéder au journal complet</span>
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
+            <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">Veille de l'État &amp; Actualité Citoyenne</h2>
+                <a href="{% url 'web_ui:news' %}" class="text-sm font-semibold text-brand-blue hover:underline">Accéder au journal complet &rarr;</a>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -927,101 +677,44 @@
                     <!-- BIG HEADLINE CAROUSEL CARD                                -->
                     <!-- Spanning from "Veille Républicaine..." to "Temps réel"    -->
                     <!-- ========================================================= -->
-                    <div id="headline-carousel-card" class="bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden group">
+                    <div id="headline-carousel-card" class="relative bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden group">
                         
-                        <!-- Top Header Spanning: Veille Républicaine -> Temps réel -->
-                        <div class="px-4 py-3 bg-slate-900 text-white flex items-center justify-between gap-3 text-xs">
-                            <div class="flex items-center gap-2 min-w-0">
-                                <span class="w-2.5 h-2.5 rounded-full bg-brand-red animate-pulse shrink-0"></span>
-                                <span class="font-extrabold uppercase tracking-wider text-[11px] text-white shrink-0">Veille Républicaine :</span>
-                                <span class="text-slate-300 font-medium truncate text-[11.5px] hidden sm:inline">RTNC TV, Radio Okapi, Actualité.cd &amp; Primature RDC</span>
-                            </div>
-
-                            <div class="flex items-center gap-3 shrink-0">
-                                <span class="text-[10px] font-bold uppercase tracking-wider text-brand-yellow bg-white/10 px-2 py-0.5 rounded-md border border-white/10 shadow-2xs">
-                                    Temps réel
-                                </span>
-                                
-                                <!-- Carousel Controls -->
-                                <div class="flex items-center gap-1.5 pl-1 border-l border-slate-700">
-                                    <button type="button" id="headline-prev-btn" class="w-6 h-6 rounded-md bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer" title="Actualité précédente">
-                                        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                    <span id="headline-slide-indicator" class="text-[10px] font-mono text-slate-300 px-1">1 / {{ headline_news|length|default:1 }}</span>
-                                    <button type="button" id="headline-next-btn" class="w-6 h-6 rounded-md bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer" title="Actualité suivante">
-                                        <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        {% if headline_news|length > 1 %}
+                        <div class="absolute top-3 right-3 z-10 flex items-center gap-2 rounded-full bg-slate-900/80 p-1 text-white">
+                            <button type="button" id="headline-prev-btn" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center" aria-label="Article précédent"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                            <span id="headline-slide-indicator" class="text-[10px] tabular-nums">1 / {{ headline_news|length }}</span>
+                            <button type="button" id="headline-next-btn" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center" aria-label="Article suivant"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
                         </div>
-
+                        {% endif %}
                         <!-- Carousel Slides Container -->
                         <div class="relative bg-white">
                             {% for item in headline_news %}
-                            <div class="headline-slide transition-opacity duration-300 p-5 sm:p-6 {% if not forloop.first %}hidden{% endif %}" data-slide-index="{{ forloop.counter0 }}">
-                                <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
-                                    
-                                    <!-- Lead Photo with Badges & Logo -->
-                                    <div class="md:col-span-6 relative rounded-xl overflow-hidden bg-slate-100 aspect-16/10 shadow-2xs">
-                                        {% if item.image_url %}
-                                        <img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';">
-                                        {% else %}
-                                        <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
-                                            <i data-lucide="newspaper" class="w-10 h-10 opacity-30"></i>
-                                        </div>
-                                        {% endif %}
-
-                                        <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                                            <span class="px-2.5 py-0.5 rounded-full bg-slate-900/85 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
-                                                À LA UNE · {{ item.get_category_display }}
-                                            </span>
-                                            {% if item.logo_path %}
-                                            <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
-                                                <img src="{% static item.logo_path %}" alt="{{ item.source_name }}" class="w-full h-full object-contain">
-                                            </span>
-                                            {% endif %}
-                                        </div>
-
-                                        <div class="absolute bottom-2.5 right-2.5">
-                                            <span class="px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
-                                                {{ item.region }}
-                                            </span>
-                                        </div>
+                            <article class="headline-slide {% if not forloop.first %}hidden{% endif %}" data-slide-index="{{ forloop.counter0 }}">
+                                <div class="relative w-full aspect-16/10 sm:aspect-video bg-slate-100 overflow-hidden">
+                                    {% if item.image_url %}
+                                    <img src="{{ item.image_url }}" alt="" loading="lazy" class="w-full h-full object-cover" onerror="this.style.display='none';">
+                                    {% else %}
+                                    <div class="w-full h-full flex items-center justify-center text-slate-400">
+                                        <i data-lucide="newspaper" class="w-12 h-12 opacity-30"></i>
                                     </div>
-
-                                    <!-- Lead Story Details -->
-                                    <div class="md:col-span-6 space-y-3">
-                                        <div class="flex items-center gap-2 text-[11px] text-slate-500 font-medium">
-                                            {% if item.logo_path %}
-                                            <img src="{% static item.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
-                                            {% endif %}
-                                            <span class="font-bold text-slate-800">{{ item.source_name }}</span>
-                                            <span>·</span>
-                                            <span>{{ item.published_at|date:"d F Y à H:i" }}</span>
-                                        </div>
-
-                                        <h3 class="font-extrabold text-base sm:text-lg text-slate-900 leading-snug hover:text-brand-blue transition-colors line-clamp-3">
-                                            <a href="{% url 'web_ui:news' %}?article={{ item.id }}">{{ item.title }}</a>
-                                        </h3>
-
-                                        <p class="text-xs sm:text-[13px] text-slate-600 leading-relaxed line-clamp-3">
-                                            {{ item.summary }}
-                                        </p>
-
-                                        <div class="pt-2 flex flex-wrap items-center gap-2.5">
-                                            <a href="{% url 'web_ui:news' %}?article={{ item.id }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-blue text-white text-xs font-bold hover:bg-brand-blueDark transition-colors shadow-2xs">
-                                                <span>Lire l'article complet</span>
-                                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                                            </a>
-                                            <a href="{% url 'web_ui:chat' %}?q={{ item.title|urlencode }}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors">
-                                                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-blue"></i>
-                                                <span>Comprendre avec l'IA</span>
-                                            </a>
-                                        </div>
-                                    </div>
-
+                                    {% endif %}
                                 </div>
-                            </div>
+                                <div class="p-5 sm:p-6">
+                                    <h3 class="font-extrabold text-xl sm:text-2xl text-slate-900 leading-snug hover:text-brand-blue transition-colors">
+                                        <a href="{% url 'web_ui:news' %}?article={{ item.id }}">{{ item.title }}</a>
+                                    </h3>
+                                    <div class="mt-5 flex flex-wrap justify-end items-center gap-2.5">
+                                        <a href="{% url 'web_ui:news' %}?article={{ item.id }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-blue text-white text-xs font-bold hover:bg-brand-blueDark transition-colors">
+                                            <span>Lire l'article complet</span>
+                                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                        </a>
+                                        <a href="{% url 'web_ui:chat' %}?q={{ item.title|urlencode }}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors">
+                                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                            <span>Comprendre avec l'IA</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
                             {% empty %}
                             <div class="p-8 text-center text-xs text-slate-400">
                                 Synchronisation du fil d'actualités républicain...
@@ -1282,6 +975,8 @@
         </div>
     </section>
 
+    {% include 'landing_community_faq.html' %}
+
     <!-- FOOTER: Standard civic footer -->
     <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -1440,18 +1135,6 @@
             }
             animate();
 
-            // Smooth subtle auto-scroll hint for chat snippet
-            const chatContainer = document.getElementById('hero-chat-container');
-            if (chatContainer) {
-                // Initial gentle scroll to show it's active and scrollable
-                setTimeout(() => {
-                    chatContainer.scrollTo({
-                        top: 140,
-                        behavior: 'smooth'
-                    });
-                }, 1200);
-            }
-
             // Headline News Carousel Controller (matching platform news carousels)
             const slides = document.querySelectorAll('.headline-slide');
             const prevBtn = document.getElementById('headline-prev-btn');
@@ -1503,5 +1186,7 @@
             startTimer();
         });
     </script>
+    <script src="{% static 'js/landing-chat-demo.js' %}?v=1" defer></script>
+    <script src="{% static 'js/landing-motion.js' %}?v=1" defer></script>
 </body>
 </html>
