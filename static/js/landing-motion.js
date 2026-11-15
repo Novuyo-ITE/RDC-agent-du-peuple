@@ -14,6 +14,8 @@
         });
     }, {threshold: 0.06});
     targets.forEach((target, index) => {
+        // News must remain readable while remote photographs are loading.
+        if (target.closest('#actualites')) return;
         target.classList.add('landing-reveal');
         if (target.getBoundingClientRect().top < window.innerHeight) return;
         target.style.setProperty('--reveal-delay', `${(index % 3) * 70}ms`);

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth h-full">
 <head>
-    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=7">
+    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=13">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RDC Agent du Peuple — Le Guichet d'Orientation Civique de la République</title>
@@ -113,6 +113,7 @@
     </div>
 
 
+        <div class="landing-workspace-mobile"><button type="button" class="landing-mobile-action" data-open-landing-menu aria-label="Ouvrir le menu" aria-controls="landing-menu-drawer"><i data-lucide="menu"></i></button><a href="{% url 'web_ui:landing' %}" class="landing-mobile-logo"><img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple"></a><a href="{% url 'web_ui:chat' %}?new=1" class="landing-mobile-action" aria-label="Nouvelle conversation"><i data-lucide="plus"></i></a></div>
         <div class="landing-nav-inner mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between gap-5">
             
             <!-- Exact Chatbot Logo -->
@@ -125,11 +126,6 @@
                 <a href="#comment-ca-marche" class="hover:text-brand-yellow transition-colors">Comment ça marche</a>
                 <a href="#services" class="hover:text-brand-yellow transition-colors">Démarches</a>
                 <a href="#actualites" class="hover:text-brand-yellow transition-colors">Actualités &amp; Médias</a>
-                <a href="#depeches" class="hover:text-brand-yellow transition-colors flex items-center gap-1.5">
-                    <span>Direct X</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse"></span>
-                </a>
-                <a href="{% url 'web_ui:directory' %}" class="hover:text-brand-yellow transition-colors">Portails d'État</a>
             </nav>
 
             <details class="landing-mobile-nav xl:hidden"><summary aria-label="Ouvrir le menu"><i data-lucide="menu" class="w-5 h-5"></i></summary><nav><a href="#demarches-rapides">Démarches</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#actualites">Actualités</a><a href="#communaute">Communauté</a><a href="#questions-frequentes">Questions fréquentes</a></nav></details>
@@ -156,6 +152,8 @@
 
         </div>
     </header>
+    <dialog id="landing-menu-drawer" class="landing-menu-drawer"><div class="landing-drawer-heading"><strong>Menu</strong><button type="button" data-close-landing-menu aria-label="Fermer le menu">&times;</button></div><nav><a href="#demarches-rapides">Démarches</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#actualites">Actualités</a><a href="#communaute">Communauté</a><a href="{% url 'web_ui:chat' %}">Ouvrir l'espace citoyen</a>{% if user.is_authenticated %}<a href="{% url 'web_ui:logout' %}">Se déconnecter</a>{% else %}<a href="{% url 'web_ui:login' %}">Connexion</a><a href="{% url 'web_ui:register' %}">Créer un compte</a>{% endif %}</nav></dialog>
+
 
     <!-- HERO SECTION: Retains the exact midnight blue background from earlier + Interactive JavaScript Particles -->
     <section id="hero-interactive" class="relative hero-banner text-white overflow-hidden py-16 lg:py-24 border-b border-slate-800">
@@ -226,126 +224,7 @@
     <!-- ================================================================= -->
     <!-- SECTION 2: COMMENT ÇA MARCHE - DE LA QUESTION À LA DÉCISION          -->
     <!-- ================================================================= -->
-    <section id="comment-ca-marche" class="py-16 md:py-20 bg-slate-50 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <div class="max-w-3xl mb-12">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 text-brand-blue text-[11px] font-bold uppercase tracking-wider">
-                    <span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span>
-                    <span>Méthodologie Civique Républicaine</span>
-                </div>
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
-                    De la question à la décision
-                </h2>
-                <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
-                    Un parcours en 4 étapes pour sécuriser chaque acte administratif, éliminer les intermédiaires de couloir et obtenir des décisions officielles certifiées.
-                </p>
-            </div>
 
-            <!-- 4 Connected Sequential Steps -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-                
-                <!-- Step 1 -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="w-9 h-9 rounded-xl bg-blue-50 text-brand-blue border border-blue-100 flex items-center justify-center font-extrabold text-sm">
-                                01
-                            </span>
-                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
-                                <i data-lucide="message-square-text" class="w-4 h-4 text-brand-blue"></i>
-                            </div>
-                        </div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
-                            Posez votre question
-                        </h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Formulez librement votre demande en Français, Lingála ou Kiswahili. Tapez ou dictez au micro comme devant un guichet d'État.
-                        </p>
-                    </div>
-                    <div class="pt-4 mt-4 border-t border-slate-100 flex flex-wrap gap-1.5 text-[10.5px] font-semibold text-brand-blue">
-                        <span class="px-2 py-0.5 rounded-md bg-blue-50">Lingála</span>
-                        <span class="px-2 py-0.5 rounded-md bg-blue-50">Kiswahili</span>
-                        <span class="px-2 py-0.5 rounded-md bg-blue-50">Français</span>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 flex items-center justify-center font-extrabold text-sm">
-                                02
-                            </span>
-                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
-                                <i data-lucide="file-check-2" class="w-4 h-4 text-amber-600"></i>
-                            </div>
-                        </div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
-                            Vérifiez les exigences
-                        </h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            L'Agent analyse les décrets légaux en vigueur et dresse la liste des pièces justificatives, des formulaires et des critères d'éligibilité.
-                        </p>
-                    </div>
-                    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-1.5 text-[10.5px] font-semibold text-slate-500">
-                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        <span>Textes d'État vérifiés</span>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="w-9 h-9 rounded-xl bg-red-50 text-brand-red border border-red-100 flex items-center justify-center font-extrabold text-sm">
-                                03
-                            </span>
-                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
-                                <i data-lucide="shield-alert" class="w-4 h-4 text-brand-red"></i>
-                            </div>
-                        </div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
-                            Sécurisez les frais &amp; anti-fraude
-                        </h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Consultez le barème légal fixé par arrêté ministériel et les banques agréées. Aucun versement d'espèces en main propre n'est toléré.
-                        </p>
-                    </div>
-                    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-1.5 text-[10.5px] font-semibold text-red-700 bg-red-50/70 px-2 py-1 rounded-md">
-                        <i data-lucide="ban" class="w-3 h-3 text-red-600"></i>
-                        <span>Zéro commissionnaire</span>
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs hover:border-brand-blue hover:shadow-md transition-all flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center justify-center font-extrabold text-sm">
-                                04
-                            </span>
-                            <div class="w-8 h-8 rounded-lg bg-slate-50 text-slate-600 flex items-center justify-center">
-                                <i data-lucide="building-2" class="w-4 h-4 text-emerald-600"></i>
-                            </div>
-                        </div>
-                        <h3 class="font-bold text-base text-slate-900 group-hover:text-brand-blue transition-colors">
-                            Déposez au bon guichet
-                        </h3>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Obtenez l'adresse physique exacte du centre de capture ou le portail officiel de l'institution pour déposer et suivre l'avancement.
-                        </p>
-                    </div>
-                    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-700">
-                        <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        <span>Orientation certifiée</span>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
 
     <!-- ================================================================= -->
     <!-- SECTION 3: SOUVERAINETÉ & BRANCHES & DOMAINES DE L'ÉTAT           -->
@@ -422,9 +301,9 @@
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique+ordinaire" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique+ordinaire" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
-                            <span>Tuna l'IA</span>
+                            <span>Tuna IA</span>
                         </a>
                     </div>
                 </div>
@@ -467,9 +346,9 @@
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE+RCCM" class="px-3 py-1.5 rounded-xl bg-[#FCD116] text-slate-950 font-black text-xs hover:bg-amber-300 transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE+RCCM" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#FCD116] text-slate-950 font-black text-xs hover:bg-amber-300 transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-slate-950"></i>
-                            <span>Tuna l'IA</span>
+                            <span>Tuna IA</span>
                         </a>
                     </div>
                 </div>
@@ -512,9 +391,9 @@
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Numero+Identification+Fiscale+NIF" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Numero+Identification+Fiscale+NIF" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
-                            <span>Tuna l'IA</span>
+                            <span>Tuna IA</span>
                         </a>
                     </div>
                 </div>
@@ -556,9 +435,9 @@
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Extrait+de+casier+judiciaire" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Extrait+de+casier+judiciaire" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
-                            <span>Tuna l'IA</span>
+                            <span>Tuna IA</span>
                         </a>
                     </div>
                 </div>
@@ -600,9 +479,9 @@
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Permis+de+conduire+biometrique" class="px-3 py-1.5 rounded-xl bg-[#FCD116] text-slate-950 font-black text-xs hover:bg-amber-300 transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Permis+de+conduire+biometrique" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#FCD116] text-slate-950 font-black text-xs hover:bg-amber-300 transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-slate-950"></i>
-                            <span>Tuna l'IA</span>
+                            <span>Tuna IA</span>
                         </a>
                     </div>
                 </div>
@@ -644,9 +523,9 @@
                             <span>Consulter ce secteur</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Bourses+detudes+nationales" class="px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Bourses+detudes+nationales" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-[#FCD116]"></i>
-                            <span>Tuna l'IA</span>
+                            <span>Tuna IA</span>
                         </a>
                     </div>
                 </div>
@@ -692,7 +571,7 @@
                             <article class="headline-slide {% if not forloop.first %}hidden{% endif %}" data-slide-index="{{ forloop.counter0 }}">
                                 <div class="relative w-full aspect-16/10 sm:aspect-video bg-slate-100 overflow-hidden">
                                     {% if item.image_url %}
-                                    <img src="{{ item.image_url }}" alt="" loading="lazy" class="w-full h-full object-cover" onerror="this.style.display='none';">
+                                    <img src="{{ item.image_url }}" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.svg' %}';">
                                     {% else %}
                                     <div class="w-full h-full flex items-center justify-center text-slate-400">
                                         <i data-lucide="newspaper" class="w-12 h-12 opacity-30"></i>
@@ -717,7 +596,7 @@
                             </article>
                             {% empty %}
                             <div class="p-8 text-center text-xs text-slate-400">
-                                Synchronisation du fil d'actualités républicain...
+                                Actualisation des articles en cours…
                             </div>
                             {% endfor %}
                         </div>
@@ -741,7 +620,7 @@
                                     <!-- Photo -->
                                     <div class="relative w-full h-40 bg-slate-100 overflow-hidden">
                                         {% if news.image_url %}
-                                        <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80';">
+                                        <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.svg' %}';">
                                         {% else %}
                                         <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
                                             <i data-lucide="newspaper" class="w-8 h-8 opacity-40"></i>
@@ -847,7 +726,7 @@
                             <!-- Tweet image if available -->
                             {% if tweet.image %}
                             <div class="rounded-xl overflow-hidden max-h-40 bg-slate-100 border border-slate-100">
-                                <img src="{{ tweet.image }}" alt="" loading="lazy" class="w-full h-full object-cover" onerror="this.parentElement.style.display='none';">
+                                <img src="{{ tweet.image }}" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.parentElement.style.display='none';">
                             </div>
                             {% endif %}
 
@@ -945,6 +824,10 @@
     </section>
 
     <!-- CLEAN CALLOUT BANNER: Try Agent du Peuple -->
+
+
+    {% include 'landing_community_faq.html' %}
+
     <section class="py-16 bg-slate-900 text-white text-center">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             
@@ -974,8 +857,6 @@
 
         </div>
     </section>
-
-    {% include 'landing_community_faq.html' %}
 
     <!-- FOOTER: Standard civic footer -->
     <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800">
@@ -1135,58 +1016,12 @@
             }
             animate();
 
-            // Headline News Carousel Controller (matching platform news carousels)
-            const slides = document.querySelectorAll('.headline-slide');
-            const prevBtn = document.getElementById('headline-prev-btn');
-            const nextBtn = document.getElementById('headline-next-btn');
-            const counter = document.getElementById('headline-slide-indicator');
-            let currentSlide = 0;
-            let slideInterval = null;
 
-            function showSlide(index) {
-                if (!slides || slides.length === 0) return;
-                slides.forEach((s, i) => {
-                    s.classList.toggle('hidden', i !== index);
-                });
-                currentSlide = index;
-                if (counter) {
-                    counter.textContent = `${currentSlide + 1} / ${slides.length}`;
-                }
-            }
-
-            function nextSlide() {
-                if (!slides || slides.length === 0) return;
-                showSlide((currentSlide + 1) % slides.length);
-            }
-
-            function prevSlide() {
-                if (!slides || slides.length === 0) return;
-                showSlide((currentSlide - 1 + slides.length) % slides.length);
-            }
-
-            if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
-            if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
-
-            function startTimer() {
-                if (slides && slides.length > 1) {
-                    slideInterval = setInterval(nextSlide, 7000);
-                }
-            }
-
-            function resetTimer() {
-                if (slideInterval) clearInterval(slideInterval);
-                startTimer();
-            }
-
-            const carouselCard = document.getElementById('headline-carousel-card');
-            if (carouselCard) {
-                carouselCard.addEventListener('mouseenter', () => { if (slideInterval) clearInterval(slideInterval); });
-                carouselCard.addEventListener('mouseleave', () => { startTimer(); });
-            }
-            startTimer();
         });
     </script>
     <script src="{% static 'js/landing-chat-demo.js' %}?v=1" defer></script>
-    <script src="{% static 'js/landing-motion.js' %}?v=1" defer></script>
+    <script src="{% static 'js/landing-motion.js' %}?v=2" defer></script>
+    <script src="{% static 'js/landing-news.js' %}?v=1" defer></script>
+    <script src="{% static 'js/landing-mobile-nav.js' %}?v=1" defer></script>
 </body>
 </html>

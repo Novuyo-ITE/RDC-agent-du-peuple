@@ -44,10 +44,12 @@ def landing_view(request):
             return "img/sources/rfi.png"
         return "img/armoirie_rdc.png"
 
+    from django.db.models import Q
+
     # Priority to news with images (3 for the top carousel headline + 4 for the secondary grid)
-    latest_news = list(OfficialNews.objects.approved().filter(is_verified=True).exclude(image_url='').order_by('-published_at')[:7])
+    latest_news = list(OfficialNews.objects.approved().defer('full_content').exclude(image_url__isnull=True).exclude(image_url='').order_by('-published_at')[:7])
     if len(latest_news) < 7:
-        extra_news = list(OfficialNews.objects.approved().filter(is_verified=True).filter(image_url='').order_by('-published_at')[:7 - len(latest_news)])
+        extra_news = list(OfficialNews.objects.approved().defer('full_content').filter(Q(image_url='') | Q(image_url__isnull=True)).order_by('-published_at')[:7 - len(latest_news)])
         latest_news.extend(extra_news)
 
     # Attach respective media logo to each news item
