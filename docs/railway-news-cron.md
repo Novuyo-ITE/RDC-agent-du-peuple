@@ -26,3 +26,17 @@ database. A separate SQLite file in the cron container will not update the websi
 
 This file prepares configuration; it does not provision or activate a Railway service.
 Reference: https://docs.railway.com/cron-jobs
+
+## X and social posts
+
+The same start command also imports indexed X/social posts synchronously after
+RSS news on every scheduled run. Add `TAVILY_API_KEY` to the `news-refresh`
+service and leave `COMMUNITY_SOCIAL_DISCOVERY=True` (the default).
+Each run rotates the selected account catalogue using its 15-minute time slot,
+so rotation survives process restarts. Existing importer deduplication and
+source checks are reused. Social import errors do not undo or stop RSS results;
+RSS source errors do not prevent the social phase from running.
+
+Logs show `X/social: ... new posts; state=...`, or an explicit skipped/error
+message. This uses Tavily indexed public posts, not a live or complete X API feed.
+It also uses the existing Instagram discovery batch. Searches consume Tavily credits.

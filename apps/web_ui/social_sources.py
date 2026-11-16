@@ -89,7 +89,7 @@ def canonical_post_url(value):
         return None
 
 
-def import_social_posts():
+def import_social_posts(offset=None):
     """Six bounded searches covering media, voices, institutions, figures and embassies."""
     if not getattr(settings, 'TAVILY_API_KEY', ''):
         raise TavilySearchError('Clé Tavily non configurée sur le serveur.')
@@ -97,7 +97,8 @@ def import_social_posts():
     created = 0
     failed = 0
     found = 0
-    offset = cache.get('community-account-cursor', 0)
+    if offset is None:
+        offset = cache.get('community-account-cursor', 0)
     batches = search_batches(offset)
     for batch in batches:
         try:

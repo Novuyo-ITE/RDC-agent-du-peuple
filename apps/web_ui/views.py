@@ -169,7 +169,10 @@ def landing_view(request):
         },
     ]
 
+    from .landing_demo import landing_service_examples
+
     return render(request, 'landing.html', {
+        'hero_service_examples': landing_service_examples(),
         'featured_services': featured_services,
         'headline_news': headline_news,
         'secondary_news': secondary_news,

@@ -1,5 +1,5 @@
 ﻿from unittest.mock import patch
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.utils import timezone
 from apps.rag_engine.models import OfficialNews
 from apps.web_ui.views import landing_view
@@ -38,6 +38,7 @@ class LandingNewsLoadingTests(TestCase):
         self.assertContains(response, 'img/news-placeholder.svg')
 
 
+@override_settings(TAVILY_API_KEY='')
 class ScheduledNewsTests(TestCase):
     @patch('apps.rag_engine.management.commands.refresh_scheduled_news.fetch_feed')
     def test_scheduled_command_runs_without_visitors_and_preserves_other_sources(self, fetch):
@@ -56,3 +57,38 @@ class ScheduledNewsTests(TestCase):
         with self.assertRaises(CommandError):
             call_command('refresh_scheduled_news', max_per_source=0)
         fetch.assert_not_called()
+
+
+@override_settings(TAVILY_API_KEY='test-key', COMMUNITY_SOCIAL_DISCOVERY=True)
+class ScheduledSocialTests(TestCase):
+    @patch('apps.rag_engine.management.commands.refresh_scheduled_news.import_social_posts')
+    @patch('apps.rag_engine.management.commands.refresh_scheduled_news.fetch_feed', return_value=0)
+    def test_same_job_runs_social_import_synchronously(self, feed, social):
+        from io import StringIO
+        from django.core.management import call_command
+        social.return_value = {'created': 2, 'state': 'ready'}
+        output = StringIO()
+        call_command('refresh_scheduled_news', stdout=output)
+        social.assert_called_once()
+        self.assertIsInstance(social.call_args.kwargs['offset'], int)
+        self.assertIn('X/social: 2 new posts', output.getvalue())
+
+    @patch('apps.rag_engine.management.commands.refresh_scheduled_news.import_social_posts')
+    @patch('apps.rag_engine.management.commands.refresh_scheduled_news.fetch_feed', side_effect=RuntimeError('offline'))
+    def test_all_rss_failures_still_allow_social_import(self, feed, social):
+        from io import StringIO
+        from django.core.management import call_command, CommandError
+        social.return_value = {'created': 1, 'state': 'ready'}
+        with self.assertLogs('apps.rag_engine.management.commands.refresh_scheduled_news', level='ERROR'):
+            with self.assertRaises(CommandError):
+                call_command('refresh_scheduled_news', stdout=StringIO())
+        social.assert_called_once()
+
+    @patch('apps.rag_engine.management.commands.refresh_scheduled_news.import_social_posts', side_effect=RuntimeError('offline'))
+    @patch('apps.rag_engine.management.commands.refresh_scheduled_news.fetch_feed', return_value=1)
+    def test_social_failure_does_not_fail_successful_rss_import(self, feed, social):
+        from io import StringIO
+        from django.core.management import call_command
+        with self.assertLogs('apps.rag_engine.management.commands.refresh_scheduled_news', level='ERROR'):
+            call_command('refresh_scheduled_news', stdout=StringIO(), stderr=StringIO())
+        self.assertGreater(feed.call_count, 0)

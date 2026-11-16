@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth h-full">
 <head>
-    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=13">
+    <link rel="stylesheet" href="{% static 'css/compact-chat.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=15">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RDC Agent du Peuple — Le Guichet d'Orientation Civique de la République</title>
@@ -198,20 +199,15 @@
 
                 <!-- Hero Right: Live Interactive Chatbot & Service Workspace Preview -->
                 <div class="lg:col-span-6 hero-preview-column">
-                    <div class="citizen-chat">
-                        <div class="citizen-chat-top"><span class="citizen-chat-mark">RDC<span>Agent du Peuple</span></span><span class="citizen-chat-preview">Aperçu interactif</span></div>
-                        <div class="citizen-chat-toolbar"><span><i data-lucide="message-circle" class="w-4 h-4"></i> Nouvelle conversation</span><button type="button" id="hero-chat-toggle" aria-label="Mettre la démonstration en pause">Mettre en pause</button></div>
-                        <div id="hero-chat-container" class="citizen-chat-thread custom-scrollbar" aria-label="Exemple de conversation">
-                            <div class="citizen-chat-intro"><span class="citizen-chat-avatar"><i data-lucide="sparkles" class="w-5 h-5"></i></span><p>Une question.<br><strong>Un point de départ clair.</strong></p></div>
-                            <div id="hero-demo-user" class="citizen-chat-user" hidden><span class="citizen-message-label">VOUS</span><p id="hero-demo-question"></p></div>
-                            <div id="hero-demo-assistant" class="citizen-chat-assistant" hidden><div class="citizen-agent-label"><span class="citizen-agent-dot"></span> Agent du Peuple</div><p id="hero-demo-thinking" class="citizen-thinking"><span class="animate-pulse" aria-hidden="true">● ● ●</span> Réflexion en cours…</p><p id="hero-demo-answer" class="whitespace-pre-line"></p></div>
-                            <div id="hero-demo-next" class="citizen-chat-source" hidden><i data-lucide="book-open" class="w-4 h-4"></i><a id="hero-demo-resource" href="{% url 'web_ui:services' %}">Explorer les démarches &rarr;</a></div>
-                            <p id="hero-demo-status" role="status" class="citizen-chat-status">Le citoyen rédige sa question…</p>
+                    <aside class="hero-service-chat" aria-label="Exemple du guide de démarche">
+                        <header class="hero-service-head"><span class="hero-service-icon"><i data-lucide="sparkles" class="w-5 h-5"></i></span><div><h2>Votre guide de démarche</h2><p>Tuna IA &middot; Exemple de conversation</p></div><button type="button" id="hero-chat-toggle">Pause</button></header>
+                        <div id="hero-chat-container" class="hero-service-log custom-scrollbar" aria-label="Conversation de démonstration">
+                            <div id="hero-demo-user" class="hero-service-message user" hidden><p id="hero-demo-question"></p></div>
+                            <div id="hero-demo-assistant" class="hero-service-message assistant" hidden><div class="hero-service-agent"><span class="hero-service-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span><span>Tuna IA</span></div><p id="hero-demo-thinking" class="hero-service-thinking"><span class="animate-pulse" aria-hidden="true">● ● ●</span> Réflexion en cours…</p><p id="hero-demo-answer"></p><div id="hero-demo-citations" class="hero-service-citations" hidden></div></div>
+                            <div id="hero-demo-next" class="hero-service-source" hidden><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i><a id="hero-demo-resource" href="{% url 'web_ui:services' %}">Voir la démarche</a></div>
                         </div>
-                        <div class="citizen-demo-input"><span class="citizen-message-label">EXEMPLE EN COURS</span><p><span id="hero-demo-composer"></span><span class="hero-typing-cursor" aria-hidden="true"></span></p></div>
-                        <div class="citizen-chat-bottom"><div class="citizen-chat-prompts"><a href="{% url 'web_ui:chat' %}?q=Comment+obtenir+un+acte+de+naissance">Acte de naissance <span>&nearr;</span></a><a href="{% url 'web_ui:chat' %}?q=Comment+cr%C3%A9er+une+entreprise">Créer une entreprise <span>&nearr;</span></a></div>
-                        <form action="{% url 'web_ui:chat' %}" method="get" class="citizen-question-form"><label for="hero-chat-question" class="sr-only">Votre question</label><input id="hero-chat-question" name="q" required maxlength="1000" placeholder="Et vous, de quoi avez-vous besoin ?"><button type="submit" aria-label="Ouvrir la conversation"><i data-lucide="arrow-up" class="w-5 h-5"></i></button></form><p class="citizen-chat-footnote">Lingála ? Kiswahili ? Kikongo ? Tshiluba ? Français <span>Réponses à vérifier auprès des sources officielles.</span></p></div>
-                    </div>
+                        <form action="{% url 'web_ui:chat' %}" method="get" class="hero-service-form"><div class="compact-chat"><label for="hero-demo-composer" class="sr-only">Votre question au guide</label><textarea id="hero-demo-composer" name="q" class="compact-chat-input" rows="2" required maxlength="1000" placeholder="Posez une question sur votre démarche…"></textarea><div class="compact-chat-bottom"><p id="hero-demo-status" role="status" class="hero-service-status">Le citoyen rédige sa question…</p><button type="submit" class="compact-chat-button compact-chat-send" aria-label="Ouvrir votre conversation"><i data-lucide="arrow-up"></i></button></div></div></form>
+                    </aside>
                 </div>
 
             </div>
@@ -1019,7 +1015,8 @@
 
         });
     </script>
-    <script src="{% static 'js/landing-chat-demo.js' %}?v=1" defer></script>
+    {{ hero_service_examples|json_script:"hero-service-examples" }}
+    <script src="{% static 'js/landing-chat-demo.js' %}?v=3" defer></script>
     <script src="{% static 'js/landing-motion.js' %}?v=2" defer></script>
     <script src="{% static 'js/landing-news.js' %}?v=1" defer></script>
     <script src="{% static 'js/landing-mobile-nav.js' %}?v=1" defer></script>
