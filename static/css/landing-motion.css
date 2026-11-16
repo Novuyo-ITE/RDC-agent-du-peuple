@@ -114,3 +114,8 @@
 .hero-service-agent .hero-service-icon svg{width:16px;height:16px}
 
 .hero-service-citations{margin-top:12px;display:flex;flex-direction:column;gap:5px;white-space:normal}.hero-service-citations[hidden]{display:none}.hero-service-citations a{color:#0077c8;font-size:10px;text-decoration:underline;overflow-wrap:anywhere}
+
+/* Consistent blue cards with a restrained yellow hover accent. */
+#branches-secteurs .landing-sector-card::after{background:#fcd116}
+#branches-secteurs .group:hover .sector-tuna-action,#branches-secteurs .group:focus-within .sector-tuna-action{background:#fcd116;color:#172738}
+#branches-secteurs .group:hover .sector-tuna-action svg,#branches-secteurs .group:focus-within .sector-tuna-action svg{color:#172738}

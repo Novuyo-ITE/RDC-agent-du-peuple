@@ -117,7 +117,25 @@
         .sidebar-service-button:hover { background-color:#0066ad; box-shadow:0 3px 8px #0077c82b; }
         .sidebar-service-button:focus-visible { outline:2px solid #0077c8; outline-offset:3px; }
         .sidebar-service-button svg { color:#fff; stroke:currentColor; stroke-width:1.8; }
-        .sidebar-toggle-emblem { display:none; width:56px; height:56px; object-fit:contain; }
+        img[src*="armoirie_rdc.png"] { background:#fff; border-radius:50%; padding:3px; }
+        .sidebar-toggle-emblem { display:none; width:36px; height:36px; object-fit:contain; }
+        #main-sidebar { position:relative; border-right:0; }
+        #main-sidebar::after {
+            content:'';
+            position:absolute;
+            inset:0 0 0 auto;
+            width:2px;
+            pointer-events:none;
+            background:linear-gradient(180deg,transparent,#0077C8 25%,#FCD116 50%,#CE1126 75%,transparent) 0 0 / 100% 200% repeat-y;
+            animation:sidebar-line-flow 6s linear infinite;
+        }
+        @keyframes sidebar-line-flow {
+            from { background-position:0 0; }
+            to { background-position:0 200%; }
+        }
+        @media (prefers-reduced-motion:reduce) {
+            #main-sidebar::after { animation:none; }
+        }
         @media (min-width: 768px) {
             #main-sidebar.sidebar-collapsed { width:76px; }
             .sidebar-collapsed .sidebar-header { justify-content:center; padding:14px 4px; }
@@ -150,6 +168,7 @@
             .mobile-nav-logo { display:flex; justify-content:center; min-width:0; }
             .mobile-nav-logo img { max-width:100%; height:28px; width:auto; object-fit:contain; }
         }
+
     </style>
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -166,16 +185,6 @@
 <body class="h-full flex flex-col antialiased bg-uggov-bgLight dark:bg-uggov-bgDark text-slate-800 dark:text-slate-100 transition-colors duration-200">
     <div hidden>{% csrf_token %}</div>
 
-    <!-- 1. FULL-WIDTH TRI-COLOR BANNER (Blue, Red, Yellow) at the absolute top spanning 100% width above sidebar & main content -->
-    <div class="w-full flex h-1.5 shrink-0 z-50">
-        <div class="hidden md:block w-1/3 bg-[#0077C8]"></div>
-        <div class="hidden md:block w-1/3 bg-[#CE1126]"></div>
-        <div class="hidden md:block w-1/3 bg-[#FCD116]"></div>
-        <div class="w-1/3 bg-[#0077C8]"></div>
-        <div class="w-1/3 bg-[#CE1126]"></div>
-        <div class="w-1/3 bg-[#FCD116]"></div>
-    </div>
-
     <div class="flex-1 flex overflow-hidden">
         
         <!-- SIDEBAR -->
@@ -190,7 +199,7 @@
                 <!-- Sidebar collapse button -->
                 <button onclick="toggleSidebar()" aria-expanded="true" aria-label="R?duire la barre lat?rale" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors" title="Masquer la barre latérale">
                     <i data-lucide="panel-left-close" class="w-4 h-4"></i>
-                    <img src="{% static 'img/armoirie_rdc.png' %}" class="sidebar-toggle-emblem" alt="" aria-hidden="true">
+                    <img src="{% static 'img/armoirie_rdc.png' %}?v=2" class="sidebar-toggle-emblem" alt="" aria-hidden="true">
                 </button>
             </div>
 
