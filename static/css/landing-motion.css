@@ -2,7 +2,7 @@
 #hero-interactive.hero-banner{background:radial-gradient(ellipse at 15% 15%,#0077c82b,transparent 58%),linear-gradient(125deg,#07182b,#0b2038 60%,#112a40)}
 #comment-ca-marche{background:radial-gradient(ellipse at 100% 0,#0077c80a,transparent 55%),linear-gradient(180deg,#f8fafc,#f1f5f9)}
 #branches-secteurs.sovereign-sectors-banner{background:#091a2d;isolation:isolate}
-#branches-secteurs::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,233,153,.48) .65px,rgba(255,233,153,.18) 1px,transparent 1.35px);background-size:24px 24px;background-position:12px 12px}
+#branches-secteurs::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(circle,rgba(225,210,153,.34) .4px,rgba(225,210,153,.1) .7px,transparent 1px);background-size:24px 24px;background-position:12px 12px}
 /* A blue gradient softens the dots throughout the card grid and its gaps. */
 #branches-secteurs>.max-w-7xl>.grid{position:relative;isolation:isolate}
 #branches-secteurs>.max-w-7xl>.grid::before{content:"";position:absolute;inset:-24px;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(9,26,45,0),rgba(9,26,45,.84) 7%,rgba(9,26,45,.94) 50%,rgba(9,26,45,.84) 93%,rgba(9,26,45,0));filter:blur(12px)}
