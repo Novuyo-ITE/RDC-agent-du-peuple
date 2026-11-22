@@ -1,4 +1,4 @@
-﻿/* Warm news images before the reader reaches the section, including hidden slides. */
+﻿/* Warm news images before the reader reaches the section, on the landing page. */
 (() => {
     'use strict';
     const section = document.getElementById('actualites');
@@ -7,11 +7,6 @@
     function load() {
         images.forEach(img => {
             img.loading = 'eager';
-            // Hidden carousel slides do not reliably load lazy images until shown.
-            if (img.closest('.headline-slide') && img.getAttribute('src')) {
-                const preload = new Image();
-                preload.src = img.src;
-            }
         });
     }
     if (!('IntersectionObserver' in window)) { load(); return; }
@@ -24,77 +19,25 @@
 
 (() => {
     'use strict';
-    function initializeCarousel() {
-            // Headline News Carousel Controller (matching platform news carousels)
-            const slides = document.querySelectorAll('.headline-slide');
-            const prevBtn = document.getElementById('headline-prev-btn');
-            const nextBtn = document.getElementById('headline-next-btn');
-            const counter = document.getElementById('headline-slide-indicator');
-            let currentSlide = 0;
-            let slideInterval = null;
-
-            function showSlide(index) {
-                if (!slides || slides.length === 0) return;
-                slides.forEach((s, i) => {
-                    s.classList.toggle('hidden', i !== index);
-                });
-                currentSlide = index;
-                if (counter) {
-                    counter.textContent = `${currentSlide + 1} / ${slides.length}`;
-                }
-            }
-
-            function nextSlide() {
-                if (!slides || slides.length === 0) return;
-                showSlide((currentSlide + 1) % slides.length);
-            }
-
-            function prevSlide() {
-                if (!slides || slides.length === 0) return;
-                showSlide((currentSlide - 1 + slides.length) % slides.length);
-            }
-
-            if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
-            if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
-
-            function startTimer() {
-                if (slides && slides.length > 1) {
-                    slideInterval = setInterval(nextSlide, 7000);
-                }
-            }
-
-            function resetTimer() {
-                if (slideInterval) clearInterval(slideInterval);
-                startTimer();
-            }
-
-            const carouselCard = document.getElementById('headline-carousel-card');
-            if (carouselCard) {
-                carouselCard.addEventListener('mouseenter', () => { if (slideInterval) clearInterval(slideInterval); });
-                carouselCard.addEventListener('mouseleave', () => { startTimer(); });
-            }
-            startTimer();
-    }
-    initializeCarousel();
-    if (document.querySelector('#actualites .headline-slide')) return;
+    const grid = document.getElementById('civia-landing-news-grid');
+    if (!grid || grid.querySelector('article')) return;
     // Empty production databases need time for the background RSS import.
     let attempts = 0;
     async function checkFeed() {
         if (document.hidden) { window.setTimeout(checkFeed, 15000); return; }
         attempts++;
         try {
-            const response = await fetch(window.location.pathname, {
+            const response = await fetch(window.location.pathname + window.location.search, {
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 cache: 'no-store', signal: AbortSignal.timeout(10000)
             });
             if (response.ok) {
                 const page = new DOMParser().parseFromString(await response.text(), 'text/html');
-                const fresh = page.querySelector('#actualites');
-                if (fresh && fresh.querySelector('.headline-slide')) {
-                    document.getElementById('actualites').replaceWith(fresh);
+                const fresh = page.getElementById('civia-landing-news-grid');
+                if (fresh && fresh.querySelector('article')) {
+                    grid.replaceWith(fresh);
                     fresh.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
                     if (window.lucide) window.lucide.createIcons();
-                    initializeCarousel();
                     return;
                 }
             }

@@ -1,0 +1,9 @@
+{% load static %}
+<nav class="civia-navigation {% if civia_desktop %}civia-navigation-top{% else %}civia-navigation-bottom{% endif %}" aria-label="Navigation principale">
+    {% with page=request.resolver_match.url_name %}
+    <a href="{% url 'web_ui:home' %}" {% if page == 'home' or page == 'landing' %}aria-current="page"{% elif page == 'services' or page == 'service_workspace' or page == 'directory' %}aria-current="true"{% endif %}><span class="civia-nav-icon"><img src="{% static 'civia/accueil.svg' %}" alt=""></span>Accueil</a>
+    <a href="{% url 'web_ui:chat' %}" {% if page == 'chat' %}aria-current="page"{% endif %}><span class="civia-nav-icon"><img src="{% static 'civia/conversation.svg' %}" alt=""></span>Discuter</a>
+    <a href="{% url 'web_ui:news' %}" {% if page == 'news' or page == 'news_alias' %}aria-current="page"{% endif %}><span class="civia-nav-icon"><img src="{% static 'civia/actualites.svg' %}" alt=""></span>Infos</a>
+    <button type="button" data-civia-open="civia-options" aria-haspopup="dialog" aria-controls="civia-options"><span class="civia-nav-icon"><img src="{% static 'civia/options.svg' %}" alt=""></span>Options</button>
+    {% endwith %}
+</nav>

@@ -1,0 +1,36 @@
+/* CivIA design tokens v1.1 */
+:root {
+  --brand-institutional: #003B73;
+  --brand-interactive: #007FFF;
+  --brand-accent: #F7D618;
+  --brand-alert: #CE1021;
+  --background: #FFFFFF;
+  --surface: #F1F4F8;
+  --selected: #E7F0FA;
+  --text: #172638;
+  --muted: #526983;
+  --heading: #003B73;
+  --border: #D9E3EF;
+  --link: #003B73;
+  --primary: #003B73;
+  --onPrimary: #FFFFFF;
+  --font-heading: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --touch-min: 44px;
+}
+[data-theme="dark"] {
+  --background: #0B1829;
+  --surface: #172638;
+  --selected: #203D60;
+  --text: #F4F7FB;
+  --muted: #B5C7DA;
+  --heading: #F4F7FB;
+  --border: #31465E;
+  --link: #8AC7FF;
+  --primary: #007FFF;
+  --onPrimary: #071D35;
+}
+:root { --radius-card: 12px; }
+:root { --radius-button: 24px; }
+:root { --radius-chip: 16px; }
+:root { --radius-avatar: 22px; }

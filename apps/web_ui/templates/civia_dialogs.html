@@ -1,0 +1,53 @@
+<dialog id="civia-options" class="civia-dialog" aria-labelledby="civia-options-title">
+    <div class="civia-dialog-heading"><h2 id="civia-options-title">Options</h2><button type="button" class="civia-control" data-civia-close aria-label="Fermer">×</button></div>
+    <fieldset class="civia-theme-grid">
+        <legend>Apparence</legend>
+        <label><input type="radio" name="civia-theme" value="light"><span class="civia-theme-preview civia-preview-light" aria-hidden="true"></span>Clair</label>
+        <label><input type="radio" name="civia-theme" value="dark"><span class="civia-theme-preview civia-preview-dark" aria-hidden="true"></span>Sombre</label>
+        <label><input type="radio" name="civia-theme" value="auto"><span class="civia-theme-preview civia-preview-auto" aria-hidden="true"></span>Auto</label>
+    </fieldset>
+    <h3>Langue</h3>
+    {% include 'civia_languages.html' with group='options-language' %}
+    <h3>Préférences</h3>
+    <div class="civia-option-links">
+        <button type="button" data-civia-open="civia-audio">Voix et lecture audio <span aria-hidden="true">›</span></button>
+        <button type="button" data-civia-open="civia-privacy">Confidentialité <span aria-hidden="true">›</span></button>
+        <a href="{% url 'web_ui:community' %}">Communauté <span aria-hidden="true">›</span></a>
+        <a href="{% url 'web_ui:directory' %}">Répertoire des institutions <span aria-hidden="true">›</span></a>
+    </div>
+</dialog>
+
+<dialog id="civia-audio" class="civia-dialog" aria-labelledby="civia-audio-title">
+    <div class="civia-dialog-heading"><h2 id="civia-audio-title">Voix et lecture audio</h2><button type="button" class="civia-control" data-civia-close aria-label="Fermer">×</button></div>
+    <div class="civia-option-links">
+        <a href="{% url 'web_ui:chat' %}#mic-btn" data-civia-focus="mic-btn">Ouvrir le microphone dans l’assistant <span aria-hidden="true">›</span></a>
+    </div>
+    <div class="civia-volume">
+        <label for="civia-volume">Volume de lecture</label>
+        <input id="civia-volume" type="range" min="0" max="100" step="5" value="100">
+    </div>
+</dialog>
+
+<dialog id="civia-languages" class="civia-dialog" aria-labelledby="civia-languages-title">
+    <div class="civia-dialog-heading"><h2 id="civia-languages-title">Langue</h2><button type="button" class="civia-control" data-civia-close aria-label="Fermer">×</button></div>
+    {% include 'civia_languages.html' with group='header-language' %}
+</dialog>
+
+{% if user.is_authenticated %}
+<dialog id="civia-profile" class="civia-dialog" aria-labelledby="civia-profile-title">
+    <div class="civia-dialog-heading"><h2 id="civia-profile-title">Votre profil</h2><button type="button" class="civia-control" data-civia-close aria-label="Fermer">×</button></div>
+    <p class="civia-profile-name">{{ user.get_full_name|default:user.username }}</p>
+    <div class="civia-option-links">
+        <button type="button" data-civia-open="civia-options">Préférences <span aria-hidden="true">›</span></button>
+        <button type="button" data-civia-open="civia-privacy">Confidentialité <span aria-hidden="true">›</span></button>
+        <a href="{% url 'web_ui:logout' %}">Se déconnecter <span aria-hidden="true">›</span></a>
+    </div>
+</dialog>
+{% endif %}
+
+<dialog id="civia-privacy" class="civia-dialog" aria-labelledby="civia-privacy-title">
+    <div class="civia-dialog-heading"><h2 id="civia-privacy-title">Confidentialité</h2><button type="button" class="civia-control" data-civia-close aria-label="Fermer">×</button></div>
+    <p>CivIA est un projet citoyen indépendant. Évitez de partager des mots de passe, des codes ou des informations personnelles sensibles dans une conversation.</p>
+    <p>CivIA ne demande aucun transfert d’argent. Pour les frais administratifs, suivez les consignes de paiement publiées par l’institution compétente.</p>
+    <p>Vous pouvez gérer vos conversations depuis l’historique de l’assistant.</p>
+</dialog>

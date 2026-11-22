@@ -2,17 +2,13 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth h-full">
 <head>
-    <link rel="stylesheet" href="{% static 'css/compact-chat.css' %}?v=1">
-    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=27">
+    <link rel="stylesheet" href="{% static 'css/landing-motion.css' %}?v=28">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RDC Agent du Peuple — Le Guichet d'Orientation Civique de la République</title>
-    <meta name="description" content="Plateforme républicaine d'orientation civique, d'assistance aux démarches administratives officielles et d'information publique certifiée en République Démocratique du Congo.">
+    <title>CivIA | Le numérique, dans votre langue</title>
+    <meta name="description" content="CivIA, assistant citoyen indépendant pour les démarches et les actualités en RDC.">
 
-    <!-- Plus Jakarta Sans: Clean, professional, modern sans-serif -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {% include 'civia_head.html' %}
 
     <!-- Tailwind CSS -->
     <script src="{% static 'js/tailwindcss.js' %}"></script>
@@ -21,14 +17,14 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                        sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
                     },
                     colors: {
                         brand: {
-                            blue: '#0077C8',
+                            blue: '#003B73',
                             blueDark: '#005A9C',
-                            yellow: '#FCD116',
-                            red: '#CE1126',
+                            yellow: '#F7D618',
+                            red: '#CE1021',
                             dark: '#07111E',
                             darkSurface: '#0E1A29',
                             muted: '#64748B',
@@ -73,7 +69,7 @@
             background: rgba(252, 209, 22, 0.025);
         }
         .national-ribbon {
-            background: linear-gradient(90deg, #0077C8 0%, #0077C8 38%, #FCD116 38%, #FCD116 41%, #CE1126 41%, #CE1126 59%, #FCD116 59%, #FCD116 62%, #0077C8 62%, #0077C8 100%);
+            background: linear-gradient(90deg, #003B73 0%, #003B73 38%, #F7D618 38%, #F7D618 41%, #CE1021 41%, #CE1021 59%, #F7D618 59%, #F7D618 62%, #003B73 62%, #003B73 100%);
         }
         /* Scrollable chat styling */
         .custom-scrollbar::-webkit-scrollbar {
@@ -98,122 +94,13 @@
             transition: transform 0.2s ease-out;
         }
     </style>
+    <link rel="stylesheet" href="{% static 'css/civia-pages.css' %}">
 </head>
-<body class="bg-brand-canvas text-slate-800 font-sans antialiased selection:bg-brand-yellow selection:text-slate-900 flex flex-col min-h-full">
+<body class="civia-site civia-landing bg-brand-canvas text-slate-800 font-sans antialiased selection:bg-brand-yellow selection:text-slate-900 flex flex-col min-h-full">
 
-    <!-- Navigation Bar: Clean, professional, solid, using the same chatbot logo -->
-    <header id="landing-nav" class="sticky top-0 z-40 border-b border-white/10">
-    <!-- 1. FULL-WIDTH TRI-COLOR BANNER (Blue, Red, Yellow) matching the workspace (base.html) -->
-    <div class="w-full flex h-1.5 shrink-0 z-50">
-        <div class="hidden md:block w-1/3 bg-[#0077C8]"></div>
-        <div class="hidden md:block w-1/3 bg-[#CE1126]"></div>
-        <div class="hidden md:block w-1/3 bg-[#FCD116]"></div>
-        <div class="w-1/3 bg-[#0077C8]"></div>
-        <div class="w-1/3 bg-[#CE1126]"></div>
-        <div class="w-1/3 bg-[#FCD116]"></div>
-    </div>
-
-
-        <div class="landing-workspace-mobile"><button type="button" class="landing-mobile-action" data-open-landing-menu aria-label="Ouvrir le menu" aria-controls="landing-menu-drawer"><i data-lucide="menu"></i></button><a href="{% url 'web_ui:landing' %}" class="landing-mobile-logo"><img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple"></a><a href="{% url 'web_ui:chat' %}?new=1" class="landing-mobile-action" aria-label="Nouvelle conversation"><i data-lucide="plus"></i></a></div>
-        <div class="landing-nav-inner mx-auto px-4 sm:px-6 lg:px-10 h-20 flex items-center justify-between gap-5">
-            
-            <!-- Exact Chatbot Logo -->
-            <a href="{% url 'web_ui:landing' %}" class="flex items-center gap-3 group">
-                <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-12 w-auto object-contain transition-transform group-hover:scale-102">
-            </a>
-
-            <!-- Navigation Links -->
-            <nav class="hidden xl:flex items-center gap-6 text-sm font-semibold text-slate-200">
-                <a href="#comment-ca-marche" class="hover:text-brand-yellow transition-colors">Comment ça marche</a>
-                <a href="#services" class="hover:text-brand-yellow transition-colors">Démarches</a>
-                <a href="#actualites" class="hover:text-brand-yellow transition-colors">Actualités &amp; Médias</a>
-            </nav>
-
-            <details class="landing-mobile-nav xl:hidden"><summary aria-label="Ouvrir le menu"><i data-lucide="menu" class="w-5 h-5"></i></summary><nav><a href="#demarches-rapides">Démarches</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#actualites">Actualités</a><a href="#communaute">Communauté</a><a href="#questions-frequentes">Questions fréquentes</a></nav></details>
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-3">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue text-white font-bold text-sm shadow-sm hover:bg-brand-blueDark transition-all">
-                        <i data-lucide="message-square" class="w-4 h-4 text-brand-yellow"></i>
-                        <span>Ouvrir l'Espace Citoyen</span>
-                    </a>
-                    <a href="{% url 'web_ui:logout' %}" class="p-2.5 rounded-xl text-slate-400 hover:text-brand-red hover:bg-white/10 transition-colors" title="Se déconnecter">
-                        <i data-lucide="log-out" class="w-4 h-4"></i>
-                    </a>
-                {% else %}
-                    <a href="{% url 'web_ui:login' %}" class="hidden sm:inline-flex items-center px-4 py-2 rounded-xl text-slate-200 hover:text-white font-semibold text-sm transition-colors">
-                        Connexion
-                    </a>
-                    <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue text-white font-bold text-sm shadow-sm hover:bg-brand-blueDark transition-all">
-                        <span>Essayer Agent du Peuple</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 text-brand-yellow"></i>
-                    </a>
-                {% endif %}
-            </div>
-
-        </div>
-    </header>
-    <dialog id="landing-menu-drawer" class="landing-menu-drawer"><div class="landing-drawer-heading"><strong>Menu</strong><button type="button" data-close-landing-menu aria-label="Fermer le menu">&times;</button></div><nav><a href="#demarches-rapides">Démarches</a><a href="#comment-ca-marche">Comment ça marche</a><a href="#actualites">Actualités</a><a href="#communaute">Communauté</a><a href="{% url 'web_ui:chat' %}">Ouvrir l'espace citoyen</a>{% if user.is_authenticated %}<a href="{% url 'web_ui:logout' %}">Se déconnecter</a>{% else %}<a href="{% url 'web_ui:login' %}">Connexion</a><a href="{% url 'web_ui:register' %}">Créer un compte</a>{% endif %}</nav></dialog>
-
-
-    <!-- HERO SECTION: Retains the exact midnight blue background from earlier + Interactive JavaScript Particles -->
-    <section id="hero-interactive" class="relative hero-banner text-white overflow-hidden py-16 lg:py-24 border-b border-slate-800">
-        
-        <!-- Interactive JS Canvas / Floating geometric elements -->
-        <canvas id="hero-canvas" class="absolute inset-0 pointer-events-none z-0 w-full h-full opacity-60"></canvas>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                
-                <!-- Hero Left: Strong sans-serif statement -->
-                <div class="lg:col-span-6 space-y-6">
-                    
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs text-brand-yellow font-bold tracking-wide backdrop-blur-xs">
-                        <span class="w-2 h-2 rounded-full bg-brand-yellow animate-pulse"></span>
-                        <span>Plateforme Citoyenne d'Orientation &amp; Droit Public</span>
-                    </div>
-
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
-                        L'administration congolaise clarifiée pour chaque citoyen.
-                    </h1>
-
-                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed font-normal">
-                        RDC Agent du Peuple vous guide dans vos démarches administratives et vous aide à identifier les pièces requises, les frais et les services compétents dans les langues nationales.
-                    </p>
-
-                    <!-- Main CTA -->
-                    <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
-                        <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-brand-yellow text-slate-950 font-extrabold text-base shadow-lg hover:bg-amber-300 transition-all transform hover:-translate-y-0.5">
-                            <span>Essayer Agent du Peuple</span>
-                            <i data-lucide="arrow-right" class="w-5 h-5 text-slate-950"></i>
-                        </a>
-
-                        <a href="#services" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold text-sm transition-colors">
-                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                            <span>Voir les démarches officielles</span>
-                        </a>
-                    </div>
-
-
-                </div>
-
-                <!-- Hero Right: Live Interactive Chatbot & Service Workspace Preview -->
-                <div class="lg:col-span-6 hero-preview-column">
-                    <aside class="hero-service-chat" aria-label="Exemple du guide de démarche">
-                        <header class="hero-service-head"><span class="hero-service-icon"><i data-lucide="sparkles" class="w-5 h-5"></i></span><div><h2>Votre guide de démarche</h2><p>Tuna IA &middot; Exemple de conversation</p></div><button type="button" id="hero-chat-toggle">Pause</button></header>
-                        <div id="hero-chat-container" class="hero-service-log custom-scrollbar" aria-label="Conversation de démonstration">
-                            <div id="hero-demo-user" class="hero-service-message user" hidden><p id="hero-demo-question"></p></div>
-                            <div id="hero-demo-assistant" class="hero-service-message assistant" hidden><div class="hero-service-agent"><span class="hero-service-icon" aria-hidden="true"><i data-lucide="sparkles"></i></span><span>Tuna IA</span></div><p id="hero-demo-thinking" class="hero-service-thinking"><span class="animate-pulse" aria-hidden="true">● ● ●</span> Réflexion en cours…</p><p id="hero-demo-answer"></p><div id="hero-demo-citations" class="hero-service-citations" hidden></div></div>
-                            <div id="hero-demo-next" class="hero-service-source" hidden><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i><a id="hero-demo-resource" href="{% url 'web_ui:services' %}">Voir la démarche</a></div>
-                        </div>
-                        <form action="{% url 'web_ui:chat' %}" method="get" class="hero-service-form"><div class="compact-chat"><label for="hero-demo-composer" class="sr-only">Votre question au guide</label><textarea id="hero-demo-composer" name="q" class="compact-chat-input" rows="2" required maxlength="1000" placeholder="Posez une question sur votre démarche…"></textarea><div class="compact-chat-bottom"><p id="hero-demo-status" role="status" class="hero-service-status">Le citoyen rédige sa question…</p><button type="submit" class="compact-chat-button compact-chat-send" aria-label="Ouvrir votre conversation"><i data-lucide="arrow-up"></i></button></div></div></form>
-                    </aside>
-                </div>
-
-            </div>
-        </div>
-
-    </section>
+    {% include 'civia_header.html' with landing_navigation=True %}
+    <main>
+        {% include 'civia_home.html' %}
 
     {% include 'landing_quick_services.html' %}
 
@@ -236,9 +123,9 @@
             <div class="mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#0077C8]"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#CE1126]"></span>
-                        <span class="w-2.5 h-2.5 rounded-full bg-[#FCD116]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#003B73]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#CE1021]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#F7D618]"></span>
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-200">Branches &amp; Domaines de l'État</span>
                     </div>
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mt-1.5">
@@ -260,7 +147,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <!-- Sector 1: Identity & Civil Status (DRC Blue Accent) -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#F7D618] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/identite-congo.webp' %}" alt="Citoyenneté & Passeports" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -268,7 +155,7 @@
                             
                             <!-- DRC Blue Sector Badge -->
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
+                                <span class="px-2.5 py-1 rounded-full bg-[#003B73] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     Affaires Étrangères · DGM
                                 </span>
                             </div>
@@ -278,34 +165,34 @@
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#F7D618] transition-colors">
                                 Identité Civile, Passeports &amp; Migration
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Délivrance du passeport biométrique officiel (99 USD), extraits d'actes de naissance communaux, attestations de nationalité et formalités e-Visa d'entrée en RDC.
                             </p>
                             <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Passeport Biométrique</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">État Civil</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">e-Visa</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Passeport Biométrique</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">État Civil</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">e-Visa</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
-                        <a href="{% url 'web_ui:service_workspace' service_code='passeport-biometrique-ordinaire' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                        <a href="{% url 'web_ui:service_workspace' service_code='passeport-biometrique-ordinaire' %}" class="text-xs font-bold text-white hover:text-[#F7D618] inline-flex items-center gap-1 transition-colors">
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique+ordinaire" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Passeport+biometrique+ordinaire" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#003B73] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-slate-200"></i>
-                            <span>Tuna IA</span>
+                            <span>CivIA</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Sector 2: Business & Enterprise (DRC Golden Yellow Accent) -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#F7D618] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/economie-congo-business.webp' %}" alt="Entrepreneuriat Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -313,7 +200,7 @@
                             
                             <!-- DRC Golden Yellow Badge -->
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
+                                <span class="px-2.5 py-1 rounded-full bg-[#003B73] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     GUCE · ANAPI · RCCM
                                 </span>
                             </div>
@@ -323,34 +210,34 @@
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#F7D618] transition-colors">
                                 Entreprises, Commerce &amp; Sous-traitance
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Création d'entreprise au Guichet Unique en 3 jours, immatriculation au RCCM, agréments ARSP pour la sous-traitance et incitations fiscales ANAPI.
                             </p>
                             <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Création SARL/SAS</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">RCCM</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">ARSP</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Création SARL/SAS</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">RCCM</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">ARSP</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
-                        <a href="{% url 'web_ui:service_workspace' service_code='creation-entreprise-guce' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                        <a href="{% url 'web_ui:service_workspace' service_code='creation-entreprise-guce' %}" class="text-xs font-bold text-white hover:text-[#F7D618] inline-flex items-center gap-1 transition-colors">
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE+RCCM" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Creation+entreprise+GUCE+RCCM" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#003B73] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-white"></i>
-                            <span>Tuna IA</span>
+                            <span>CivIA</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Sector 3: Public Finance & Taxes (DRC Flag Red Accent) -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#F7D618] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/finances.jpg' %}" alt="Finances & Impôts" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -358,7 +245,7 @@
                             
                             <!-- DRC Flag Red Badge -->
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
+                                <span class="px-2.5 py-1 rounded-full bg-[#003B73] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     DGI · DGDA · DGRAD · BCC
                                 </span>
                             </div>
@@ -368,41 +255,41 @@
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#F7D618] transition-colors">
                                 Finances Publiques, Fiscalité &amp; Douanes
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Obtention du Numéro Impôt (NIF), déclarations fiscales professionnelles, droits de douane DGDA et taux officiels de la Banque Centrale du Congo.
                             </p>
                             <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Numéro NIF</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Déclarations DGI</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Douanes</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Numéro NIF</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Déclarations DGI</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Douanes</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
-                        <a href="{% url 'web_ui:service_workspace' service_code='numero-identification-fiscale-dgi' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                        <a href="{% url 'web_ui:service_workspace' service_code='numero-identification-fiscale-dgi' %}" class="text-xs font-bold text-white hover:text-[#F7D618] inline-flex items-center gap-1 transition-colors">
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Numero+Identification+Fiscale+NIF" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Numero+Identification+Fiscale+NIF" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#003B73] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-slate-200"></i>
-                            <span>Tuna IA</span>
+                            <span>CivIA</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Sector 4: Justice & Legal Security (DRC Blue Accent) -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#F7D618] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/justice.jpg' %}" alt="Justice & Droit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
+                                <span class="px-2.5 py-1 rounded-full bg-[#003B73] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     Ministère de la Justice · Parquet
                                 </span>
                             </div>
@@ -412,41 +299,41 @@
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#F7D618] transition-colors">
                                 Justice, Sécurité &amp; Droits Civiques
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Casier judiciaire certifié, légalisation de signatures, consultation du Journal Officiel de la RDC et signalement de pratiques frauduleuses.
                             </p>
                             <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Casier Judiciaire</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Légalisations</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Lois JO</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Casier Judiciaire</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Légalisations</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Lois JO</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
-                        <a href="{% url 'web_ui:service_workspace' service_code='extrait-casier-judiciaire' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                        <a href="{% url 'web_ui:service_workspace' service_code='extrait-casier-judiciaire' %}" class="text-xs font-bold text-white hover:text-[#F7D618] inline-flex items-center gap-1 transition-colors">
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Extrait+de+casier+judiciaire" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Extrait+de+casier+judiciaire" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#003B73] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-slate-200"></i>
-                            <span>Tuna IA</span>
+                            <span>CivIA</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Sector 5: Transports & Mobility (DRC Golden Yellow Accent) -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#F7D618] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/transport-congo.webp' %}" alt="Mobilité & Chauffeur" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
+                                <span class="px-2.5 py-1 rounded-full bg-[#003B73] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     Ministère des Transports
                                 </span>
                             </div>
@@ -456,41 +343,41 @@
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#F7D618] transition-colors">
                                 Transports, Permis &amp; Sécurité Routière
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Permis de conduire biométrique national, contrôle technique obligatoire, immatriculation des véhicules et régulation des réseaux de transport.
                             </p>
                             <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Permis National</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Contrôle Technique</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Immatriculation</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Permis National</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Contrôle Technique</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Immatriculation</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
-                        <a href="{% url 'web_ui:service_workspace' service_code='permis-de-conduire-biometrique' %}" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                        <a href="{% url 'web_ui:service_workspace' service_code='permis-de-conduire-biometrique' %}" class="text-xs font-bold text-white hover:text-[#F7D618] inline-flex items-center gap-1 transition-colors">
                             <span>Voir la fiche</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Permis+de+conduire+biometrique" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Permis+de+conduire+biometrique" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#003B73] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-white"></i>
-                            <span>Tuna IA</span>
+                            <span>CivIA</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Sector 6: Education & Scholarships (DRC Flag Red Accent) -->
-                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#FCD116] hover:shadow-2xl transition-all flex flex-col justify-between group">
+                <div class="bg-[#0B1A2D]/85 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/80 hover:border-[#F7D618] hover:shadow-2xl transition-all flex flex-col justify-between group">
                     <div>
                         <div class="relative w-full h-48 bg-slate-900 overflow-hidden">
                             <img src="{% static 'img/sectors/education-congo.webp' %}" alt="Étudiants Congolais" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/30"></div>
                             
                             <div class="absolute top-3 left-3">
-                                <span class="px-2.5 py-1 rounded-full bg-[#0077C8] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
+                                <span class="px-2.5 py-1 rounded-full bg-[#003B73] text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm border border-blue-400/40">
                                     ESU · Éducation Nationale
                                 </span>
                             </div>
@@ -500,28 +387,28 @@
                         </div>
 
                         <div class="p-5 space-y-2.5">
-                            <h3 class="font-extrabold text-base text-white group-hover:text-[#FCD116] transition-colors">
+                            <h3 class="font-extrabold text-base text-white group-hover:text-[#F7D618] transition-colors">
                                 Enseignement Supérieur, Diplômes &amp; Bourses
                             </h3>
                             <p class="text-xs text-slate-300 leading-relaxed">
                                 Homologation des diplômes d'État, orientations académiques universitaires, programmes de bourses publiques et répertoire des instituts agréés.
                             </p>
                             <div class="pt-1 flex flex-wrap gap-1.5 text-[10px] font-semibold text-blue-200">
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Diplôme d'État</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Universités ESU</span>
-                                <span class="px-2 py-0.5 rounded-md bg-[#0077C8]/20 border border-[#0077C8]/40">Bourses</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Diplôme d'État</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Universités ESU</span>
+                                <span class="px-2 py-0.5 rounded-md bg-[#003B73]/20 border border-[#003B73]/40">Bourses</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="p-5 pt-0 border-t border-slate-800/80 pt-3 mt-auto flex items-center justify-between">
-                        <a href="{% url 'web_ui:chat' %}?q=Diplomes+detat+et+universites" class="text-xs font-bold text-white hover:text-[#FCD116] inline-flex items-center gap-1 transition-colors">
+                        <a href="{% url 'web_ui:chat' %}?q=Diplomes+detat+et+universites" class="text-xs font-bold text-white hover:text-[#F7D618] inline-flex items-center gap-1 transition-colors">
                             <span>Consulter ce secteur</span>
                             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                         </a>
-                        <a href="{% url 'web_ui:chat' %}?q=Bourses+detudes+nationales" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#0077C8] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
+                        <a href="{% url 'web_ui:chat' %}?q=Bourses+detudes+nationales" class="sector-tuna-action px-3 py-1.5 rounded-xl bg-[#003B73] text-white font-bold text-xs hover:bg-[#005A9C] transition-colors inline-flex items-center gap-1 shadow-xs">
                             <i data-lucide="message-square" class="w-3 h-3 text-slate-200"></i>
-                            <span>Tuna IA</span>
+                            <span>CivIA</span>
                         </a>
                     </div>
                 </div>
@@ -538,140 +425,80 @@
     <section id="actualites" class="py-16 md:py-20 bg-brand-canvas border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <div class="mb-4 flex flex-wrap items-end justify-between gap-4">
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">Veille de l'État &amp; Actualité Citoyenne</h2>
-                <a href="{% url 'web_ui:news' %}" class="text-sm font-semibold text-brand-blue hover:underline">Accéder au journal complet &rarr;</a>
+                <a href="{% url 'web_ui:news' %}{% if selected_news_category != 'all' %}?category={{ selected_news_category|urlencode }}{% endif %}" class="civia-landing-journal-link text-sm font-semibold hover:underline">{% if selected_news_category == 'all' %}Accéder au journal complet{% else %}Voir la rubrique dans le journal{% endif %} &rarr;</a>
             </div>
+
+            <nav class="civia-landing-news-filters" aria-label="Rubriques de l’actualité">
+                <a href="?category=all#actualites"{% if selected_news_category == 'all' %} aria-current="true"{% endif %}>Tout le journal</a>
+                {% for code, label in news_categories %}
+                <a href="?category={{ code|urlencode }}#actualites"{% if selected_news_category == code %} aria-current="true"{% endif %}>{{ label }}</a>
+                {% endfor %}
+            </nav>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- Left Column: Big Headline Carousel Card + Secondary News Cards -->
-                <div class="lg:col-span-7 space-y-6">
-                    
-                    <!-- ========================================================= -->
-                    <!-- BIG HEADLINE CAROUSEL CARD                                -->
-                    <!-- Spanning from "Veille Républicaine..." to "Temps réel"    -->
-                    <!-- ========================================================= -->
-                    <div id="headline-carousel-card" class="relative bg-white rounded-2xl border border-slate-200/90 shadow-md overflow-hidden group">
-                        
-                        {% if headline_news|length > 1 %}
-                        <div class="absolute top-3 right-3 z-10 flex items-center gap-2 rounded-full bg-slate-900/80 p-1 text-white">
-                            <button type="button" id="headline-prev-btn" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center" aria-label="Article précédent"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-                            <span id="headline-slide-indicator" class="text-[10px] tabular-nums">1 / {{ headline_news|length }}</span>
-                            <button type="button" id="headline-next-btn" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center" aria-label="Article suivant"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
-                        </div>
-                        {% endif %}
-                        <!-- Carousel Slides Container -->
-                        <div class="relative bg-white">
-                            {% for item in headline_news %}
-                            <article class="headline-slide {% if not forloop.first %}hidden{% endif %}" data-slide-index="{{ forloop.counter0 }}">
-                                <div class="relative w-full aspect-16/10 sm:aspect-video bg-slate-100 overflow-hidden">
-                                    {% if item.image_url %}
-                                    <img src="{{ item.image_url }}" alt="" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.svg' %}';">
-                                    {% else %}
-                                    <div class="w-full h-full flex items-center justify-center text-slate-400">
-                                        <i data-lucide="newspaper" class="w-12 h-12 opacity-30"></i>
-                                    </div>
+                <div id="civia-landing-news-grid" class="lg:col-span-7 civia-landing-news-grid">
+                    {% for news in latest_news %}
+                    <article class="civia-landing-news-card bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-brand-blue/50 hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
+                        <div>
+                            <!-- Photo -->
+                            <div class="relative w-full h-40 bg-slate-100 overflow-hidden">
+                                {% if news.image_url %}
+                                <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.svg' %}';">
+                                {% else %}
+                                <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
+                                    <i data-lucide="newspaper" class="w-8 h-8 opacity-40"></i>
+                                </div>
+                                {% endif %}
+
+                                <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                                    <span class="px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
+                                        {{ news.get_category_display }}
+                                    </span>
+                                    {% if news.logo_path %}
+                                    <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
+                                        <img src="{% static news.logo_path %}" alt="{{ news.source_name }}" class="w-full h-full object-contain">
+                                    </span>
                                     {% endif %}
                                 </div>
-                                <div class="p-5 sm:p-6">
-                                    <h3 class="font-extrabold text-xl sm:text-2xl text-slate-900 leading-snug hover:text-brand-blue transition-colors">
-                                        <a href="{% url 'web_ui:news' %}?article={{ item.id }}">{{ item.title }}</a>
-                                    </h3>
-                                    <div class="mt-5 flex flex-wrap justify-end items-center gap-2.5">
-                                        <a href="{% url 'web_ui:news' %}?article={{ item.id }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-blue text-white text-xs font-bold hover:bg-brand-blueDark transition-colors">
-                                            <span>Lire l'article complet</span>
-                                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                                        </a>
-                                        <a href="{% url 'web_ui:chat' %}?q={{ item.title|urlencode }}" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition-colors">
-                                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-blue"></i>
-                                            <span>Comprendre avec l'IA</span>
-                                        </a>
-                                    </div>
+
+                                <div class="absolute bottom-2 right-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
+                                        {{ news.region }}
+                                    </span>
                                 </div>
-                            </article>
-                            {% empty %}
-                            <div class="p-8 text-center text-xs text-slate-400">
-                                Actualisation des articles en cours…
                             </div>
-                            {% endfor %}
-                        </div>
 
-                    </div>
-
-                    <!-- Secondary News Cards Grid (Below the Big Headline Carousel) -->
-                    <div>
-                        <div class="flex items-center justify-between pb-3 border-b border-slate-200/80 mb-4">
-                            <div class="flex items-center gap-2 font-bold text-xs text-slate-800">
-                                <i data-lucide="layout-grid" class="w-4 h-4 text-brand-blue"></i>
-                                <span>Autres dépêches illustrées</span>
+                            <!-- Content -->
+                            <div class="p-4 space-y-2">
+                                <div class="text-[10px] text-slate-400 font-semibold">
+                                    {{ news.published_at|date:"d F Y" }}
+                                </div>
+                                <h4 class="font-bold text-xs text-slate-900 leading-snug group-hover:text-brand-blue transition-colors line-clamp-2">
+                                    <a href="{% url 'web_ui:news' %}?article={{ news.id }}">{{ news.title }}</a>
+                                </h4>
+                                <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                                    {{ news.summary }}
+                                </p>
                             </div>
-                            <span class="text-[11px] text-slate-400 font-medium">Médias certifiés</span>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {% for news in secondary_news %}
-                            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200/90 hover:border-brand-blue/50 hover:shadow-md transition-all flex flex-col justify-between shadow-xs group">
-                                <div>
-                                    <!-- Photo -->
-                                    <div class="relative w-full h-40 bg-slate-100 overflow-hidden">
-                                        {% if news.image_url %}
-                                        <img src="{{ news.image_url }}" alt="{{ news.title }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.svg' %}';">
-                                        {% else %}
-                                        <div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400">
-                                            <i data-lucide="newspaper" class="w-8 h-8 opacity-40"></i>
-                                        </div>
-                                        {% endif %}
-                                        
-                                        <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                                            <span class="px-2 py-0.5 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[10px] font-bold">
-                                                {{ news.get_category_display }}
-                                            </span>
-                                            {% if news.logo_path %}
-                                            <span class="w-5 h-5 rounded-md bg-white/95 p-0.5 shadow-xs flex items-center justify-center">
-                                                <img src="{% static news.logo_path %}" alt="{{ news.source_name }}" class="w-full h-full object-contain">
-                                            </span>
-                                            {% endif %}
-                                        </div>
-
-                                        <div class="absolute bottom-2 right-2">
-                                            <span class="px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-xs text-brand-yellow text-[9.5px] font-mono">
-                                                {{ news.region }}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="p-4 space-y-2">
-                                        <div class="text-[10px] text-slate-400 font-semibold">
-                                            {{ news.published_at|date:"d F Y" }}
-                                        </div>
-                                        <h4 class="font-bold text-xs text-slate-900 leading-snug group-hover:text-brand-blue transition-colors line-clamp-2">
-                                            <a href="{% url 'web_ui:news' %}?article={{ news.id }}">{{ news.title }}</a>
-                                        </h4>
-                                        <p class="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
-                                            {{ news.summary }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="p-4 pt-0 flex items-center justify-between text-[11px] border-t border-slate-100 pt-3">
-                                    <div class="flex items-center gap-1.5 truncate max-w-[170px]">
-                                        {% if news.logo_path %}
-                                        <img src="{% static news.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
-                                        {% endif %}
-                                        <span class="font-bold text-slate-800 text-[11px] truncate">{{ news.source_name }}</span>
-                                        <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue shrink-0"></i>
-                                    </div>
-                                    <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline shrink-0">Lire la suite</a>
-                                </div>
-                            </article>
-                            {% empty %}
-                            <p class="text-xs text-slate-400 col-span-full">Dépêches complémentaires en cours d'actualisation...</p>
-                            {% endfor %}
+                        <div class="p-4 pt-0 flex items-center justify-between text-[11px] border-t border-slate-100 pt-3 civia-landing-news-card-footer">
+                            <div class="flex items-center gap-1.5 min-w-0 truncate max-w-[170px]">
+                                {% if news.logo_path %}
+                                <img src="{% static news.logo_path %}" alt="" class="w-4 h-4 object-contain rounded-xs shrink-0">
+                                {% endif %}
+                                <span class="font-bold text-slate-800 text-[11px] truncate">{{ news.source_name }}</span>
+                                <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue shrink-0"></i>
+                            </div>
+                            <a href="{% url 'web_ui:news' %}?article={{ news.id }}" class="font-bold text-brand-blue hover:underline shrink-0">Lire la suite</a>
                         </div>
-                    </div>
-
+                    </article>
+                    {% empty %}
+                    <p class="text-xs text-slate-400 col-span-full">{% if selected_news_category == 'all' %}Actualisation des articles en cours…{% else %}Aucun article dans cette rubrique pour le moment.{% endif %}</p>
+                    {% endfor %}
                 </div>
 
                 <!-- Right Column: Real Tweets / X Social Feed with Media Pictures -->
@@ -690,11 +517,11 @@
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Flux actif"></span>
                     </div>
 
-                    <div class="divide-y divide-slate-100 space-y-2">
+                    <div class="civia-tweet-grid">
                         {% for tweet in tweets %}
-                        <div class="pt-3 pb-3 space-y-2 first:pt-0">
-                            <div class="flex items-center justify-between text-[11px]">
-                                <span class="font-bold text-slate-900 flex items-center gap-2">
+                        <article class="civia-tweet-card space-y-2">
+                            <div class="space-y-1 text-[11px]">
+                                <div class="font-bold text-slate-900 flex items-center gap-2">
                                     <div class="w-7 h-7 rounded-full bg-slate-50 border border-slate-200 p-0.5 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
                                         {% if tweet.logo %}
                                             <img src="{% static tweet.logo %}" alt="{{ tweet.author }}" class="w-full h-full object-contain">
@@ -704,15 +531,15 @@
                                             </div>
                                         {% endif %}
                                     </div>
-                                    <div class="flex flex-col leading-tight">
+                                    <div class="min-w-0 flex flex-col leading-tight">
                                         <span class="flex items-center gap-1 font-bold text-slate-900">
-                                            <span>{{ tweet.author }}</span>
-                                            <i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand-blue"></i>
+                                            <span class="break-words min-w-0">{{ tweet.author }}</span>
+                                            <i data-lucide="badge-check" class="w-3.5 h-3.5 shrink-0"></i>
                                         </span>
-                                        <span class="text-[9.5px] text-slate-400 font-mono">{{ tweet.handle }}</span>
+                                        <span class="text-[9.5px] text-slate-400 font-mono break-all">{{ tweet.handle }}</span>
                                     </div>
-                                </span>
-                                <span class="text-[10px] text-slate-400">{{ tweet.created_at|date:"d M H:i" }}</span>
+                                </div>
+                                <time class="block text-[10px] text-slate-400" datetime="{{ tweet.created_at|date:'c' }}">{{ tweet.created_at|date:"d M H:i" }}</time>
                             </div>
                             
                             <p class="text-xs text-slate-700 leading-relaxed">
@@ -728,15 +555,15 @@
 
                             {% if tweet.source_url %}
                             <div class="pt-1">
-                                <a href="{{ tweet.source_url }}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-brand-blue hover:underline inline-flex items-center gap-1">
-                                    <span>Consulter sur 𝕏</span>
-                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                <a href="{{ tweet.source_url }}" target="_blank" rel="noopener noreferrer" aria-label="Consulter sur X" class="text-[11px] font-semibold text-brand-blue hover:underline inline-flex items-center gap-1">
+                                    <span>Consulter</span>
+                                    <span class="civia-x-logo" aria-hidden="true"></span>
                                 </a>
                             </div>
                             {% endif %}
-                        </div>
+                        </article>
                         {% empty %}
-                        <div class="py-6 text-center text-xs text-slate-400">
+                        <div class="col-span-full py-6 text-center text-xs text-slate-400">
                             Flux en direct en cours d'actualisation.
                         </div>
                         {% endfor %}
@@ -762,7 +589,7 @@
             
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold uppercase tracking-wider">
+                    <div class="civia-source-kicker inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold uppercase tracking-wider">
                         <i data-lucide="tv" class="w-3.5 h-3.5 text-brand-blue"></i>
                         <span>Écosystème Républicain &amp; Médias d'État</span>
                     </div>
@@ -770,7 +597,7 @@
                         Gouvernement &amp; Chaînes d'Information Consultées
                     </h2>
                     <p class="text-xs sm:text-sm text-slate-500 mt-1">
-                        Les sources officielles et médias audiovisuels de référence que l'Agent du Peuple consulte en temps réel pour garantir une information certifiée.
+                        Retrouvez les institutions et les médias qui publient les informations présentées sur CivIA.
                     </p>
                 </div>
                 <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
@@ -782,8 +609,8 @@
             <!-- Grid of 6 Verified Government, TV and Radio Sources with their respective Logos -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {% for src in verified_sources %}
-                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="p-5 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all flex items-start gap-4 group">
-                    <div class="w-12 h-12 rounded-xl bg-white border border-slate-200 group-hover:border-brand-blue flex items-center justify-center shrink-0 shadow-2xs p-2 overflow-hidden">
+                <a href="{{ src.url }}" target="_blank" rel="noopener noreferrer" class="civia-source-card p-5 rounded-2xl bg-slate-50/80 hover:bg-white border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all flex items-start gap-4 group">
+                    <div class="civia-source-card-mark w-12 h-12 rounded-xl bg-white border border-slate-200 group-hover:border-brand-blue flex items-center justify-center shrink-0 shadow-2xs p-2 overflow-hidden">
                         {% if src.logo %}
                             <img src="{% static src.logo %}" alt="{{ src.name }}" class="w-full h-full object-contain">
                         {% else %}
@@ -796,7 +623,7 @@
                             <h4 class="font-bold text-sm text-slate-900 group-hover:text-brand-blue transition-colors truncate">
                                 {{ src.name }}
                             </h4>
-                            <span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[9.5px] font-bold text-slate-600 shrink-0">
+                            <span class="civia-source-card-badge px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[9.5px] font-bold text-slate-600 shrink-0">
                                 {{ src.badge }}
                             </span>
                         </div>
@@ -827,19 +654,19 @@
     <section class="py-16 bg-slate-900 text-white text-center">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             
-            <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-14 w-auto mx-auto object-contain">
+            {% include 'civia_logo.html' %}
 
             <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
                 Une question sur vos droits ou démarches administratives ?
             </h2>
 
             <p class="text-slate-300 max-w-xl mx-auto text-sm leading-relaxed">
-                Interrogez l'Agent du Peuple dès maintenant. C'est gratuit, accessible 24h/24 et strictement conforme aux lois de la République.
+                Posez votre question à CivIA et vérifiez les informations auprès de la source indiquée.
             </p>
 
             <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a href="{% url 'web_ui:chat' %}" class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl bg-brand-yellow text-slate-950 font-extrabold text-sm shadow-md hover:bg-amber-300 transition-all">
-                    <span>Essayer Agent du Peuple</span>
+                    <span>Discuter avec CivIA</span>
                     <i data-lucide="arrow-right" class="w-4 h-4"></i>
                 </a>
 
@@ -854,17 +681,18 @@
         </div>
     </section>
 
+    </main>
+
     <!-- FOOTER: Standard civic footer -->
     <footer class="bg-slate-950 text-slate-400 text-xs py-12 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
             
             <div class="space-y-3 md:col-span-2">
                 <div class="flex items-center gap-2 text-white font-bold text-sm">
-                    <img src="{% static 'img/armoirie_rdc.png' %}?v=2" alt="RDC" class="h-6 w-auto">
-                    <span>République Démocratique du Congo — Agent du Peuple</span>
+                    <span>CivIA | Projet citoyen indépendant</span>
                 </div>
                 <p class="text-slate-400 text-xs leading-relaxed max-w-md">
-                    Guichet d'orientation citoyenne et d'accès aux droits administratifs légaux. Les informations fournies s'appuient strictement sur les démarches officielles et lois publiées au Journal Officiel.
+                    Guichet d'orientation citoyenne et d'accès aux droits administratifs légaux. Consultez les sources indiquées pour confirmer les informations.
                 </p>
                 <div class="text-[11px] text-slate-500">
                     Justice • Paix • Travail
@@ -891,134 +719,21 @@
                         <li><a href="{% url 'web_ui:login' %}" class="hover:text-brand-yellow transition-colors">Connexion</a></li>
                         <li><a href="{% url 'web_ui:register' %}" class="hover:text-brand-yellow transition-colors">Créer un compte</a></li>
                     {% endif %}
+                    <li><button type="button" data-civia-open="civia-options" aria-haspopup="dialog" aria-controls="civia-options" class="hover:text-brand-yellow transition-colors">Options d’affichage</button></li>
                 </ul>
             </div>
 
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-900 text-center text-[11px] text-slate-500">
-            © 2026 République Démocratique du Congo — RDC Agent du Peuple. Tous droits réservés.
+            © 2026 CivIA | Le numérique, dans votre langue.
         </div>
     </footer>
+    {% include 'civia_landing_navigation.html' %}
+    {% include 'civia_dialogs.html' %}
 
-    <!-- Interactive Hero Square-Grid Particle Animation (Vanilla JS) -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-
-            // Canvas interactive floating square grid effect in Hero
-            const canvas = document.getElementById('hero-canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            let width, height;
-            let squares = [];
-            const squareCount = 36;
-            const colors = [
-                'rgba(252, 209, 22, 0.18)', // gold
-                'rgba(0, 119, 200, 0.22)',  // blue
-                'rgba(206, 17, 38, 0.16)',  // red
-                'rgba(255, 255, 255, 0.12)' // white
-            ];
-
-            function resize() {
-                width = canvas.width = canvas.offsetWidth;
-                height = canvas.height = canvas.offsetHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            // Initialize squares
-            for (let i = 0; i < squareCount; i++) {
-                squares.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: Math.random() * 28 + 14,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    rotation: Math.random() * Math.PI,
-                    vRot: (Math.random() - 0.5) * 0.008,
-                    wireframe: Math.random() > 0.4
-                });
-            }
-
-            // Mouse interaction
-            let mouseX = -1000, mouseY = -1000;
-            const heroSection = document.getElementById('hero-interactive');
-            if (heroSection) {
-                heroSection.addEventListener('mousemove', (e) => {
-                    const rect = canvas.getBoundingClientRect();
-                    mouseX = e.clientX - rect.left;
-                    mouseY = e.clientY - rect.top;
-                });
-                heroSection.addEventListener('mouseleave', () => {
-                    mouseX = -1000;
-                    mouseY = -1000;
-                });
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-
-                // Subtle grid dots in background
-                ctx.fillStyle = 'rgba(252, 209, 22, 0.05)';
-                const gap = 32;
-                for (let x = gap; x < width; x += gap) {
-                    for (let y = gap; y < height; y += gap) {
-                        ctx.fillRect(x, y, 1.5, 1.5);
-                    }
-                }
-
-                // Draw and update squares
-                squares.forEach(s => {
-                    s.x += s.vx;
-                    s.y += s.vy;
-                    s.rotation += s.vRot;
-
-                    // Screen wrap
-                    if (s.x < -s.size) s.x = width + s.size;
-                    if (s.x > width + s.size) s.x = -s.size;
-                    if (s.y < -s.size) s.y = height + s.size;
-                    if (s.y > height + s.size) s.y = -s.size;
-
-                    // Mouse push
-                    const dx = s.x - mouseX;
-                    const dy = s.y - mouseY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120 && dist > 0) {
-                        const force = (120 - dist) / 120 * 1.5;
-                        s.x += (dx / dist) * force;
-                        s.y += (dy / dist) * force;
-                    }
-
-                    // Render square
-                    ctx.save();
-                    ctx.translate(s.x, s.y);
-                    ctx.rotate(s.rotation);
-                    if (s.wireframe) {
-                        ctx.strokeStyle = s.color;
-                        ctx.lineWidth = 1.2;
-                        ctx.strokeRect(-s.size / 2, -s.size / 2, s.size, s.size);
-                    } else {
-                        ctx.fillStyle = s.color;
-                        ctx.fillRect(-s.size / 2, -s.size / 2, s.size, s.size);
-                    }
-                    ctx.restore();
-                });
-
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-
-        });
-    </script>
-    {{ hero_service_examples|json_script:"hero-service-examples" }}
-    <script src="{% static 'js/landing-chat-demo.js' %}?v=3" defer></script>
+    <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
     <script src="{% static 'js/landing-motion.js' %}?v=2" defer></script>
-    <script src="{% static 'js/landing-news.js' %}?v=1" defer></script>
-    <script src="{% static 'js/landing-mobile-nav.js' %}?v=1" defer></script>
+    <script src="{% static 'js/landing-news.js' %}?v=2" defer></script>
 </body>
 </html>

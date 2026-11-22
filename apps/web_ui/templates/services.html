@@ -1,11 +1,28 @@
 {% extends "base.html" %}{% load static %}
-{% block title %}Services publics · rdcgov Agent{% endblock %}
+{% block title %}Services publics · CivIA{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/services.css' %}?v=headline-15">
 <link rel="stylesheet" href="{% static 'css/service-news-carousel.css' %}?v=4">
 <div class="svc-shell"><div class="svc-container">
+ <div class="svc-section-head svc-catalog-heading"><div><h1>Trouvez votre démarche</h1><span class="svc-count">{{ service_count }} démarches dans le répertoire</span></div><form method="get" class="svc-search"><input type="hidden" name="category" value="{{ selected_category }}"><input name="q" value="{{ query }}" class="svc-input" aria-label="Rechercher dans le répertoire" placeholder="Rechercher une démarche"><button class="svc-btn secondary" aria-label="Rechercher"><i data-lucide="search" class="w-4 h-4"></i></button></form></div>
+ <nav class="svc-chips" aria-label="Catégories de services"><a class="svc-chip {% if not selected_category %}active{% endif %}" href="?q={{ query|urlencode }}">Tous les services</a>{% for code,label in categories %}<a class="svc-chip {% if code == selected_category %}active{% endif %}" href="?category={{ code }}&q={{ query|urlencode }}">{{ label }}</a>{% endfor %}</nav>
+ <details class="svc-discovery civia-service-assistance">
+  <summary>Décrire mon besoin à CivIA</summary>
+  <form id="service-discovery-form" class="svc-query">{% csrf_token %}
+   <div class="svc-need-field"><label for="service-need">Décrivez votre besoin</label><div class="svc-need-input"><i data-lucide="search" aria-hidden="true" class="w-5 h-5"></i><input id="service-need" class="svc-input" maxlength="4000" required placeholder="Ex. : Je veux créer une entreprise à Kinshasa"></div></div>
+   <button id="service-discover-btn" class="svc-btn" type="submit"><i data-lucide="sparkles" aria-hidden="true" class="w-4 h-4"></i>Trouver ma démarche<i data-lucide="arrow-right" aria-hidden="true" class="w-4 h-4"></i></button>
+  </form>
+  <div class="svc-status" role="status"><span id="service-discovery-spinner" class="svc-spinner" hidden></span><span id="service-discovery-status"></span></div><div id="service-recommendations" class="svc-result-grid"></div>
+ </details>
+ <div class="svc-grid">{% for s in services %}<article class="svc-card" id="{{ s.service_code }}">
+  <div class="svc-card-top"><span class="svc-icon"><i data-lucide="{% if s.category == 'business' %}briefcase-business{% elif s.category == 'identity' %}contact-round{% elif s.category == 'transport' %}car{% elif s.category == 'tax' %}receipt{% elif s.category == 'justice' %}scale{% else %}landmark{% endif %}" class="w-5 h-5"></i></span><span class="svc-category">{{ s.get_category_display }}</span></div>
+  <h3>{{ s.service_name }}</h3>{% if s.live_snapshot.facts.description %}<p class="svc-card-description">{{ s.live_snapshot.facts.description.text }}</p>{% elif s.category == 'justice' %}<p class="svc-card-description">{{ s.description }}</p>{% endif %}<p>{{ s.institution }}</p>
+  <div class="svc-card-meta"><div><small>Page source</small>{% if s.official_portal_url %}<a href="{{ s.official_portal_url }}" target="_blank" rel="noopener noreferrer" style="color:var(--svc-blue);font-size:12px;overflow-wrap:anywhere">{{ s.source_host }} ↗</a>{% else %}<span class="svc-helper">Source à renseigner</span>{% endif %}{% if s.live_snapshot.available %}<p class="svc-helper">Consultée le {{ s.source_checked_at|date:'d/m/Y H:i' }}</p>{% else %}<p class="svc-helper">Procédure non chargée</p>{% endif %}</div></div>
+  <div class="svc-card-footer"><small>Source institutionnelle</small><a href="{% url 'web_ui:service_workspace' s.service_code %}"><span class="svc-start-label">Commencer</span> <span aria-hidden="true">→</span></a></div>
+ </article>{% empty %}<div class="svc-empty"><h3>Aucun service ne correspond à cette recherche.</h3><a href="{% url 'web_ui:services' %}" class="svc-btn secondary" style="margin-top:15px">Voir tous les services</a></div>{% endfor %}</div>
+ <p class="svc-helper" style="margin:22px 0">Les démarches sont orientées vers les institutions du répertoire. Leurs conditions et procédures sont lues sur les pages officielles, avec un lien source. Une donnée introuvable n’est pas remplacée par une estimation.</p>
  <section class="svc-hero">
-  <div class="svc-news-heading"><div><div class="svc-eyebrow"><span class="svc-dot"></span> Votre guichet citoyen</div><h1>Les services publics <span>en actualité</span></h1></div><a href="{% url 'web_ui:news' %}">Tout le journal <span aria-hidden="true">↗</span></a></div>
+  <div class="svc-news-heading"><div><div class="svc-eyebrow"><span class="svc-dot"></span> Votre guichet citoyen</div><h2>Les services publics <span>en actualité</span></h2></div><a href="{% url 'web_ui:news' %}">Tout le journal <span aria-hidden="true">↗</span></a></div>
   <div class="svc-news" data-service-carousel role="region" aria-roledescription="carrousel" aria-label="Actualités des services publics">
    <div class="svc-news-stage">
    {% for article in service_news %}
@@ -24,22 +41,6 @@
   </div>
   <div class="svc-path"><div class="svc-path-row"><span class="svc-number">01</span><div><strong>Je trouve mon service</strong><small>Décrivez votre besoin, avec vos mots.</small></div></div><div class="svc-path-row"><span class="svc-number">02</span><div><strong>Je prépare mon dossier</strong><small>Pièces, frais et formulaire, au même endroit.</small></div></div><div class="svc-path-row"><span class="svc-number">03</span><div><strong>Je passe à l’action</strong><small>Continuez auprès de l’institution officielle.</small></div></div></div>
  </section>
- <section class="svc-discovery" aria-label="Recherche de services par IA">
-  <form id="service-discovery-form" class="svc-query">{% csrf_token %}
-   <div class="svc-need-field"><label for="service-need">Décrivez votre besoin</label><div class="svc-need-input"><i data-lucide="search" aria-hidden="true" class="w-5 h-5"></i><input id="service-need" class="svc-input" maxlength="4000" required placeholder="Ex. : Je veux créer une entreprise à Kinshasa"></div></div>
-   <button id="service-discover-btn" class="svc-btn" type="submit"><i data-lucide="sparkles" aria-hidden="true" class="w-4 h-4"></i>Trouver ma démarche<i data-lucide="arrow-right" aria-hidden="true" class="w-4 h-4"></i></button>
-  </form>
-  <div class="svc-status" role="status"><span id="service-discovery-spinner" class="svc-spinner" hidden></span><span id="service-discovery-status"></span></div><div id="service-recommendations" class="svc-result-grid"></div>
- </section>
- <div class="svc-section-head"><div><h2>Explorez les services</h2><span class="svc-count">{{ service_count }} démarches dans le répertoire</span></div><form method="get" class="svc-search"><input type="hidden" name="category" value="{{ selected_category }}"><input name="q" value="{{ query }}" class="svc-input" aria-label="Rechercher dans le répertoire" placeholder="Rechercher un service"><button class="svc-btn secondary" aria-label="Rechercher"><i data-lucide="search" class="w-4 h-4"></i></button></form></div>
- <nav class="svc-chips" aria-label="Catégories de services"><a class="svc-chip {% if not selected_category %}active{% endif %}" href="?q={{ query|urlencode }}">Tous les services</a>{% for code,label in categories %}<a class="svc-chip {% if code == selected_category %}active{% endif %}" href="?category={{ code }}&q={{ query|urlencode }}">{{ label }}</a>{% endfor %}</nav>
- <div class="svc-grid">{% for s in services %}<article class="svc-card" id="{{ s.service_code }}">
-  <div class="svc-card-top"><span class="svc-icon"><i data-lucide="{% if s.category == 'business' %}briefcase-business{% elif s.category == 'identity' %}contact-round{% elif s.category == 'transport' %}car{% elif s.category == 'tax' %}receipt{% elif s.category == 'justice' %}scale{% else %}landmark{% endif %}" class="w-5 h-5"></i></span><span class="svc-category">{{ s.get_category_display }}</span></div>
-  <h3>{{ s.service_name }}</h3>{% if s.live_snapshot.facts.description %}<p class="svc-card-description">{{ s.live_snapshot.facts.description.text }}</p>{% elif s.category == 'justice' %}<p class="svc-card-description">{{ s.description }}</p>{% endif %}<p>{{ s.institution }}</p>
-  <div class="svc-card-meta"><div><small>Page source</small>{% if s.official_portal_url %}<a href="{{ s.official_portal_url }}" target="_blank" rel="noopener noreferrer" style="color:var(--svc-blue);font-size:12px;overflow-wrap:anywhere">{{ s.source_host }} ↗</a>{% else %}<span class="svc-helper">Source à renseigner</span>{% endif %}{% if s.live_snapshot.available %}<p class="svc-helper">Consultée le {{ s.source_checked_at|date:'d/m/Y H:i' }}</p>{% else %}<p class="svc-helper">Procédure non chargée</p>{% endif %}</div></div>
-  <div class="svc-card-footer"><small>Source institutionnelle</small><a href="{% url 'web_ui:service_workspace' s.service_code %}"><span class="svc-start-label">Commencer</span> <span aria-hidden="true">→</span></a></div>
- </article>{% empty %}<div class="svc-empty"><h3>Aucun service ne correspond à cette recherche.</h3><a href="{% url 'web_ui:services' %}" class="svc-btn secondary" style="margin-top:15px">Voir tous les services</a></div>{% endfor %}</div>
- <p class="svc-helper" style="margin:22px 0">Les démarches sont orientées vers les institutions du répertoire. Leurs conditions et procédures sont lues sur les pages officielles, avec un lien source. Une donnée introuvable n’est pas remplacée par une estimation.</p>
 </div></div>
 {% endblock %}
 {% block extra_scripts %}<script src="{% static 'js/services.js' %}?v=headline-15" defer></script><script src="{% static 'js/service-news-carousel.js' %}?v=3" defer></script>{% endblock %}

@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{% static 'css/services.css' %}?v=source-reader-2">
 <div class="svc-shell" id="service-workspace"><div class="svc-container">
  <a href="{% url 'web_ui:services' %}" class="svc-back"><i data-lucide="arrow-left" class="w-4 h-4"></i>Tous les services</a>
- <header class="svc-workspace-head"><div><div class="svc-eyebrow">{{ service.get_category_display }}</div><h1>{{ service.service_name }}</h1><p class="svc-helper">{{ service.institution }}</p></div><span class="svc-count">Données issues du portail officiel</span></header>
+ <header class="svc-workspace-head"><div><div class="svc-eyebrow">{{ service.get_category_display }}</div><h1>{{ service.service_name }}</h1><p class="svc-helper">{{ service.institution }}</p></div>{% if service.official_portal_url %}<a class="svc-btn" href="{{ service.official_portal_url }}" target="_blank" rel="noopener noreferrer">Consulter la source <span aria-hidden="true">↗</span></a>{% endif %}</header>
  <div class="svc-workspace">
   <div style="min-width:0">
   {% include 'service_browser.html' %}

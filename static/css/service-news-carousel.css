@@ -1,8 +1,8 @@
 .svc-shell .svc-hero{grid-template-columns:minmax(0,1.6fr) minmax(240px,.8fr);grid-template-areas:"heading ." "news path";align-items:start;column-gap:40px;row-gap:18px}
 .svc-news{grid-area:news;min-width:0}
 .svc-news-heading{grid-area:heading;display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0}
-.svc-news-heading h1{font-size:clamp(26px,2.7vw,38px);line-height:1.14;letter-spacing:-.035em}
-.svc-news-heading h1 span{color:var(--svc-blue)}
+.svc-news-heading h2{font-size:clamp(26px,2.7vw,38px);line-height:1.14;letter-spacing:-.035em}
+.svc-news-heading h2 span{color:var(--svc-blue)}
 .svc-news-heading>a{font-size:12px;font-weight:700;color:var(--svc-blue);white-space:nowrap}
 .svc-news-stage{position:relative}
 .svc-news-slide{position:relative;isolation:isolate;min-height:290px;display:flex;align-items:flex-end;overflow:hidden;border:1px solid var(--svc-border);border-radius:18px;background:linear-gradient(140deg,#164c70,#102437);touch-action:pan-y}
@@ -27,4 +27,4 @@
 .svc-shell .svc-hero .svc-number{width:34px;height:auto;background:transparent!important;border:0!important;border-radius:0;display:block;color:#ce1126;font-size:14px;line-height:1.5}
 .svc-shell .svc-hero .svc-path small{display:block;line-height:1.6;margin-top:4px}
 @media(max-width:800px){.svc-shell .svc-hero{grid-template-columns:1fr;grid-template-areas:"heading" "news" "path";row-gap:18px}.svc-shell .svc-hero .svc-path{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:0}.svc-shell .svc-hero .svc-path-row{padding:0;border:0}.svc-shell .svc-hero .svc-path-row:first-child{padding:0}}
-@media(max-width:520px){.svc-news-heading{align-items:start}.svc-news-heading h1{font-size:26px}.svc-news-slide{min-height:260px}.svc-news-body{margin:65px 10px 10px;padding:15px}.svc-shell .svc-hero .svc-path{grid-template-columns:1fr;gap:12px}}
+@media(max-width:520px){.svc-news-heading{align-items:start}.svc-news-heading h2{font-size:26px}.svc-news-slide{min-height:260px}.svc-news-body{margin:65px 10px 10px;padding:15px}.svc-shell .svc-hero .svc-path{grid-template-columns:1fr;gap:12px}}

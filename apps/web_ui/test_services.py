@@ -3,7 +3,8 @@ from decimal import Decimal
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from django.test import SimpleTestCase, RequestFactory
+from django.test import RequestFactory, SimpleTestCase, TestCase
+from django.urls import reverse
 from apps.rag_engine.models import OfficialServiceRegistry
 from apps.rag_engine.service_assistance import discover_services, guide_service, service_data
 
@@ -13,6 +14,14 @@ def sample_service():
         description='Déclarer une naissance', institution='État civil', required_documents=['Attestation'],
         official_cost_usd=Decimal('0.00'), official_portal_url='https://example.com',
         eligibility_criteria='Conditions du répertoire', payment_instructions='Guichet officiel')
+
+
+class LandingNavigationTests(TestCase):
+    def test_home_opens_civia_and_links_to_chat_and_services(self):
+        response = self.client.get(reverse('web_ui:landing'))
+        self.assertContains(response, 'civia-home-title')
+        self.assertContains(response, f'href="{reverse("web_ui:chat")}"')
+        self.assertContains(response, f'href="{reverse("web_ui:services")}"')
 
 
 class ServiceJourneyTests(SimpleTestCase):
@@ -55,12 +64,6 @@ class ServiceJourneyTests(SimpleTestCase):
 
     def post(self, data):
         return self.factory.post('/', data=json.dumps(data), content_type='application/json')
-
-    def test_home_starts_with_chat_and_services_remain_accessible(self):
-        response = self.client.get('/')
-        self.assertRedirects(response, '/chat/', fetch_redirect_response=False)
-        from django.urls import reverse
-        self.assertEqual(reverse('web_ui:chat'), '/chat/')
 
     def test_seeded_procedural_data_is_never_sent_as_current_service_facts(self):
         service = sample_service()

@@ -1,0 +1,12 @@
+{% load static %}
+<div class="civia-header-actions">
+    <button class="civia-control civia-language" type="button" data-civia-open="civia-languages" aria-label="Choisir la langue" aria-haspopup="dialog" aria-controls="civia-languages"><span data-civia-language>FR</span><span aria-hidden="true">⌄</span></button>
+    {% if user.is_authenticated %}
+    <button class="civia-control civia-account" type="button" data-civia-open="civia-profile" aria-label="Compte connecté" aria-haspopup="dialog" aria-controls="civia-profile">
+        <img class="civia-logo-light" src="{% static 'civia/compte_connecte_clair.svg' %}" alt="" width="40" height="40">
+        <img class="civia-logo-dark" src="{% static 'civia/compte_connecte_sombre.svg' %}" alt="" width="40" height="40">
+    </button>
+    {% else %}
+    <a class="civia-control civia-account" href="{% url 'web_ui:login' %}?next={% if request.resolver_match.url_name == 'login' or request.resolver_match.url_name == 'register' %}{{ next|urlencode }}{% else %}{{ request.get_full_path|urlencode }}{% endif %}" aria-label="Se connecter"><img src="{% static 'civia/compte.svg' %}" alt="" width="24" height="24"></a>
+    {% endif %}
+</div>

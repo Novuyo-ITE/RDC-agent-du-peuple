@@ -4,12 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}RDC Agent du peuple - République Démocratique du Congo{% endblock %}</title>
+    <title>{% block title %}CivIA - République Démocratique du Congo{% endblock %}</title>
 
-    <!-- Google Font: Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {% include 'civia_head.html' %}
 
     <!-- Tailwind CSS CDN -->
     <script src="{% static 'js/tailwindcss.js' %}"></script>
@@ -19,24 +16,24 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                     },
                     colors: {
                         drc: {
-                            blue: '#0077C8',
-                            yellow: '#FCD116',
-                            red: '#CE1126',
+                            blue: '#003B73',
+                            yellow: '#F7D618',
+                            red: '#CE1021',
                         },
                         uggov: {
-                            sidebar: '#F4F2EA',
-                            sidebarDark: '#121B2B',
-                            accent: '#0077C8',
-                            activeItem: '#DDEAF7',
-                            activeItemDark: '#0D2040',
-                            border: '#E8E8E2',
-                            borderDark: '#1E293B',
-                            bgLight: '#FAF9F5',
-                            bgDark: '#101923',
+                            sidebar: '#F1F4F8',
+                            sidebarDark: '#172638',
+                            accent: '#003B73',
+                            activeItem: '#E7F0FA',
+                            activeItemDark: '#203D60',
+                            border: '#D9E3EF',
+                            borderDark: '#31465E',
+                            bgLight: '#FFFFFF',
+                            bgDark: '#0B1829',
                         }
                     }
                 }
@@ -57,13 +54,13 @@
     <link rel="stylesheet" href="{% static 'css/chat-delete.css' %}?v=1">
 
     <style>
-        :root { --app-dark-bg: #101923; }
+        :root { --app-dark-bg: #0B1829; }
         svg.lucide {
             display: inline-block;
             vertical-align: middle;
         }
         body {
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            font-family: var(--font-body), system-ui, -apple-system, sans-serif;
             font-size: 15px;
             letter-spacing: -0.01em;
             line-height: 1.6;
@@ -107,82 +104,20 @@
             display: inline-block;
             animation: blink 1s infinite;
             margin-left: 2px;
-            color: #0077C8;
+            color: #003B73;
         }
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
-        .sidebar-service-button { min-height:46px; font-size:13px; font-weight:600; letter-spacing:.01em; box-shadow:0 2px 5px #0077c81a; transition:background-color .15s,box-shadow .15s; }
-        .sidebar-service-button:hover { background-color:#0066ad; box-shadow:0 3px 8px #0077c82b; }
-        .sidebar-service-button:focus-visible { outline:2px solid #0077c8; outline-offset:3px; }
-        .sidebar-service-button svg { color:#fff; stroke:currentColor; stroke-width:1.8; }
-        img[src*="armoirie_rdc.png"] { background:#fff; border-radius:50%; padding:3px; }
-        .sidebar-toggle-emblem { display:none; width:36px; height:36px; object-fit:contain; }
-        #main-sidebar { position:relative; border-right:0; }
-        #main-sidebar::after {
-            content:'';
-            position:absolute;
-            inset:0 0 0 auto;
-            width:2px;
-            pointer-events:none;
-            background:linear-gradient(180deg,transparent,#0077C8 25%,#FCD116 50%,#CE1126 75%,transparent) 0 0 / 100% 200% repeat-y;
-            animation:sidebar-line-flow 6s linear infinite;
-        }
-        @keyframes sidebar-line-flow {
-            from { background-position:0 0; }
-            to { background-position:0 200%; }
-        }
-        @media (prefers-reduced-motion:reduce) {
-            #main-sidebar::after { animation:none; }
-        }
-        @media (min-width: 768px) {
-            #main-sidebar.sidebar-collapsed { width:76px; }
-            .sidebar-collapsed .sidebar-header { justify-content:center; padding:14px 4px; }
-            .sidebar-collapsed .sidebar-header > a { display:none; }
-            .sidebar-collapsed .sidebar-header button > svg { display:none; }
-            .sidebar-collapsed .sidebar-header .sidebar-toggle-emblem { display:block; }
-            .sidebar-collapsed .sidebar-primary { padding:14px 10px; }
-            .sidebar-collapsed .sidebar-primary a { padding:14px 0; }
-            .sidebar-collapsed .sidebar-primary span,
-            .sidebar-collapsed .sidebar-nav a > :first-child > span,
-            .sidebar-collapsed .sidebar-nav a > :last-child:not(:first-child) { display:none; }
-            .sidebar-collapsed .sidebar-nav { padding:0 10px; }
-            .sidebar-collapsed .sidebar-nav a { justify-content:center; padding:14px 0; }
-            .sidebar-collapsed .sidebar-nav a > :first-child { gap:0; }
-            #main-sidebar svg { flex-shrink:0; }
-            .sidebar-collapsed .sidebar-history { visibility:hidden; padding:0; }
-            .sidebar-collapsed .sidebar-footer { flex-direction:column; gap:10px; padding:12px 0; }
-            .sidebar-collapsed .sidebar-footer > .relative { display:none; }
-            .sidebar-collapsed .sidebar-footer > * { margin:0; }
-        }
-        @media (max-width: 767px) {
-            #main-sidebar { position:fixed; inset:0 auto 0 0; width: min(288px,85vw); height:100dvh; transform:translateX(-100%); }
-            #main-sidebar.mobile-open { transform:translateX(0); box-shadow:12px 0 40px #0003; }
-            .mobile-nav { position:relative; z-index:20; display:grid; grid-template-columns:40px minmax(0,1fr) 40px; align-items:center; gap:12px; margin:8px 12px 0; padding:8px 10px; border:1px solid rgba(255,255,255,.65); border-radius:20px; background:rgba(255,255,255,.48); box-shadow:0 8px 24px rgba(29,62,85,.1),inset 0 1px 0 rgba(255,255,255,.7); backdrop-filter:blur(16px) saturate(160%); -webkit-backdrop-filter:blur(16px) saturate(160%); }
-            .dark .mobile-nav { background:rgba(24,42,59,.52); border-color:rgba(190,220,240,.2); box-shadow:0 8px 24px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.12); }
-            .mobile-nav-action { width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; border:1px solid rgba(100,140,166,.25); border-radius:13px; background:rgba(255,255,255,.38); color:#176aa2; }
-            .dark .mobile-nav-action { background:rgba(37,66,88,.45); border-color:rgba(171,205,226,.22); color:#fcd116; }
-            .mobile-nav-action:focus-visible { outline:2px solid #0077c8; outline-offset:3px; }
-            .dark .mobile-nav-action:focus-visible { outline-color:#fcd116; }
-            .mobile-nav-logo { display:flex; justify-content:center; min-width:0; }
-            .mobile-nav-logo img { max-width:100%; height:28px; width:auto; object-fit:contain; }
-        }
-
     </style>
-    <script>
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
     <link rel="stylesheet" href="{% static 'css/source-brand.css' %}?v=3">
     {% block extra_head %}{% endblock %}
     <link rel="stylesheet" href="{% static 'css/editorial-colors.css' %}?v=3">
     <link rel="stylesheet" href="{% static 'css/chat-media.css' %}?v=4">
+    <link rel="stylesheet" href="{% static 'css/civia-pages.css' %}">
 </head>
-<body class="h-full flex flex-col antialiased bg-uggov-bgLight dark:bg-uggov-bgDark text-slate-800 dark:text-slate-100 transition-colors duration-200">
+<body class="civia-site civia-workspace h-full flex flex-col antialiased bg-uggov-bgLight dark:bg-uggov-bgDark text-slate-800 dark:text-slate-100 transition-colors duration-200">
     <div hidden>{% csrf_token %}</div>
 
     <div class="flex-1 flex overflow-hidden">
@@ -190,24 +125,19 @@
         <!-- SIDEBAR -->
         <aside id="main-sidebar" class="w-64 md:w-72 bg-uggov-sidebar dark:bg-uggov-sidebarDark border-r border-uggov-border dark:border-uggov-borderDark flex flex-col shrink-0 transition-all duration-300 z-30 select-none">
             
-            <!-- Sidebar Header: New Official Logo (RDC Agent du peuple) -->
-            <div class="sidebar-header p-3.5 flex items-center justify-between border-b border-uggov-border/60 dark:border-uggov-borderDark/60">
-                <a href="{% url 'web_ui:home' %}" class="flex items-center flex-1 min-w-0 group">
-                    <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-14 w-full object-contain object-left shrink-0 group-hover:scale-105 transition-transform">
+            <div class="sidebar-header civia-sidebar-heading">
+                <a class="civia-sidebar-brand" href="{% url 'web_ui:landing' %}" aria-label="CivIA, accueil">
+                    {% include 'civia_logo.html' %}
+                    <img class="civia-sidebar-mark" src="{% static 'civia/icone_bulle.svg' %}" width="32" height="32" alt="">
                 </a>
-
-                <!-- Sidebar collapse button -->
-                <button onclick="toggleSidebar()" aria-expanded="true" aria-label="R?duire la barre lat?rale" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors" title="Masquer la barre latérale">
-                    <i data-lucide="panel-left-close" class="w-4 h-4"></i>
-                    <img src="{% static 'img/armoirie_rdc.png' %}?v=2" class="sidebar-toggle-emblem" alt="" aria-hidden="true">
-                </button>
+                <button type="button" onclick="toggleSidebar()" aria-controls="main-sidebar" aria-expanded="true" aria-label="Réduire la barre latérale" class="civia-control civia-sidebar-collapse"><i data-lucide="panel-left-close" aria-hidden="true"></i></button>
+                <button id="mobile-sidebar-close" type="button" onclick="toggleSidebar()" class="civia-control" aria-label="Fermer le menu"><i data-lucide="x" aria-hidden="true"></i></button>
             </div>
 
             <!-- Navigation Links -->
-            <div class="sidebar-nav mt-5 px-3 space-y-1">
-                <a title="Chatbot" aria-label="Chatbot" href="{% url 'web_ui:chat' %}?new=1" {% if request.resolver_match.url_name == 'chat' %}onclick="event.preventDefault(); startNewChat()"{% endif %} class="flex items-center justify-between px-3.5 py-3 rounded-xl text-[13.5px] font-semibold bg-[#0077C8] text-white hover:bg-[#0065AA] transition-colors">
-                    <span class="flex items-center gap-3"><i data-lucide="message-square" class="w-4 h-4"></i><span>Chatbot</span></span>
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#FCD116]" aria-hidden="true"></i>
+            <nav class="sidebar-nav mt-5 px-3 space-y-1" aria-label="Navigation de l’espace citoyen">
+                <a title="Nouvelle conversation" aria-label="Nouvelle conversation" href="{% url 'web_ui:chat' %}?new=1" {% if request.resolver_match.url_name == 'chat' %}onclick="event.preventDefault(); startNewChat()"{% endif %} class="flex items-center justify-between px-3.5 py-3 rounded-xl text-[13.5px] font-semibold bg-[#003B73] text-white hover:bg-[#00325F] transition-colors">
+                    <span class="flex items-center gap-3"><i data-lucide="message-square" class="w-4 h-4"></i><span>Nouvelle conversation</span></span>
                 </a>
                 <!-- Services -->
                 <a title="Services" aria-label="Services" href="{% url 'web_ui:services' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'services' or request.resolver_match.url_name == 'service_workspace' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
@@ -221,15 +151,13 @@
                 </a>
 
                 <!-- News (Actualités Officielles) -->
-                <a title="News" aria-label="News" href="{% url 'web_ui:news' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
+                <a title="Actualités" aria-label="Actualités" href="{% url 'web_ui:news' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
                     <div class="flex items-center space-x-3">
                         <i data-lucide="newspaper" class="w-4 h-4 {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}text-drc-blue dark:text-blue-300{% else %}text-slate-500 dark:text-slate-400{% endif %}"></i>
-                        <span data-i18n="nav_news">News</span>
+                        <span data-i18n="nav_news">Actualités</span>
                     </div>
                     {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_alias' %}
                     <span class="w-2 h-2 rounded-full bg-drc-blue dark:bg-blue-400"></span>
-                    {% else %}
-                    <span class="text-[9.5px] px-1.5 py-0.5 rounded-md bg-emerald-100/80 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-400 font-bold uppercase tracking-wider">LIVE</span>
                     {% endif %}
                 </a>
 
@@ -237,96 +165,34 @@
                 <a title="Communauté" aria-label="Communauté" href="{% url 'web_ui:community' %}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium transition-colors {% if request.resolver_match.url_name == 'community' %}bg-uggov-activeItem text-drc-blue dark:bg-uggov-activeItemDark dark:text-blue-300 font-semibold{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60{% endif %}">
                     <div class="flex items-center space-x-3">
                         <i data-lucide="users-round" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
-                        <span data-i18n="nav_directory">Community</span>
+                        <span data-i18n="nav_directory">Communauté</span>
                     </div>
                     {% if request.resolver_match.url_name == 'community' %}
                     <span class="w-2 h-2 rounded-full bg-drc-blue dark:bg-blue-400"></span>
                     {% endif %}
                 </a>
 
-                <!-- User Session Pill / Auth status -->
-                <div class="pt-2 px-1">
-                    {% if user.is_authenticated %}
-                    <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-200/60 dark:bg-slate-800/80 border border-slate-300/40 dark:border-slate-700/60 text-xs">
-                        <div class="flex items-center gap-2 min-w-0">
-                            <span class="w-6 h-6 rounded-full bg-congo-blue text-white flex items-center justify-center font-bold text-[11px] shrink-0 uppercase">
-                                {{ user.username|slice:":1" }}
-                            </span>
-                            <span class="font-bold text-slate-800 dark:text-slate-200 truncate">{{ user.username }}</span>
-                        </div>
-                        <a href="{% url 'web_ui:logout' %}" class="p-1 rounded-lg text-slate-400 hover:text-congo-red transition-colors shrink-0" title="Se déconnecter">
-                            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
-                        </a>
-                    </div>
-                    {% else %}
-                    <a href="{% url 'web_ui:login' %}" class="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl border border-congo-blue/30 text-congo-blue dark:text-blue-400 hover:bg-congo-blue/5 text-xs font-bold transition-colors">
-                        <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-                        <span>Connexion Citoyenne</span>
-                    </a>
-                    {% endif %}
+            </nav>
+
+            <section class="sidebar-history flex-1 flex flex-col" aria-labelledby="sidebar-history-title">
+                <div class="civia-sidebar-history-heading">
+                    <h2 id="sidebar-history-title"><i data-lucide="history" aria-hidden="true"></i>Historique des chats</h2>
+                    <span id="sessions-count" class="text-[10px]"></span>
                 </div>
+                <div id="recent-consultations-list" class="space-y-1 flex-1 overflow-y-auto custom-scrollbar"></div>
+            </section>
 
-
+            <div class="civia-sidebar-actions">
+                <button type="button" class="civia-control" data-civia-open="civia-options" aria-label="Options" aria-haspopup="dialog" aria-controls="civia-options"><i data-lucide="settings" aria-hidden="true"></i></button>
+                {% include 'civia_account_controls.html' %}
             </div>
-
-            <div class="sidebar-history pt-4 px-3 flex-1 overflow-y-auto custom-scrollbar flex flex-col">
-                <div class="flex items-center justify-between px-3.5 mb-2"><span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Historique des chats</span><span id="sessions-count" class="text-[10px] text-slate-400"></span></div>
-                <div id="recent-consultations-list" class="space-y-1 flex-1"></div>
-            </div>
-
-            <!-- SIDEBAR FOOTER: Language selector, Light/Dark mode toggle, More options -->
-            <div class="sidebar-footer p-3 border-t border-uggov-border dark:border-uggov-borderDark flex items-center justify-between space-x-2 bg-uggov-sidebar dark:bg-uggov-sidebarDark">
-                
-                <!-- Language Selector Pill -->
-                <div class="relative flex-1">
-                    <button id="lang-dropdown-btn" onclick="toggleLangMenu()" class="w-full flex items-center justify-between px-3 py-2 rounded-full border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-xs hover:border-slate-400 transition-colors">
-                        <span id="selected-lang-label">Français</span>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-1.5 text-slate-400"></i>
-                    </button>
-
-                    <!-- Language Popover Menu -->
-                    <div id="lang-menu" class="hidden absolute bottom-full mb-2 left-0 w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-xl p-1.5 z-50">
-                        <button onclick="selectLanguage('fr', 'Français')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                            <span>Français</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">Officiel</span>
-                        </button>
-                        <button onclick="selectLanguage('sw', 'Kiswahili')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                            <span>Kiswahili</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">RDC</span>
-                        </button>
-                        <button onclick="selectLanguage('ln', 'Lingála')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">
-                            <span>Lingála</span>
-                            <span class="text-[10px] text-slate-400 font-semibold">National</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Light / Dark Mode Toggle Button -->
-                <button id="theme-toggle-btn" onclick="toggleTheme()" title="Basculer Mode Clair / Sombre" class="p-2.5 rounded-full border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-slate-400 shadow-xs transition-colors shrink-0">
-                    <i id="theme-icon" data-lucide="sun-medium" class="w-4 h-4 text-amber-500 dark:text-amber-300"></i>
-                </button>
-
-                <!-- More Options Button (...) -->
-                <button onclick="toggleAboutModal()" title="Informations officielles" class="p-2.5 rounded-full border border-slate-300/80 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-slate-400 shadow-xs transition-colors shrink-0">
-                    <i data-lucide="more-horizontal" class="w-4 h-4 text-slate-600 dark:text-slate-300"></i>
-                </button>
-
-            </div>
-
         </aside>
 
         <!-- MAIN VIEWPORT -->
         <div class="flex-1 min-w-0 flex flex-col overflow-hidden relative">
             
-            <!-- Mobile Sidebar Opener Bar -->
-            <div class="mobile-nav md:hidden" aria-label="Navigation mobile">
-                <button id="mobile-sidebar-toggle" type="button" onclick="toggleSidebar()" aria-label="Ouvrir le menu" aria-controls="main-sidebar" aria-expanded="false" class="mobile-nav-action">
-                    <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
-                </button>
-                <div class="mobile-nav-logo">
-                    <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-7 w-auto">
-                </div>
-                <a href="{% url 'web_ui:chat' %}?new=1" {% if request.resolver_match.url_name == 'chat' %}onclick="event.preventDefault(); startNewChat()"{% endif %} class="mobile-nav-action" aria-label="Nouvelle conversation" title="Nouvelle conversation"><i data-lucide="plus" class="w-5 h-5" aria-hidden="true"></i></a>
+            <div class="civia-sidebar-launcher">
+                <button id="mobile-sidebar-toggle" type="button" onclick="toggleSidebar()" class="civia-control" aria-label="Ouvrir le menu" aria-controls="main-sidebar" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i></button>
             </div>
 
             <!-- Block Content -->
@@ -338,45 +204,7 @@
 
     </div>
 
-    <!-- Small Official Security Pop-up Toast (Bottom Right) -->
-    <div id="security-popup" class="fixed bottom-24 right-6 max-w-sm bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 shadow-xl z-50 transition-all duration-300">
-        <div class="flex items-start space-x-3">
-            <div class="w-8 h-8 rounded-full bg-red-50 dark:bg-red-950/70 text-[#CE1126] flex items-center justify-center shrink-0 border border-red-200 dark:border-red-900">
-                <i data-lucide="shield-alert" class="w-4 h-4"></i>
-            </div>
-            <div class="flex-1">
-                <div class="flex items-center justify-between mb-1">
-                    <h4 class="text-xs font-bold text-slate-900 dark:text-white" data-i18n="security_title">Rappel de Sécurité Officiel</h4>
-                    <button onclick="dismissSecurityPopup()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded transition-colors" title="Fermer">
-                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                    </button>
-                </div>
-                <p class="text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed" data-i18n="security_desc">
-                    L'assistant ne demande jamais de mot de passe, de code PIN ou de transfert d'argent direct. Payez uniquement aux guichets bancaires officiels.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- About / Disclaimer Modal -->
-    <div id="about-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
-            <div class="flex items-center justify-between mb-4">
-                <img src="{% static 'img/rdc_agent_du_peuple.png' %}" alt="RDC Agent du peuple" class="h-9 w-auto">
-                <button onclick="toggleAboutModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4" data-i18n="about_desc">
-                Plateforme numérique officielle d'orientation et d'information citoyenne. Les réponses fournies s'appuient strictement sur les démarches administratives, lois et communications des institutions publiques de la RDC.
-            </p>
-            <div class="border-t border-slate-100 dark:border-slate-800 pt-3 flex justify-end">
-                <button onclick="toggleAboutModal()" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold" data-i18n="btn_close">
-                    Fermer
-                </button>
-            </div>
-        </div>
-    </div>
+    {% include 'civia_dialogs.html' %}
 
     <script>
         // ==============================================================
@@ -388,25 +216,25 @@
                 nav_chat: "Chat",
                 nav_services: "Services",
                 nav_directory: "Communauté",
-                nav_news: "News",
+                nav_news: "Actualités",
                 sidebar_recent: "RECENT CONSULTATIONS",
                 sidebar_no_consultations: "Aucune consultation récente.",
-                security_title: "Rappel de Sécurité Officiel",
-                security_desc: "L'assistant ne demande jamais de mot de passe, de code PIN ou de transfert d'argent direct. Payez uniquement aux guichets bancaires officiels.",
-                about_title: "Informations officielles",
-                about_desc: "Plateforme numérique officielle d'orientation et d'information citoyenne. Les réponses fournies s'appuient strictement sur les démarches administratives, lois et communications des institutions publiques de la RDC.",
+
+
+
+
                 btn_close: "Fermer",
-                welcome_tag: "Plateforme Numérique Officielle du Gouvernement de la RDC",
+
                 welcome_desc: "Posez vos questions sur les démarches administratives, les tarifs légaux, les lois et circulaires. Les réponses sont structurées pas à pas et ancrées aux sources officielles.",
                 chip_passport: "Passeport biométrique",
                 chip_birth: "Acte de naissance",
                 chip_guce: "Création d'entreprise (GUCE)",
                 chip_visa: "Portail officiel e-Visa",
                 greeting_title: "Mbote, Jambo, Bonjour !",
-                greeting_text: "Je suis l'assistant officiel pour vous guider pas à pas dans vos démarches citoyennes et administratives en République Démocratique du Congo.",
+
                 greeting_badge: "Registres officiels de la RDC",
                 query_placeholder: "Posez clairement votre question...",
-                query_disclaimer: "RDC Agent du peuple peut faire des erreurs. Vérifiez les informations importantes auprès des institutions officielles.",
+                query_disclaimer: "CivIA peut faire des erreurs. Vérifiez les informations importantes auprès des institutions officielles.",
                 recording_label: "Enregistrement audio en cours... Parlez clairement",
                 btn_stop: "Arrêter",
                 news_title: "Actualités & Communiqués",
@@ -449,22 +277,22 @@
                 nav_news: "Habari",
                 sidebar_recent: "MAZUNGUMZO YA HIVI KARIBUNI",
                 sidebar_no_consultations: "Hakuna mazungumzo ya hivi karibuni.",
-                security_title: "Kikumbusho Rasmi cha Usalama",
-                security_desc: "Msaidizi haombi kamwe nenosiri, nambari ya siri (PIN) au kutuma pesa moja kwa moja. Lipa tu kwenye madirisha rasmi ya benki.",
-                about_title: "Habari Rasmi za Serikali",
-                about_desc: "Jukwaa rasmi la kidijitali la mwongozo na habari kwa wananchi. Majibu yanatolewa kulingana na taratibu za kiserikali, sheria na matangazo ya taasisi za umma za RDC.",
+
+
+
+
                 btn_close: "Funga",
-                welcome_tag: "Jukwaa Rasmi la Kidijitali la Serikali ya Jamhuri ya Kidemokrasia ya Kongo",
+
                 welcome_desc: "Uliza maswali yako kuhusu taratibu za kiserikali, ada rasmi, sheria na nyaraka. Majibu yametolewa hatua kwa hatua na yamethibitishwa kutoka vyanzo rasmi.",
                 chip_passport: "Pasipoti ya kielektroniki",
                 chip_birth: "Cheti cha kuzaliwa",
                 chip_guce: "Kuanzisha biashara (GUCE)",
                 chip_visa: "Tovuti rasmi ya e-Visa",
                 greeting_title: "Jambo, Habari, Karibu !",
-                greeting_text: "Mimi ni msaidizi rasmi wa kukuongoza hatua kwa hatua katika taratibu zako za kiraia na kiserikali nchini Jamhuri ya Kidemokrasia ya Kongo.",
+
                 greeting_badge: "Daftari rasmi za serikali ya RDC",
                 query_placeholder: "Uliza swali lako kwa uwazi hapa...",
-                query_disclaimer: "RDC Agent du peuple anaweza kufanya makosa. Hakikisha habari muhimu na taasisi rasmi za serikali.",
+                query_disclaimer: "CivIA anaweza kufanya makosa. Hakikisha habari muhimu na taasisi rasmi za serikali.",
                 recording_label: "Kurekodi sauti kunaendelea... Ongea waziwazi",
                 btn_stop: "Simamisha",
                 news_title: "Habari & Matangazo Rasmi",
@@ -507,22 +335,22 @@
                 nav_news: "Sango",
                 sidebar_recent: "MASOLO YA SIKA",
                 sidebar_no_consultations: "Masolo moko te ya sika.",
-                security_title: "Koyebisa ya Bateli ya Leta",
-                security_desc: "Mosalisi akosenga yo ata moke te mot de passe, code PIN to kotinda mbongo ya mbala moko. Futa kaka na ba guichets ya ba banques ya Leta.",
-                about_title: "Basango ya Leta",
-                about_desc: "Esika ya numérique ya Leta mpo na kopesa basango mpe kotambwisa bana mboka. Biyano biuti kaka na mikanda ya solo, mibeko mpe masolo ya misala ya Leta ya RDC.",
+
+
+
+
                 btn_close: "Kanga",
-                welcome_tag: "Esika ya Numérique ya Leta ya République Démocratique du Congo",
+
                 welcome_desc: "Tuna mituna na yo nyonso mpo na misala ya Leta, mbongo ya kofuta na mibeko. Biyano epesami malembe na malembe mpe euti na mikanda ya solo ya Leta.",
                 chip_passport: "Passeport biométrique",
                 chip_birth: "Acte de naissance",
                 chip_guce: "Kokela entreprise (GUCE)",
                 chip_visa: "Portail ya e-Visa",
                 greeting_title: "Mbote na bino nyonso !",
-                greeting_text: "Nazali mosalisi ya Leta mpo na kotambwisa yo malembe na malembe na misala mpe mikanda nyonso ya Leta na République Démocratique du Congo.",
+
                 greeting_badge: "Buku ya misala ya Leta ya RDC",
                 query_placeholder: "Tuna motuna na yo ya misala ya Leta polele...",
-                query_disclaimer: "RDC Agent du peuple akoki kobunga. Luka biyano ya solo mpe ya mikanda epai ya bakonzi ya Leta.",
+                query_disclaimer: "CivIA akoki kobunga. Luka biyano ya solo mpe ya mikanda epai ya bakonzi ya Leta.",
                 recording_label: "Kozwa mongongo ezali kosalema... Loba polele",
                 btn_stop: "Tika",
                 news_title: "Sango & Maloba ya Leta",
@@ -560,7 +388,8 @@
         };
 
         function applySiteTranslations(lang) {
-            const current = lang || localStorage.getItem('preferred_language') || 'fr';
+            const requested = lang || localStorage.getItem('preferred_language') || 'fr';
+            const current = requested;
             const dict = TRANSLATIONS[current] || TRANSLATIONS['fr'];
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -579,7 +408,7 @@
             });
 
             // Update html lang attribute
-            document.documentElement.lang = current;
+            document.documentElement.lang = TRANSLATIONS[current] ? current : 'fr';
         }
 
         function refreshIcons(retry = 3) {
@@ -598,38 +427,9 @@
                 setTimeout(() => refreshIcons(retry - 1), 100);
             }
         }
+        window.addEventListener('languageChanged', event => applySiteTranslations(event.detail.code));
         window.refreshIcons = refreshIcons;
         refreshIcons();
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.classList.contains('dark');
-            const icon = document.getElementById('theme-icon');
-
-            if (isDark) {
-                html.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                if (icon) icon.setAttribute('data-lucide', 'sun-medium');
-            } else {
-                html.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                if (icon) icon.setAttribute('data-lucide', 'moon');
-            }
-            refreshIcons();
-        }
-
-        function toggleLangMenu() {
-            const menu = document.getElementById('lang-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        function selectLanguage(code, label) {
-            document.getElementById('selected-lang-label').innerText = label;
-            document.getElementById('lang-menu').classList.add('hidden');
-            localStorage.setItem('preferred_language', code);
-            applySiteTranslations(code);
-            window.dispatchEvent(new CustomEvent('languageChanged', { detail: { code: code, label: label } }));
-        }
 
         function toggleSidebar() {
             const sidebar = document.getElementById('main-sidebar');
@@ -638,38 +438,22 @@
                 const toggle = document.getElementById('mobile-sidebar-toggle');
                 toggle.setAttribute('aria-expanded', String(open));
                 toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+                (open ? document.getElementById('mobile-sidebar-close') : toggle).focus();
             }
             else {
                 const collapsed = sidebar.classList.toggle('sidebar-collapsed');
-                const toggle = sidebar.querySelector('.sidebar-header button');
+                const toggle = sidebar.querySelector('.civia-sidebar-collapse');
                 toggle.setAttribute('aria-expanded', String(!collapsed));
-                toggle.title = collapsed ? 'D?velopper la barre lat?rale' : 'R?duire la barre lat?rale';
+                toggle.title = collapsed ? 'Développer la barre latérale' : 'Réduire la barre latérale';
                 toggle.setAttribute('aria-label', toggle.title);
             }
         }
 
-        function toggleAboutModal() {
-            const modal = document.getElementById('about-modal');
-            modal.classList.toggle('hidden');
-        }
-
-        function dismissSecurityPopup() {
-            const popup = document.getElementById('security-popup');
-            popup.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-            setTimeout(() => popup.remove(), 300);
-            localStorage.setItem('security_popup_dismissed', 'true');
-        }
-
-        if (localStorage.getItem('security_popup_dismissed') === 'true') {
-            const popup = document.getElementById('security-popup');
-            if (popup) popup.classList.add('hidden');
-        }
-
-        window.addEventListener('click', function(e) {
-            const btn = document.getElementById('lang-dropdown-btn');
-            const menu = document.getElementById('lang-menu');
-            if (btn && menu && !btn.contains(e.target) && !menu.contains(e.target)) {
-                menu.classList.add('hidden');
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !document.querySelector('dialog[open]') &&
+                window.matchMedia('(max-width: 767px)').matches &&
+                document.getElementById('main-sidebar').classList.contains('mobile-open')) {
+                toggleSidebar();
             }
         });
 
@@ -817,7 +601,7 @@
                     </button>
                     <button onclick="deleteSession(event,'${sess.id}')"
                             title="Supprimer"
-                            class="p-1 rounded hover:bg-red-100 dark:hover:bg-red-950/60 text-slate-400 hover:text-[#CE1126] transition-colors">
+                            class="p-1 rounded hover:bg-red-100 dark:hover:bg-red-950/60 text-slate-400 hover:text-[#CE1021] transition-colors">
                         <i data-lucide="trash-2" class="w-3 h-3"></i>
                     </button>
                 </div>`;
@@ -915,12 +699,7 @@
             refreshIcons();
             loadChromaSessions();
             window.chatHistoryMigration = migrateLocalChatHistory();
-            // Restore language preference and apply site-wide translations
-            const savedLang = localStorage.getItem('preferred_language') || 'fr';
-            const labels = { fr: 'Français', sw: 'Kiswahili', ln: 'Lingála' };
-            const lbl = document.getElementById('selected-lang-label');
-            if (lbl && labels[savedLang]) lbl.innerText = labels[savedLang];
-            applySiteTranslations(savedLang);
+            applySiteTranslations();
             refreshIcons();
         });
 

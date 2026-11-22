@@ -1,0 +1,7 @@
+{% load static %}
+<nav class="civia-navigation {% if civia_desktop %}civia-navigation-top{% else %}civia-navigation-bottom{% endif %}" aria-label="Sections de la page d’accueil">
+    <a href="#demarches-rapides">{% if not civia_desktop %}<span class="civia-nav-icon"><img src="{% static 'civia/document.svg' %}" alt=""></span>{% endif %}Démarches</a>
+    <a href="#actualites">{% if not civia_desktop %}<span class="civia-nav-icon"><img src="{% static 'civia/actualites.svg' %}" alt=""></span>{% endif %}Actualités</a>
+    <a href="#communaute">{% if not civia_desktop %}<span class="civia-nav-icon"><img src="{% static 'civia/conversation.svg' %}" alt=""></span>{% endif %}Communauté</a>
+    <a href="#questions-frequentes">{% if not civia_desktop %}<span class="civia-nav-icon"><i data-lucide="circle-help" aria-hidden="true"></i></span>{% endif %}FAQ</a>
+</nav>

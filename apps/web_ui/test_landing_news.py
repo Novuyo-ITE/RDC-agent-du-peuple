@@ -1,7 +1,7 @@
 ﻿from unittest.mock import patch
 from django.test import TestCase, RequestFactory, override_settings
 from django.utils import timezone
-from apps.rag_engine.models import OfficialNews
+from apps.rag_engine.models import CommunityPost, OfficialNews
 from apps.web_ui.views import landing_view
 
 
@@ -14,14 +14,14 @@ class LandingNewsLoadingTests(TestCase):
             published_at=timezone.now())
 
     @patch('apps.web_ui.views.render')
-    def test_cards_include_null_images_without_loading_article_bodies(self, render, refresh):
+    def test_cards_include_null_images_in_publication_order_without_loading_article_bodies(self, render, refresh):
         photographed = self.article('photo', 'https://www.radiookapi.net/photo.jpg')
         no_image = self.article('no-image', None)
         blank_image = self.article('blank', '')
         landing_view(RequestFactory().get('/'))
         context = render.call_args.args[2]
         self.assertEqual([item.pk for item in context['latest_news']],
-                         [photographed.pk, blank_image.pk, no_image.pk])
+                         [blank_image.pk, no_image.pk, photographed.pk])
         for item in context['latest_news']:
             self.assertIn('full_content', item.get_deferred_fields())
         with self.assertNumQueries(0):
@@ -36,6 +36,36 @@ class LandingNewsLoadingTests(TestCase):
         self.assertContains(response, 'js/landing-news.js')
         refresh.assert_not_called()
         self.assertContains(response, 'img/news-placeholder.svg')
+
+    def test_category_filters_the_landing_news_cards(self, refresh):
+        other = self.article('other-category', 'https://www.radiookapi.net/photo.jpg')
+        matching = self.article('economy', None)
+        matching.category = 'economie'
+        matching.save(update_fields=['category'])
+
+        response = self.client.get('/accueil/', {'category': 'economie'})
+        self.assertEqual(response.context['latest_news'], [matching])
+        self.assertContains(response, 'href="?category=economie#actualites" aria-current="true"')
+        self.assertContains(response, '/actualites/?category=economie')
+
+        response = self.client.get('/', {'category': 'all'})
+        self.assertEqual(response.context['latest_news'], [matching, other])
+
+    def test_landing_shows_six_latest_news_cards_and_six_visible_tweets(self, refresh):
+        articles = []
+        for number in range(8):
+            articles.append(self.article(f'news-{number}', None))
+            CommunityPost.objects.create(
+                kind='social', platform='X / Twitter', title=f'Post {number}', body=f'Tweet {number}',
+                is_visible=number != 7,
+            )
+
+        response = self.client.get('/')
+        self.assertEqual(response.context['latest_news'], articles[-6:][::-1])
+        self.assertContains(response, 'class="civia-landing-news-card bg-white', count=6)
+        self.assertEqual(len(response.context['tweets']), 6)
+        self.assertContains(response, 'class="civia-tweet-card space-y-2"', count=6)
+        self.assertNotContains(response, 'Tweet 7')
 
 
 @override_settings(TAVILY_API_KEY='')

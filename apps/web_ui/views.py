@@ -44,26 +44,27 @@ def landing_view(request):
             return "img/sources/rfi.png"
         return "img/armoirie_rdc.png"
 
-    from django.db.models import Q
+    news_categories = OfficialNews.CATEGORY_CHOICES
+    selected_news_category = request.GET.get('category', 'all')
+    if selected_news_category not in dict(news_categories):
+        selected_news_category = 'all'
 
-    # Priority to news with images (3 for the top carousel headline + 4 for the secondary grid)
-    latest_news = list(OfficialNews.objects.approved().defer('full_content').exclude(image_url__isnull=True).exclude(image_url='').order_by('-published_at')[:7])
-    if len(latest_news) < 7:
-        extra_news = list(OfficialNews.objects.approved().defer('full_content').filter(Q(image_url='') | Q(image_url__isnull=True)).order_by('-published_at')[:7 - len(latest_news)])
-        latest_news.extend(extra_news)
+    landing_news = OfficialNews.objects.approved().defer('full_content').order_by('-published_at', '-pk')
+    if selected_news_category != 'all':
+        landing_news = landing_news.filter(category=selected_news_category)
+
+    latest_news = list(landing_news[:6])
 
     # Attach respective media logo to each news item
     for item in latest_news:
         item.logo_path = get_source_logo(item.source_name, getattr(item, 'source_url', ''))
 
-    headline_news = latest_news[:3]
-    secondary_news = latest_news[3:]
     
     # Fetch real tweets / X dispatches
     raw_tweets = CommunityPost.objects.filter(
         platform__icontains='Twitter',
         is_visible=True
-    ).order_by('-created_at')[:4]
+    ).order_by('-created_at', '-pk')[:6]
 
     # Pre-extract tweet images, profile data and logos for easy template rendering
     tweet_list = []
@@ -169,14 +170,11 @@ def landing_view(request):
         },
     ]
 
-    from .landing_demo import landing_service_examples
-
     return render(request, 'landing.html', {
-        'hero_service_examples': landing_service_examples(),
         'featured_services': featured_services,
-        'headline_news': headline_news,
-        'secondary_news': secondary_news,
         'latest_news': latest_news,
+        'news_categories': news_categories,
+        'selected_news_category': selected_news_category,
         'tweets': tweet_list,
         'verified_sources': verified_sources,
         'total_portals': len(OFFICIAL_DRC_PORTALS),

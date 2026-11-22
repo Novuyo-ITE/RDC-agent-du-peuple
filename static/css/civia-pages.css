@@ -1,0 +1,340 @@
+/* CivIA surface and component styles for the existing Django pages. */
+.civia-site.civia-landing, .civia-site.civia-workspace, .civia-site.civia-auth { font-family: var(--font-body); background: var(--background); color: var(--text); }
+.civia-site :is(h1, h2, h3, h4) { font-family: var(--font-heading); }
+.civia-site :is(input, textarea, select)::placeholder { color: var(--muted); }
+
+.civia-workspace::before, .civia-landing .civia-header::before {
+    content: "";
+    background: linear-gradient(to right,
+        var(--brand-institutional) 0 calc(100% / 3),
+        var(--brand-alert) calc(100% / 3) calc(200% / 3),
+        var(--brand-accent) calc(200% / 3) 100%) left / 50% 100% repeat-x;
+}
+.civia-workspace::before { flex: 0 0 4px; }
+.civia-landing .civia-header { padding-top: 12px; }
+.civia-landing .civia-header::before { position: absolute; inset: 0 0 auto; height: 4px; }
+.civia-landing :is(#demarches-rapides, #actualites, #communaute, #questions-frequentes) { scroll-margin-top: 88px; }
+.civia-landing .civia-navigation-bottom .civia-nav-icon svg { width: 24px; height: 24px; color: var(--link); stroke-width: 1.8; }
+@media (min-width: 768px) {
+    .civia-landing .civia-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    }
+    .civia-landing .civia-brand { justify-self: start; }
+}
+
+#main-sidebar { position: relative; background: var(--surface); border-right: 1px solid var(--border); transition-property: width, transform; }
+.civia-sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; color: var(--heading); }
+.civia-sidebar-brand { display: inline-flex; align-items: center; }
+.civia-sidebar-brand .civia-logo img { width: 128px; }
+.civia-sidebar-heading svg, .civia-sidebar-actions svg, .civia-sidebar-launcher svg { width: 20px; height: 20px; }
+.civia-sidebar-mark, .civia-sidebar-launcher, #mobile-sidebar-close { display: none; }
+.civia-sidebar-heading .civia-control, .civia-sidebar-actions .civia-control { background: var(--background); }
+.civia-sidebar-heading .civia-control:hover, .civia-sidebar-actions .civia-control:hover { background: var(--selected); }
+.civia-sidebar-actions { display: flex; align-items: center; gap: 8px; padding: 12px; }
+.civia-sidebar-actions, .sidebar-history { border-top: 1px solid var(--border); }
+.sidebar-nav a { min-height: var(--touch-min); color: var(--muted); }
+.sidebar-nav a:first-child { background: var(--primary); color: var(--onPrimary); }
+.sidebar-nav a.bg-uggov-activeItem { background: var(--selected); color: var(--link); }
+.sidebar-history .text-slate-400 { color: var(--muted); }
+.sidebar-history {
+    min-height: 0;
+    margin-top: 12px;
+    padding: 4px 12px 8px;
+}
+.civia-sidebar-history-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px; color: var(--muted); }
+.civia-sidebar-history-heading h2 { display: flex; align-items: center; gap: 12px; color: var(--heading); font-size: 13.5px; font-weight: 650; }
+.civia-sidebar-history-heading svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--muted); }
+
+@media (min-width: 768px) {
+    #main-sidebar.sidebar-collapsed { width: 72px; }
+    .sidebar-collapsed .civia-sidebar-heading { flex-direction: column; padding-inline: 4px; }
+    .sidebar-collapsed :is(.civia-sidebar-brand .civia-logo, .sidebar-nav a > :first-child > span, .sidebar-nav a > :nth-child(2)) { display: none; }
+    .sidebar-collapsed .sidebar-history { visibility: hidden; }
+    .sidebar-collapsed .civia-sidebar-mark { display: block; }
+    .sidebar-collapsed :is(.civia-sidebar-actions, .civia-sidebar-actions .civia-header-actions) { flex-direction: column; margin-inline: 0; }
+    .sidebar-collapsed .civia-language { padding-inline: 6px; }
+    .sidebar-collapsed .sidebar-nav a { justify-content: center; padding-inline: 0; }
+}
+@media (max-width: 767px) {
+    #main-sidebar { position: fixed; inset: 4px auto 0 0; width: min(288px, 85vw); visibility: hidden; transform: translateX(-100%); }
+    #main-sidebar.mobile-open { visibility: visible; transform: translateX(0); box-shadow: 12px 0 32px #0b18294d; }
+    .civia-sidebar-heading .civia-sidebar-collapse { display: none; }
+    #mobile-sidebar-close { display: inline-flex; }
+    .civia-sidebar-launcher { display: block; flex-shrink: 0; padding: 8px 16px 0; }
+}
+
+.civia-home { max-width: 1232px; margin-inline: auto; padding: 32px 24px 40px; }
+.civia-home-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+    padding: clamp(24px, 5vw, 64px);
+    border-radius: var(--radius-card);
+    background: var(--brand-institutional);
+    color: #fff;
+}
+[data-theme="dark"] .civia-home-hero { background: var(--selected); }
+.civia-home-kicker, .civia-home-signature { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.civia-home-kicker { color: #d9e3ef; }
+.civia-home h1 { margin: 4px 0; font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.12; }
+.civia-home h2 { margin: 28px 0 12px; color: var(--heading); font-size: 20px; font-weight: 750; }
+.civia-home-hero p { font-size: 16px; }
+.civia-voice {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    margin-top: 16px;
+    padding: 8px 20px;
+    border-radius: var(--radius-button);
+    background: var(--brand-accent);
+    color: var(--brand-institutional);
+    font-weight: 800;
+    text-decoration: none;
+}
+.civia-voice:hover { background: #ffe760; }
+.civia-voice img { width: 24px; height: 24px; }
+.civia-home-assistant { padding: 16px; border-radius: var(--radius-card); background: var(--background); color: var(--text); }
+.civia-home-assistant label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--heading); }
+.civia-home-query { display: flex; gap: 8px; }
+.civia-home-query input { width: 100%; min-width: 0; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-button); background: var(--surface); font: inherit; }
+.civia-home-paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.civia-home-paths a { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-card); background: var(--surface); color: var(--heading); text-decoration: none; }
+.civia-home-paths a:first-child, .civia-home-paths a:hover { background: var(--selected); }
+.civia-home-paths small { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+.civia-path-icon { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 10px; background: var(--card-icon-background); color: var(--card-icon-ink); }
+.civia-path-icon::before { content: ""; width: 24px; height: 24px; background: currentColor; mask: var(--path-icon-image) center / contain no-repeat; }
+.civia-path-icon-chat { --path-icon-image: url("../civia/conversation.svg"); }
+.civia-path-icon-services { --path-icon-image: url("../civia/document.svg"); }
+.civia-path-icon-news { --path-icon-image: url("../civia/actualites.svg"); }
+.civia-landing :is(.civia-home-paths, .landing-quick-grid) > a {
+    --card-icon-accent: var(--brand-interactive);
+    --card-icon-background: color-mix(in srgb, var(--card-icon-accent) 13%, var(--background));
+    --card-icon-ink: var(--heading);
+}
+.civia-landing :is(.civia-home-paths, .landing-quick-grid) > a:nth-child(3n + 2) {
+    --card-icon-accent: var(--brand-alert);
+}
+.civia-landing :is(.civia-home-paths, .landing-quick-grid) > a:nth-child(3n) {
+    --card-icon-accent: var(--brand-accent);
+}
+[data-theme="dark"] .civia-landing :is(.civia-home-paths, .landing-quick-grid) > a {
+    --card-icon-background: color-mix(in srgb, var(--card-icon-accent) 23%, var(--surface));
+    --card-icon-ink: color-mix(in srgb, var(--card-icon-accent) 47%, var(--heading));
+}
+.civia-home-signature { color: var(--muted); margin-top: 20px; }
+.civia-landing :is(.landing-discover, .landing-faq, .landing-community, #sources-officielles) { background: var(--surface); border-color: var(--border); color: var(--text); }
+.civia-landing :is(.landing-eyebrow, .landing-section-heading a, .landing-quick-grid a > span, .landing-start-path li > span) { color: var(--link); }
+.civia-landing :is(.landing-community p, .landing-faq p, .landing-quick-grid p, .landing-start-lead, .landing-start-path li p, #sources-officielles p) { color: var(--muted); }
+.civia-landing .landing-start-path { border-color: var(--border); }
+.civia-landing :is(.landing-start-path strong, .landing-section-heading h2, #sources-officielles h2) { color: var(--heading); }
+[data-theme="dark"] .civia-landing #comment-ca-marche {
+    padding-block: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--background);
+}
+[data-theme="dark"] .civia-landing #comment-ca-marche li > span { color: var(--link); }
+.civia-landing .landing-quick-grid { gap: 8px; border: 0; background: transparent; }
+.civia-landing .landing-start .landing-quick-grid > a svg {
+    color: var(--card-icon-ink);
+    background: var(--card-icon-background);
+}
+.civia-landing .landing-quick-grid > a { border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--background); }
+.civia-landing .landing-quick-grid > a:hover { background: var(--selected); }
+.civia-landing :is(.sovereign-sectors-banner, footer) { background: #0b1829; }
+.civia-landing .sovereign-sectors-banner :is(.group, .sector-panel) { border-radius: var(--radius-card); }
+.civia-landing .civia-logo { padding: 8px; border-radius: var(--radius-card); background: var(--background); }
+.civia-landing #actualites { background: var(--background); border-color: var(--border); }
+.civia-landing-journal-link { color: var(--link); }
+.civia-landing-news-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.civia-landing-news-card { min-width: 0; overflow-wrap: anywhere; }
+.civia-landing-news-card :is(h4, .civia-landing-news-card-footer) a:hover,
+.civia-landing-news-card-footer > a { color: var(--link); }
+.civia-landing-news-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+.civia-landing-news-filters a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-button);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+}
+.civia-landing-news-filters a:hover { color: var(--link); border-color: var(--link); }
+.civia-landing-news-filters a[aria-current] { background: var(--primary); border-color: var(--primary); color: var(--onPrimary); }
+.civia-tweet-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.civia-tweet-card {
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--background);
+    overflow-wrap: anywhere;
+}
+.civia-tweet-card p { color: var(--text); }
+.civia-tweet-card :is(a, svg) { color: var(--link); }
+.civia-x-logo {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    background: currentColor;
+    mask: url("../img/x-twitter.svg") center / contain no-repeat;
+}
+@media (max-width: 767px) {
+    .civia-landing-news-filters { flex-wrap: nowrap; overflow-x: auto; padding: 4px; margin-inline: -4px; }
+    .civia-landing-news-filters a { flex-shrink: 0; }
+    .civia-landing #depeches { padding: 12px; }
+    .civia-landing-news-grid { gap: 8px; }
+    .civia-landing-news-card-footer { flex-wrap: wrap; gap: 8px; }
+}
+.civia-landing :is(#actualites, #sources-officielles) :is(.bg-white, .bg-slate-50) { background: var(--surface); border-color: var(--border); }
+.civia-landing :is(#actualites, #sources-officielles) :is(.text-slate-800, .text-slate-900) { color: var(--heading); }
+.civia-landing :is(#actualites, #sources-officielles) :is(.text-slate-400, .text-slate-500, .text-slate-600) { color: var(--muted); }
+[data-theme="dark"] .civia-landing #sources-officielles { background: var(--background); }
+[data-theme="dark"] #sources-officielles .civia-source-card { background: var(--surface); border-color: var(--border); }
+[data-theme="dark"] #sources-officielles .civia-source-card:is(:hover, :focus-visible) { background: var(--selected); border-color: var(--link); }
+[data-theme="dark"] #sources-officielles .civia-source-card:is(:hover, :focus-visible) h4 { color: var(--link); }
+[data-theme="dark"] #sources-officielles .civia-source-card .text-slate-700 { color: var(--muted); }
+[data-theme="dark"] #sources-officielles :is(.civia-source-card-badge, .civia-source-kicker) { background: var(--selected); border-color: var(--border); color: var(--link); }
+[data-theme="dark"] #sources-officielles .civia-source-card-mark:has(img) { background: #fff; }
+[data-theme="dark"] #sources-officielles :is(.civia-source-card-mark, .civia-source-kicker) svg { color: var(--link); }
+
+.civia-site .chat-welcome {
+    --cw-ink: var(--text);
+    --cw-muted: var(--muted);
+    --cw-card: var(--surface);
+    --cw-line: var(--border);
+}
+.civia-site .chat-welcome-hero { padding: 16px; margin-bottom: 20px; border-radius: var(--radius-card); background: var(--surface); }
+.civia-site .chat-welcome h1 { margin-top: 0; font-weight: 750; color: var(--heading); }
+.civia-site .chat-welcome-subline > p,
+.civia-site .chat-welcome-service :is(a, button),
+.civia-site .chat-hero-example[data-color] { color: var(--link); }
+.civia-site .chat-welcome-icon { background: var(--selected); color: var(--link); }
+.civia-site .chat-composer {
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-button);
+    box-shadow: none !important;
+    background: var(--surface) !important;
+}
+.civia-site .chat-composer:focus-within { border-color: var(--brand-interactive) !important; }
+.civia-site :is(.chat-composer-action, .compact-chat-button) { min-width: 44px; min-height: 44px; }
+.civia-site #mic-btn:not(.is-recording):not(:disabled),
+.civia-site .compact-chat-button[data-compact-voice]:not(.is-recording):not(:disabled) { background: var(--brand-accent); color: var(--brand-institutional); border-color: var(--brand-accent); }
+.civia-site #mic-btn img { width: 24px; height: 24px; }
+.civia-site #mic-btn.is-recording img { display: none; }
+.civia-site #send-btn, .civia-site .compact-chat-send { background: var(--primary); color: var(--onPrimary); border-color: var(--primary); }
+.civia-workspace :is(.chat-composer-send.is-generating, .compact-chat-send.is-busy)::after {
+    border-color: var(--brand-accent);
+    border-right-color: transparent;
+}
+.civia-site :is(#send-btn, .compact-chat-send):hover { filter: brightness(.92); }
+.civia-site .chat-user-message { padding: 12px 16px; text-align: start; border-radius: var(--radius-card); background: var(--brand-institutional); color: #fff; }
+[data-theme="dark"] .civia-site .chat-user-message { background: var(--selected); }
+.civia-site .civia-assistant-message { padding: 16px; border-radius: var(--radius-card); background: var(--selected); color: var(--text); }
+.civia-site .civia-answer-brand { display: block; width: 32px; height: 32px; object-fit: contain; margin-bottom: 8px; }
+.civia-site .civia-read-answer { min-height: 44px; margin-top: 8px; color: var(--link); font-size: 14px; font-weight: 700; }
+.civia-site .civia-read-answer:hover { text-decoration: underline; }
+.civia-site [data-i18n="query_disclaimer"] { color: var(--muted); }
+.civia-site #query-input { color: var(--text); }
+.civia-site .compact-chat { background: var(--surface); color: var(--text); border-color: var(--border); }
+
+.civia-site .svc-shell {
+    --svc-paper: var(--background);
+    --svc-ink: var(--text);
+    --svc-muted: var(--muted);
+    --svc-border: var(--border);
+    --svc-soft: var(--surface);
+    --svc-blue: var(--link);
+    --svc-yellow: var(--brand-accent);
+    background: var(--background);
+}
+.civia-site .svc-catalog-heading { margin-top: 4px; }
+.svc-catalog-heading h1 { font-size: 28px; color: var(--heading); font-weight: 800; line-height: 1.22; }
+.civia-site .civia-service-assistance { margin-top: 16px; padding: 0 16px; border: 1px solid var(--border); }
+.civia-service-assistance > summary { align-content: center; min-height: 48px; font-weight: 700; color: var(--link); cursor: pointer; }
+.civia-service-assistance[open] { padding-bottom: 12px; }
+.civia-site :is(.svc-workspace-head, .svc-card, .svc-path, .svc-panel, .svc-discovery, .svc-news, .svc-result) { border-radius: var(--radius-card); }
+.civia-site .svc-workspace-head { padding: 16px; background: var(--selected); color: var(--heading); }
+.civia-site :is(.svc-card, .svc-path, .svc-discovery, .svc-input) { background: var(--surface); }
+.civia-site .svc-card h3 { color: var(--heading); font-size: 16px; }
+.civia-site .svc-btn, .civia-site .svc-discovery .svc-btn { min-height: 48px; border-radius: var(--radius-button); background: var(--primary); color: var(--onPrimary); }
+.civia-site .svc-btn.secondary { background: var(--surface); color: var(--link); }
+.civia-site .svc-chip { display: inline-flex; align-items: center; min-height: 44px; border-radius: var(--radius-chip); }
+.civia-site .svc-chip.active { background: var(--selected); color: var(--link); border-color: var(--link); }
+.civia-site .svc-guide-head { background: var(--selected); }
+.civia-site :is(.svc-guide-head .svc-icon, .svc-number, .svc-tab[aria-selected=true] b) { background: var(--surface) !important; color: var(--link); border-color: var(--border) !important; }
+
+.civia-site .edition {
+    --ed-bg: var(--background);
+    --ed-paper: var(--surface);
+    --ed-ink: var(--text);
+    --ed-muted: var(--muted);
+    --ed-line: var(--border);
+    --ed-blue: var(--link);
+}
+.civia-site .community-shell {
+    --co-bg: var(--background);
+    --co-card: var(--surface);
+    --co-ink: var(--text);
+    --co-muted: var(--muted);
+    --co-border: var(--border);
+    --co-blue: var(--link);
+    --co-soft: var(--selected);
+}
+.civia-site :is(.edition, .community-shell) :is(h1, h2, h3) { font-family: var(--font-heading); }
+.civia-site :is(.edition-title-row, .community-heading) h1 { color: var(--heading); font-weight: 800; }
+.civia-site .edition-title-row h1 > span { color: var(--link); }
+.civia-site .edition-title-row p { font-size: 16px; }
+.civia-site .edition-controls { flex-direction: column; align-items: stretch; }
+.civia-site .edition-search { min-width: 0; }
+.civia-site .edition-search input { flex: 1; width: auto; font-size: 16px; }
+.civia-site .edition-search button { min-width: 44px; }
+.civia-site .civia-search-icon { width: 20px; height: 20px; margin-inline: auto; }
+[data-theme="dark"] .civia-search-icon { filter: brightness(0) saturate(100%) invert(82%) sepia(34%) saturate(964%) hue-rotate(177deg); }
+.civia-site :is(.edition-search, .community-search) { border-radius: var(--radius-card); background: var(--surface); padding: 4px 12px; }
+.civia-site :is(.edition-search, .community-search) :is(input, select, button) { min-height: 44px; }
+.civia-site .community-primary { min-height: 48px; background: var(--primary); color: var(--onPrimary); border: 0; border-radius: var(--radius-button); }
+.civia-site .civia-directory { background: var(--background); color: var(--text); }
+.civia-site .civia-directory :is(h1, h2, h3) { color: var(--heading); }
+.civia-site .civia-directory .bg-white { background: var(--surface); border-color: var(--border); }
+.civia-site .civia-directory .text-drc-blue { color: var(--link); }
+.civia-site #portal-search-input { min-height: 44px; background: var(--background); border-color: var(--border); color: var(--text); }
+
+.civia-auth .auth-card { background: var(--surface); border-color: var(--border); border-radius: var(--radius-card); box-shadow: none; }
+.civia-auth .auth-card h1 { color: var(--heading); }
+.civia-auth :is(.auth-intro, .auth-footer, .auth-help) { color: var(--muted); }
+.civia-auth :is(.auth-guest, .auth-alternative a) { color: var(--link); }
+.civia-auth .auth-field input { min-height: 48px; background: var(--background); color: var(--text); border-color: var(--border); border-radius: var(--radius-card); font: inherit; }
+.civia-auth .auth-field input[aria-invalid] { border-color: var(--brand-alert); }
+.civia-auth .auth-form > button { min-height: 48px; background: var(--primary); color: var(--onPrimary); border-radius: var(--radius-button); }
+.civia-auth .auth-form > button:hover { background: var(--primary); filter: brightness(.92); }
+.civia-auth .auth-alternative { border-color: var(--border); }
+
+@media (max-width: 767px) {
+    .civia-home { padding: 16px 16px 24px; }
+    .civia-home-hero { grid-template-columns: 1fr; gap: 16px; padding: 20px; }
+    .civia-home-assistant { padding: 12px; }
+    .civia-voice { width: 100%; }
+    .civia-home-paths { grid-template-columns: 1fr; }
+    .civia-site .svc-shell { padding-inline: 16px; }
+    .civia-site .svc-grid { grid-template-columns: minmax(0, 1fr); }
+    .civia-site .svc-chips { flex-wrap: nowrap; overflow-x: auto; padding: 3px 0; }
+    .civia-site .svc-chips a { flex-shrink: 0; white-space: nowrap; }
+    .civia-site .civia-service-assistance { padding: 0 12px; }
+    .civia-site .civia-service-assistance[open] { padding-bottom: 12px; }
+    .civia-site .svc-catalog-heading { align-items: stretch; flex-direction: column; }
+    .civia-site .svc-catalog-heading .svc-search { max-width: none; }
+    .civia-site .svc-workspace-head { align-items: stretch; flex-direction: column; }
+    .civia-site .svc-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .civia-site .svc-tab { justify-content: center; flex-wrap: wrap; min-height: 44px; padding: 6px 2px; }
+    .civia-site .chat-welcome h1 { font-size: 28px; }
+    .civia-site .edition-title-row h1, .civia-site .community-heading h1 { font-size: 28px; letter-spacing: -.03em; }
+}

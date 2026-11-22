@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}RDC Agent du peuple - Consultation Officielle{% endblock %}
+{% block title %}Assistant | CivIA{% endblock %}
 
 {% block extra_head %}<link rel="stylesheet" href="{% static 'css/chat-welcome.css' %}?v=41">{% endblock %}
 
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="chat-composer relative bg-[#F4F2EA] dark:bg-[#121B2B] border-2 border-slate-800/80 dark:border-slate-700 rounded-[28px] md:rounded-[32px] p-3.5 shadow-sm transition-all focus-within:border-drc-blue dark:focus-within:border-drc-blue focus-within:shadow-md">
                     
                     <!-- Textarea Input -->
-                    <textarea id="query-input" rows="2" placeholder="Posez clairement votre question..." data-i18n-placeholder="query_placeholder" class="w-full bg-transparent border-0 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-0 text-[15px] resize-none custom-scrollbar leading-relaxed px-2 pt-1" onkeydown="handleKeyPress(event)"></textarea>
+                    <textarea id="query-input" aria-label="Votre question" rows="2" placeholder="Posez clairement votre question..." data-i18n-placeholder="query_placeholder" class="w-full bg-transparent border-0 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-0 text-[15px] resize-none custom-scrollbar leading-relaxed px-2 pt-1" onkeydown="handleKeyPress(event)"></textarea>
 
                     <!-- Bottom Right Action Controls Inside the Box -->
                     <div class="flex items-center justify-between pt-1 px-1">
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="chat-composer-actions">
                                 <!-- Mic Button -->
                                 <button id="mic-btn" type="button" onclick="toggleVoiceRecording()" title="Entrée vocale" aria-label="Entrée vocale" aria-pressed="false" class="chat-composer-action">
-                                    <i data-lucide="mic" aria-hidden="true"></i>
+                                    <img src="{% static 'civia/micro.svg' %}" alt="">
                                     <span class="chat-mic-spectrum" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
                                 </button>
 
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <!-- Subtle Disclaimer Below Query Box -->
                 <p class="text-center text-[11px] text-slate-400 dark:text-slate-500 mt-2" data-i18n="query_disclaimer">
-                    RDC Agent du peuple peut faire des erreurs. Vérifiez les informations importantes auprès des institutions officielles.
+                    CivIA peut faire des erreurs. Vérifiez les informations importantes auprès des institutions officielles.
                 </p>
 
             </div>
@@ -323,6 +323,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (text.textContent !== label) text.textContent = label;
     }
 
+    function addAnswerPlayback(response) {
+        if (!('speechSynthesis' in window) || !response.querySelector('.chat-answer-text')?.textContent.trim()) return;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'civia-read-answer';
+        button.dataset.civiaRead = '';
+        button.setAttribute('aria-pressed', 'false');
+        button.textContent = 'Écouter la réponse';
+        response.after(button);
+    }
+
     function setChatGenerating(active) {
         const button = document.getElementById('send-btn');
         button.classList.toggle('is-generating', active);
@@ -442,6 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (bubbleContent) {
                 renderMainAnswer(bubbleContent,accumulatedText,sourcesReceived);
+                addAnswerPlayback(bubbleContent);
                 if (sourcesReceived && sourcesReceived.length > 0) {
                     const sourcesHtml = createDistinctSourcesWidget(sourcesReceived, fallbackUsed, accumulatedText);
                     bubbleContent.insertAdjacentHTML('beforeend', sourcesHtml);
@@ -480,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    // USER MESSAGE: NO BACKGROUND, NO USER ICON (Clean typography)
+    // USER MESSAGE: Render the citizen's question.
     function appendUserMessage(text) {
         const chatContainer = document.getElementById('chat-messages');
         const userHtml = `
@@ -499,7 +511,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const chatContainer = document.getElementById('chat-messages');
         const assistantHtml = `
             <div class="chat-content-width mx-auto flex items-start space-x-3.5">
-                <div class="flex-1 min-w-0 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 text-[15px] text-slate-800 dark:text-slate-200 shadow-xs leading-relaxed">
+                <div class="civia-assistant-message flex-1 min-w-0 text-[15px] leading-relaxed">
+                    <img class="civia-answer-brand" src="{% static 'civia/icone_bulle.svg' %}" width="32" height="32" alt="CivIA">
                     <div id="loader-${id}" class="flex items-center space-x-2 text-slate-400 py-1 mb-2">
                         <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-drc-blue"></i>
                         <span class="text-xs">Consultation pas à pas des registres officiels...</span>
@@ -524,7 +537,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const assistantHtml = `
             <div class="chat-content-width mx-auto flex items-start space-x-3.5">
-                <div class="flex-1 min-w-0 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 text-[15px] text-slate-800 dark:text-slate-200 shadow-xs leading-relaxed">
+                <div class="civia-assistant-message flex-1 min-w-0 text-[15px] leading-relaxed">
+                    <img class="civia-answer-brand" src="{% static 'civia/icone_bulle.svg' %}" width="32" height="32" alt="CivIA">
                     <div class="chat-main-response chat-saved-response prose dark:prose-invert max-w-none text-[15px] space-y-2"></div>
                 </div>
             </div>
@@ -533,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = chatContainer.lastElementChild.querySelector('.chat-saved-response');
         if (window.ChatCopy) ChatCopy.attach(response.parentElement, '', 'assistant');
         renderMainAnswer(response, content, sources || []);
+        addAnswerPlayback(response);
         if (sourcesHtml) response.insertAdjacentHTML('beforeend', sourcesHtml);
         if (window.SourceBrand) SourceBrand.hydrate(chatContainer.lastElementChild);
         refreshIcons();

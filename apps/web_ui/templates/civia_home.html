@@ -1,0 +1,27 @@
+{% load static %}
+<section class="civia-home" aria-labelledby="civia-home-title">
+    <div class="civia-home-hero">
+        <div>
+            <span class="civia-home-kicker">Bienvenue</span>
+            <h1 id="civia-home-title">Bonjour !</h1>
+            <p>Comment puis-je vous aider ?</p>
+            <a class="civia-voice" href="{% url 'web_ui:chat' %}#mic-btn"><img src="{% static 'civia/micro.svg' %}" alt="">Parler à CivIA</a>
+        </div>
+        <div class="civia-home-assistant">
+            <form action="{% url 'web_ui:chat' %}" method="get">
+                <label for="hero-assistant-question">Votre question à CivIA</label>
+                <div class="civia-home-query">
+                    <input id="hero-assistant-question" name="q" required maxlength="1000" placeholder="Écrivez votre question…">
+                    <button class="civia-control" type="submit" aria-label="Ouvrir la conversation"><img src="{% static 'civia/envoi.svg' %}" alt=""></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <h2>Que souhaitez-vous faire ?</h2>
+    <div class="civia-home-paths">
+        <a href="{% url 'web_ui:chat' %}"><span class="civia-path-icon civia-path-icon-chat" aria-hidden="true"></span><span><strong>Assistant intelligent</strong><small>Posez vos questions à CivIA</small></span><b aria-hidden="true">›</b></a>
+        <a href="{% url 'web_ui:services' %}"><span class="civia-path-icon civia-path-icon-services" aria-hidden="true"></span><span><strong>Démarches administratives</strong><small>Comprendre les procédures</small></span><b aria-hidden="true">›</b></a>
+        <a href="{% url 'web_ui:news' %}"><span class="civia-path-icon civia-path-icon-news" aria-hidden="true"></span><span><strong>Actualités vérifiées</strong><small>S’informer sur la RDC</small></span><b aria-hidden="true">›</b></a>
+    </div>
+    <p class="civia-home-signature">Le numérique, dans votre langue.</p>
+</section>

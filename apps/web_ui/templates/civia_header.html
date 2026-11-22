@@ -1,0 +1,13 @@
+{% load static %}
+<header class="civia-header">
+    <a class="civia-brand" href="{% url 'web_ui:landing' %}" aria-label="CivIA — Accueil">
+        {% include 'civia_logo.html' %}
+        <span class="civia-compact-brand"><img src="{% static 'civia/icone_bulle.svg' %}" alt="" width="32" height="32"><span>Civ<b>IA</b></span></span>
+    </a>
+    {% if landing_navigation %}
+        {% include 'civia_landing_navigation.html' with civia_desktop=True %}
+    {% else %}
+        {% include 'civia_navigation.html' with civia_desktop=True %}
+    {% endif %}
+    {% include 'civia_account_controls.html' %}
+</header>
