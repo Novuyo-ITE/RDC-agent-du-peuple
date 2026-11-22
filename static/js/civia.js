@@ -2,7 +2,7 @@
     const root = document.documentElement;
     const systemTheme = matchMedia('(prefers-color-scheme: dark)');
     const languages = { fr: 'Français', ln: 'Lingála', sw: 'Kiswahili', en: 'English' };
-    const getTheme = () => localStorage.getItem('theme') || 'auto';
+    const getTheme = () => localStorage.getItem('theme') || 'hybrid';
     const getVolume = () => Number(localStorage.getItem('civia-volume') ?? 100);
     const getLanguage = () => {
         const saved = localStorage.getItem('preferred_language');
@@ -14,6 +14,12 @@
         const dark = choice === 'dark' || (choice === 'auto' && systemTheme.matches);
         root.dataset.theme = dark ? 'dark' : 'light';
         root.classList.toggle('dark', dark);
+        const sidebar = document.getElementById('main-sidebar');
+        if (sidebar) {
+            sidebar.classList.toggle('dark', choice === 'hybrid');
+            if (choice === 'hybrid') sidebar.dataset.theme = 'dark';
+            else delete sidebar.dataset.theme;
+        }
         document.querySelectorAll('[name="civia-theme"]').forEach(input => {
             input.checked = input.value === choice;
         });

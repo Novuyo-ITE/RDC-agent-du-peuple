@@ -29,8 +29,8 @@
 .civia-site :is(.civia-header, .civia-navigation, .civia-dialog, .civia-home) * { box-sizing: border-box; }
 .civia-logo { display: inline-flex; align-items: center; flex-shrink: 0; }
 .civia-logo img { display: block; width: 160px; max-width: none; height: auto; }
-.civia-site .civia-logo-dark, [data-theme="dark"] .civia-site .civia-logo-light { display: none; }
-[data-theme="dark"] .civia-site .civia-logo-dark { display: block; }
+.civia-site .civia-logo-dark, [data-theme="dark"] .civia-logo-light { display: none; }
+[data-theme="dark"] .civia-logo-dark { display: block; }
 .civia-header {
     position: sticky;
     top: 0;
@@ -123,7 +123,7 @@
 .civia-dialog h3, .civia-dialog legend { margin: 16px 0 8px; color: var(--heading); font-size: 20px; font-weight: 700; }
 .civia-dialog p { margin: 8px 0; }
 .civia-profile-name { overflow-wrap: anywhere; }
-.civia-theme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0; border: 0; }
+.civia-theme-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 0; border: 0; }
 .civia-theme-grid label { display: grid; justify-items: center; gap: 6px; padding: 8px; text-align: center; }
 .civia-dialog label, .civia-option-links :is(a, button) {
     position: relative;
@@ -140,6 +140,8 @@
 .civia-theme-preview { position: relative; width: 100%; height: 34px; border: 1px solid #9aafc4; border-radius: 6px; background: #fff; color: #003b73; }
 .civia-theme-preview::after { content: ""; position: absolute; top: 7px; left: 7px; width: 50%; height: 4px; border-radius: 3px; background: currentColor; box-shadow: 5px 8px 0 #8ac7ff; }
 .civia-preview-dark { background: #0b1829; color: #f4f7fb; }
+.civia-preview-hybrid { background: linear-gradient(90deg, #0b1829 25%, #fff 25%); }
+.civia-preview-hybrid::after { left: 32%; }
 .civia-preview-auto { background: linear-gradient(90deg, #fff 50%, #0b1829 50%); }
 .civia-language-list, .civia-option-links { display: grid; gap: 4px; }
 .civia-language-list label, .civia-option-links :is(a, button) { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; text-decoration: none; }
@@ -149,6 +151,10 @@
 .civia-volume { display: grid; gap: 8px; margin-top: 16px; }
 .civia-volume label { min-height: auto; background: transparent; }
 .civia-volume input { min-height: var(--touch-min); width: 100%; }
+
+@media (max-width: 450px) {
+    .civia-theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 @media (max-width: 767px) {
     .civia-header { min-height: 64px; gap: 8px; }
