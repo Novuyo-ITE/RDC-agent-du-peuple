@@ -2,7 +2,7 @@
     const root = document.documentElement;
     const systemTheme = matchMedia('(prefers-color-scheme: dark)');
     const languages = { fr: 'Français', ln: 'Lingála', sw: 'Kiswahili', en: 'English' };
-    const getTheme = () => localStorage.getItem('theme') || 'hybrid';
+    const getTheme = () => localStorage.getItem('theme') || 'light';
     const getVolume = () => Number(localStorage.getItem('civia-volume') ?? 100);
     const getLanguage = () => {
         const saved = localStorage.getItem('preferred_language');
