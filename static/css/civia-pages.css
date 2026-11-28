@@ -191,6 +191,7 @@
     .civia-landing-news-filters { flex-wrap: nowrap; overflow-x: auto; padding: 4px; margin-inline: -4px; }
     .civia-landing-news-filters a { flex-shrink: 0; }
     .civia-landing #depeches { padding: 12px; }
+    .civia-landing-news-grid, .civia-tweet-grid { grid-template-columns: minmax(0, 1fr); }
     .civia-landing-news-grid { gap: 8px; }
     .civia-landing-news-card-footer { flex-wrap: wrap; gap: 8px; }
 }
